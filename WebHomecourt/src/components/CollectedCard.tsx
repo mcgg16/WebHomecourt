@@ -1,6 +1,7 @@
 import { supabase } from "../lib/supabase"
 import { useEffect, useState } from "react"
 
+// Full data 
 /*export type CollectedCard = { 
     user_id: string
     card_id: string
@@ -11,8 +12,11 @@ import { useEffect, useState } from "react"
     defense: number 
     velocity: number 
     cost: number
+    rare: boolean
 };*/
-export type CollectedCard = { 
+
+// Actually used in query oops
+export type CollectedCard = {
     card_id: string
     player_name: string
     web_url: string
@@ -23,102 +27,96 @@ export type CollectedCard = {
 
 // Stores the collection of cards
 export async function getUserCards(userId: string): Promise<CollectedCard[]> {
-  if (!userId) {
-    throw new Error("Invalid userId")
-  }
-  
-  // Connection to supabase
-  const { data, error } = await supabase
-  .from("user_card")
-  .select(`
-    unlocked,
-    card (
-      card_id,
-      player_name,
-      web_url,
-      cost,
-      rare
-    )
-  `)
-  .eq("user_id", userId)
-  .eq("unlocked", true)
-  
-  console.log("raw data:", JSON.stringify(data, null, 2))
-  console.log("error:", error)
+    if (!userId) {
+        throw new Error("Invalid userId")
+    }
 
-  if (error) {
-    console.error("Supabase error:", error.message)
-    throw new Error("Failed to get user cards")
-  }
+    // Connection to supabase, gets the unlocked status from relation table and then cols from card
+    const { data, error } = await supabase
+        .from("user_card")
+        .select(`
+            unlocked,
+            card (
+            card_id,
+            player_name,
+            web_url,
+            cost,
+            rare
+            )
+        `)
+        .eq("user_id", userId)
+        .eq("unlocked", true)
 
-  // Data is not formatted as array edge handle mugre supabase
-  if (!Array.isArray(data)) return []
+    // Smth died
+    if (error) {
+        console.error("Supabase error:", error.message)
+        throw new Error("Failed to get user cards")
+    }
 
-  // Supabase can return card as an object or array depending on relationship type.
-  // We normalize both cases with a simple conditional.
-  const cards: CollectedCard[] = []
- 
-  for (const row of data) {
-  const cardData = Array.isArray(row.card) ? row.card[0] : row.card
-  if (!cardData) continue
+    // Data is not formatted as array, entcs hace un array vacío and sends that will show no user colls
+    if (!Array.isArray(data)) return []
 
-  cards.push({
-    card_id: cardData.card_id,
-    player_name: cardData.player_name,
-    web_url: cardData.web_url,
-    cost: cardData.cost,
-    rare: cardData.rare,
-    unlocked: row.unlocked,   // unlocked lives on user_card row
-  })}
- 
-  return cards
+    // Takes results del data and turns into the CollectedCard obj
+    const cards: CollectedCard[] = data.map(row => {
+        // Stores the card row
+        const card = row.card as any
+        return {
+            card_id: card.card_id,
+            player_name: card.player_name,
+            web_url: card.web_url,
+            cost: card.cost,
+            rare: card.rare,
+            unlocked: row.unlocked,
+        }
+    })
+
+    return cards
 }
 
 function DisplayUserCards({ userId }: { userId: string }) {
-  const [cards, setCards] = useState<CollectedCard[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)  // ← new error state
+    const [cards, setCards] = useState<CollectedCard[]>([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<string | null>(null)  // ← new error state
 
-  useEffect(() => {
-    async function fetchCards() {
-      setLoading(true)
-      try {
-        const unlockedCards = await getUserCards(userId)
-        setCards(unlockedCards)
-      } catch (e) {
-        const msg = e instanceof Error ? e.message : "Unknown error"
-        console.error("Failed to load cards:", msg)
-        setError(msg)   // ← now you'll actually see the error
-        setCards([])
-      }
-      setLoading(false)
+    useEffect(() => {
+        async function fetchCards() {
+            setLoading(true)
+            try {
+                const unlockedCards = await getUserCards(userId)
+                setCards(unlockedCards)
+            } catch (e) {
+                console.error("Can't load cards:", e)
+                setCards([]) // Cards set to empty arr
+            }
+            setLoading(false) // Done load
+        }
+        fetchCards()
+    }, [userId]) // Passes val of userId to use the funct 
+
+    if (loading) {
+        return <p>Loading your collection...</p>
     }
-    fetchCards()
-  }, [userId])
+    if (!cards.length) {
+        return <p>No cards unlocked yet. Start playing to buy your first player pack!</p>
+    }
 
-  if (loading) {
-    return <p>Loading your collection...</p>
-  }
-  if (!cards.length) {
-    return <p>No cards unlocked yet. Start playing to buy your first player pack!</p>
-  }
-
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      {cards.map(card => (
-        <div
-          key={card.card_id}
-          className="bg-white rounded-md justify-center text-center px-2 py-3 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
-          <h1 className="text-lg font-black font-['Graphik']">{card.player_name}</h1>
-          {/* Display rare status */}
-          {card.rare && <p className="text-yellow-600 font-bold">Rare</p>}
-          <img src={card.web_url} alt={card.player_name} className="w-48 mx-auto" />
-          <p>Value: ${card.cost}</p>
-          <p>Unlocked: {card.unlocked ? "Yes" : "No"}</p>
+    // Makes grid of the cards
+    return (
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-5 font-['Graphik']">
+            {cards.map(card => (
+                <div
+                    key={card.card_id}
+                    className="bg-white rounded-md justify-center text-center px-2 py-3 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] w-[14.625rem] h-[20.5rem]">
+                    <h1 className="text-lg font-black ">{card.player_name}</h1>
+                    <img src={card.web_url} alt={card.player_name} className="w-[10.75rem] h-max-[14.25rem] mx-auto" />
+                    <p>Value: ${card.cost}</p>
+                    <p>Unlocked: {card.unlocked ? "Yes" : "No"}</p>
+                    {/* Display rare status only if true and (then shows the thingy) */}
+                    {card.rare && <p className="text-white font-bold bg-indigo-900 rounded-full">Rare</p>}
+                </div>
+            ))}
         </div>
-      ))}
-    </div>
-  )
+    )
 }
 
 export default DisplayUserCards

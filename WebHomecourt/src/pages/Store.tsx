@@ -10,13 +10,16 @@ function Store() {
         <div className="w-full px-5 py-7 bg-violet-950 rounded-2xl shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] outline outline-1 outline-offset-[-1px] outline-black/25 inline-flex flex-col justify-start items-start gap-3.5 overflow-hidden">
           <div className="justify-start text-zinc-100 text-4xl font-black font-['Graphik']">Lakers Store</div>
         </div>
+        <div className="px-14 py-3">
+            <h1 className="justify-start text-2xl font-black font-['Graphik'] pb-2">Collection</h1>
+            
+        </div>
       </div>
+      <DisplayUserCards userId="c1998ce5-a357-4963-bda3-fde103393cdd"></DisplayUserCards>
 
-      <div className="px-14 py-3">
-        <h1 className="text-2xl font-black font-['Graphik']">Collection</h1>
-        <DisplayUserCards userId="c1998ce5-a357-4963-bda3-fde103393cdd"></DisplayUserCards>
-      </div>
     </div>
+
+      
   )
 }
 
