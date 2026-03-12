@@ -1,16 +1,17 @@
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from "react"
 import { getUserById, type User } from './User'
+import { MdPayments } from 'react-icons/md';
 
 const pages = [
   { label: 'Home',          path: '/' },
   { label: 'Agenda',        path: '/agenda' },
   { label: 'Brackets',      path: '/brackets' },
-  { label: 'Estadisticas',  path: '/estadisticas' },
+  { label: 'Statistics',  path: '/estadisticas' },
   { label: 'LakersCourt',   path: '/lakerscourt' },
-  { label: 'Juego',         path: '/juego' },
+  { label: 'Dunk Royale',         path: '/juego' },
   { label: 'Store',         path: '/store' },
-  { label: 'Perfil',        path: '/perfil' },
+  { label: 'Profile',        path: '/perfil' },
 ]
 
 interface NavProps {
@@ -38,8 +39,8 @@ function Nav({ current, userId }: NavProps) {
 
         <div className="w-full px-2 md:px-15 py-6 md:py-2 inline-flex flex-col xl:flex-row justify-between items-center gap-6 overflow-hidden">
           <img
-            className="w-24 h-8 object-contain"
-            src="/Los_Angeles_Lakers_logo.png"
+            className="h-20 w-auto object-contain"
+            src="/lakers_homecourt.png"
             alt="Homecourt logo"
           />
 
@@ -66,16 +67,18 @@ function Nav({ current, userId }: NavProps) {
 
           <div className="flex justify-start items-center gap-7">
             <div className="p-2.5 bg-white rounded-2xl outline outline-1 outline-offset-[-1px] outline-black/25 flex justify-start items-center gap-3.5">
-              
+              <MdPayments size={30} className="text-amber-400" />
               <div className="justify-start text-black text-2xl font-normal font-['Graphik']">{user?.credits ?? 0}</div>
             </div>
 
-            <div className="w-20 h-20 relative rounded-full outline outline-2 outline-offset-[-2px] outline-gray-200 overflow-hidden">
-              <img
-                className="w-20 h-20 object-cover"
-                src={user?.photo_url || 'https://placehold.co/86x87'}
-                alt="User avatar"
-              />
+            <div className="w-15 h-15 relative rounded-full outline outline-2 outline-offset-[-2px] outline-gray-200 overflow-hidden bg-gray-300">
+              {user?.photo_url && (
+                <img
+                  className="w-full h-full object-cover"
+                  src={user.photo_url}
+                  alt="User avatar"
+                />
+              )}
             </div>
           </div>
         </div>
