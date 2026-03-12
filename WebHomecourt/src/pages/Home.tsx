@@ -1,5 +1,4 @@
 import Nav from '../components/Nav'
-import UserData from "../components/User"
 import { getScoreboard, type MarcadorReal } from '../components/Marcador'
 import { useEffect, useState } from "react"
 
