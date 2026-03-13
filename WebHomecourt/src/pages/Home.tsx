@@ -1,5 +1,5 @@
 import Nav from '../components/Nav'
-import { getScoreboard, type MarcadorReal } from '../components/Marcador'
+import { getScoreboard, type MarcadorReal, addPoints } from '../components/Marcador'
 import { useEffect, useState } from "react"
 
 function Home() {
@@ -26,7 +26,6 @@ function Home() {
                 <div className="flex justify-start items-center gap-7">
                     <div className="px-5 py-3 bg-red-500 rounded-2xl flex justify-center items-center gap-2.5">
                       <span className="material-symbols-outlined text-zinc-100 text-[100px]">motion_photos_on</span>
-                      
                     </div>
                     <h1 className="justify-start text-zinc-100 title1">Live game</h1>
                 </div>
@@ -43,7 +42,9 @@ function Home() {
                         <h3 className="justify-start">{marcadorcito?.lakers_team_name}</h3>
                         <p className="justify-start">{marcadorcito?.home ? "Home" : "Visitor"}</p>
                     </div>
-                    <h1 className="justify-start text-violet-950 marcador">{marcadorcito?.lakers_score} - {marcadorcito?.opposing_score}</h1>
+                    <div className="inline-flex flex-col justify-center items-center gap-3">
+                      <h1 className="justify-start text-violet-950 marcador">{marcadorcito?.lakers_score} - {marcadorcito?.opposing_score}</h1>
+                    </div>
                     <div className="inline-flex flex-col justify-center items-center gap-[5px]">
                         <img
                           className="h-20 w-auto object-contain"
@@ -71,7 +72,22 @@ function Home() {
                 </div>
             </div>
         </div>
-        
+        <div className="flex justify-center items-center gap-6 mt-6">
+        <button
+          onClick={() => marcadorcito?.game_id && addPoints(marcadorcito.game_id, 1, 2)}
+          disabled={!marcadorcito?.game_id}
+          className="px-8 py-4 bg-violet-950 text-white text-lg font-semibold rounded-lg hover:bg-violet-900 transition disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          +2 Lakers
+        </button>
+        <button
+          onClick={() => marcadorcito?.game_id && addPoints(marcadorcito.game_id, 4, 2)}
+          disabled={!marcadorcito?.game_id}
+          className="px-8 py-4 bg-violet-950 text-white text-lg font-semibold rounded-lg hover:bg-violet-900 transition disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          +2 opponent
+        </button>
+        </div>
       </div>
       
     </div>

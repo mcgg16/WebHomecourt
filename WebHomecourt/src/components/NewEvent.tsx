@@ -1,5 +1,5 @@
 import { supabase } from "../lib/supabase"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 type NewEvent = {
   created_user_id: string 

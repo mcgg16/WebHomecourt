@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from "react"
 import { getUserById, type User } from './User'
-import { MdPayments } from 'react-icons/md';
 
 const pages = [
   { label: 'Home',          path: '/' },
