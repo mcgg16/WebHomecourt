@@ -2,7 +2,7 @@ import Nav from '../components/Nav'
 import { getScoreboard, type MarcadorReal, addPoints } from '../components/Marcador'
 import { useEffect, useState } from "react"
 import RealtimeChat from '../components/RealtimeChat'
-
+import SignInButton from '../components/botongoogle'
 function Home() {
 
   const [marcadorcito, setMarcador] = useState<MarcadorReal | null>(null)
@@ -14,7 +14,7 @@ function Home() {
       }
   
       loadUser()
-    })
+    }, [])
 
   return (
     <div>
@@ -90,6 +90,8 @@ function Home() {
         </button>
         </div>
         <RealtimeChat gameId={marcadorcito?.game_id ?? null} />
+
+        <SignInButton/>
       </div>
       
     </div>
