@@ -28,21 +28,31 @@ function Agenda() {
 
           {/* Side list view spanning 4 cols w buttons */}
           <div className="col-span-4 bg-gray-400 p-4">
-            <div className="col-span-4">
-              {/* Game type toggle, uses the showUpcoming var if true to disp as primary otherwise as secondary, and changes button state to visualize it differently */}
-              <Button
-                text="Upcoming Games"
-                type={showUpcoming ? 'primary' : 'secondary'}
-                onClick={() => setShowUpcoming(true)}
-              />
-              <Button
-                text="Past Games"
-                type={!showUpcoming ? 'primary' : 'secondary'}
-                onClick={() => setShowUpcoming(false)}
-              />
+            {/* Game type toggles*/}
+            <div className="grid grid-cols-2 gap-2 mb-4">
+              <div className="col-span-1">
+                <Button
+                  text="Upcoming Games"
+                  type={showUpcoming ? 'primary' : 'secondary'}
+                  onClick={() => setShowUpcoming(true)}
+                  className="w-full"
+                />
+              </div>
+              <div className="col-span-1">
+                <Button
+                  text="Past Games"
+                  type={!showUpcoming ? 'primary' : 'secondary'}
+                  onClick={() => setShowUpcoming(false)}
+                  className="w-full"
+                />
+              </div>
             </div>
 
-            {/* Agenda list view */}
+            {/* Agenda list view, each item spans all 4 cols */}
+            <div className="flex flex-col gap-2">
+              {/* {games.map(game => <GameCard key={game.id} {...game} />)} */}
+              <p>Game list will be here</p>
+            </div>
 
           </div>
 
