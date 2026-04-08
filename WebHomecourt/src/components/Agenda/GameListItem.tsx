@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom'
 
 // Individual item for each game
 interface GameListItemProp {
-  game: string
+  game_id: string; 
+  home: boolean;
+  start_date: string; 
   
 }

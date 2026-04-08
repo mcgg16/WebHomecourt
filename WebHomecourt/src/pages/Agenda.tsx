@@ -1,10 +1,14 @@
+import { useEffect, useState } from 'react';
 import Nav from '../components/Nav'
+import Button from '../components/button.tsx'
 
 // Get all of the games in the db, general api call
 
 // Divide list into upcoming and past games using current date as reference to create two sublists
 
 function Agenda() {
+  const [showUpcoming, setShowUpcoming] = useState(true); // Shows upcoming default but can switch to past 
+
   return (
     <div className="flex flex-col items-center justify-center">
       <Nav current="Agenda" />
@@ -25,13 +29,17 @@ function Agenda() {
           {/* Side list view spanning 4 cols w buttons */}
           <div className="col-span-4 bg-gray-400 p-4">
             <div className="col-span-4">
-              {/* Game type toggle */}
-              <div className="col-span-2 bg-blue-100">
-                <button>Upcoming games</button>
-              </div>
-              <div className="col-span-2 bg-blue-200">
-                <button>Past Games</button>
-              </div>
+              {/* Game type toggle, uses the showUpcoming var if true to disp as primary otherwise as secondary, and changes button state to visualize it differently */}
+              <Button
+                text="Upcoming Games"
+                type={showUpcoming ? 'primary' : 'secondary'}
+                onClick={() => setShowUpcoming(true)}
+              />
+              <Button
+                text="Past Games"
+                type={!showUpcoming ? 'primary' : 'secondary'}
+                onClick={() => setShowUpcoming(false)}
+              />
             </div>
 
             {/* Agenda list view */}
