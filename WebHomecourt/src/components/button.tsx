@@ -10,7 +10,7 @@ interface ButtonProp {
 
 // Record sirve para poder alt el style and kinda "inject it" depending on the var recieved
 const typeStyles: Record<string, string> = {
-    primary: "bg-morado-lakers text-white hover:bg-morado-bajo selected:bg-morado-oscuro",
+    primary: "bg-morado-lakers text-white outline-3 outline-morado-lakers hover:bg-morado-bajo hover:outline-morado-bajo selected:bg-morado-oscuro",
     secondary: "bg-transparent text-morado-lakers outline-3 outline-morado-lakers hover:text-morado-bajo hover:outline-morado-bajo selected:text-morado-oscuro selected:outline-morado-oscuro",
     tertiary: "bg-transparent text-morado-lakers underline hover:text-morado-bajo selected:text-morado-oscuro",
 };
