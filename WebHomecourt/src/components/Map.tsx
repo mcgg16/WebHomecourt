@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from "react-leaflet";
+import { MapContainer, TileLayer, Popup, useMapEvents, Circle, CircleMarker } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useEffect, useState } from "react";
 import type { LatLng } from "leaflet";
@@ -21,16 +21,35 @@ function LocationMarker() {
     map.locate({
       setView: true,
       maxZoom: 15,
-      enableHighAccuracy: true,
     });
   }, [map]);
 
   return position === null ? (
     error ? <Popup position={map.getCenter()}>{error}</Popup> : null
   ) : (
-    <Marker position={position}>
-      <Popup>Tu ubicacion actual</Popup>
-    </Marker>
+    <>
+      <Circle
+        center={position}
+        pathOptions={{
+          color: "#2b7fff",
+          fillColor: "#2b7fff",
+          fillOpacity: 0.15,
+          weight: 1,
+        }}
+      />
+      <CircleMarker
+        center={position}
+        radius={8}
+        pathOptions={{
+          color: "#ffffff",
+          weight: 2,
+          fillColor: "#2b7fff",
+          fillOpacity: 1,
+        }}
+      >
+        <Popup>Tu ubicacion actual</Popup>
+      </CircleMarker>
+    </>
   );
 }
 
