@@ -1,6 +1,7 @@
 import Nav from '../components/Nav'
 import PointsByPlayerGraph from '../components/Stats/PointsByPlayerGraph';
 import FGAvsFGMGraph from '../components/Stats/FGAvsFGMGraph';
+import RatioGraph from '../components/Stats/RatioGraph';
 import { useEffect, useState } from "react"
 import { getStatsByGameId} from "../components/Stats/getStatsByGameId" 
 import type {PlayerStat} from "../components/Stats/getStatsByGameId"
@@ -30,11 +31,14 @@ function Estadisticas({ game_id }: { game_id: number }) {
           <div className="justify-start text-zinc-100 text-4xl font-black font-['Graphik']">Statistics</div>
           
         </div>
-        <div className='flex gap-6 p-6 '>
+        <div className='flex gap-6 pt-6 '>
           <PointsByPlayerGraph stats={stats} />
           <FGAvsFGMGraph stats={stats} />
-          
         </div>
+        <div className='flex gap-6 pt-6 '>
+          <RatioGraph stats={stats} />
+        </div>
+        
       </div>
     </div>
   )
