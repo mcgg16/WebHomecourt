@@ -59,7 +59,7 @@ function GameListItem({ games }: GameProp) {
     <div className="grid">
       <div>
         {games.map(game => (
-          <div key={game.game_id} className="bg-white rounded outline-2 outline-gray-200 gap-5 mb-7 px-4 py-5">
+          <div key={game.game_id} className="flex flex-row justify-left bg-white rounded-lg outline-2 outline-gray-200 gap-5 mb-7 px-4 py-5">
 
             <img
               src={game.logo_url}
@@ -72,14 +72,8 @@ function GameListItem({ games }: GameProp) {
               <h3 className="font-black">vs {game.team_name} </h3>
               <p>{game.start_date}</p>
             </div>
-            
-
-            <p>Lakers: {game.lakers_score} - Opposing: {game.opposite_score}</p>
 
             {/* Show whether won or lost */}
-            <p className="font-bold">
-              {game.lakers_score > game.opposite_score ? "Won" : "Lost"}
-            </p>
             <SummaryScoreCard lakers_score={game.lakers_score} opposite_score={game.opposite_score} />
 
             <Button

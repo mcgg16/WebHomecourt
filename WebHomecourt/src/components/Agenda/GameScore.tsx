@@ -18,8 +18,8 @@ function SummaryScoreCard(prop: SummaryScoreProp) {
 
     // 
     return (
-        <div>
-            {winStatus ? <div className="bg-green-100 text-green-800 outline-2 outline-green-800 rounded ">{prop.lakers_score} - {prop.opposite_score}</div> : <div className="bg-red-100 text-red-800 outline-2 outline-red-800 rounded">{prop.lakers_score} - {prop.opposite_score}</div>}
+        <div className="w-[5rem] text-center">
+            {winStatus ? <div className="bg-green-100 text-green-800 outline-2 outline-green-800 rounded-lg ">{prop.lakers_score} - {prop.opposite_score}</div> : <div className="bg-red-100 text-red-800 outline-2 outline-red-800 rounded-lg">{prop.lakers_score} - {prop.opposite_score}</div>}
         </div>
     );
 }
