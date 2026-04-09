@@ -54,16 +54,17 @@ function GameListItem({ games }: GameProp) {
   if (!games.length) {
     return <p>No games available for this month.</p>
   }
+  
+  // Add logic to custom the css class name for home or away like just to keep border-color based on whether it's home or away
 
   return (
     <div className="grid">
       <div>
         {games.map(game => (
-          <div key={game.game_id} className="flex flex-row justify-left bg-white rounded-lg outline-2 outline-gray-200 gap-5 mb-7 px-4 py-5">
-
+          <div key={game.game_id} className="flex flex-row justify-left bg-white rounded-lg outline-2 outline-gray-200 gap-5 mb-7 px-4 py-5 border-l-9 border-morado-lakers">
             <img
               src={game.logo_url}
-              alt={`Team ${game.opposing_team_id}`}
+              alt={`Logo ${game.team_name}`}
               className="w-[3.75rem] max-h-[3.75rem] mx-auto col-span-1"
             />
 
