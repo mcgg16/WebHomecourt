@@ -1,8 +1,26 @@
 import Nav from '../components/Nav'
 import PointsByPlayerGraph from '../components/Stats/PointsByPlayerGraph';
+import { useEffect, useState } from "react"
+import { getStatsByGameId} from "../components/Stats/getStatsByGameId" 
+import type {PlayerStat} from "../components/Stats/getStatsByGameId"
 
-//function Estadisticas({ game_id }: { game_id: number }) {
-  function Estadisticas(){
+function Estadisticas({ game_id }: { game_id: number }) {
+  //function Estadisticas(){
+  const [stats, setStats] = useState<PlayerStat[]>([])
+  useEffect(() => {
+    const loadStats = async () => {
+      try {
+        const data = await getStatsByGameId(game_id)
+        setStats(data)
+      } catch (err) {
+        console.error(err)
+      }
+    }
+  loadStats()}, [game_id])
+
+  if (!stats) return <p>Loading...</p>
+  if (stats.length === 0) return <p>No data</p>
+
   return (
     <div className="flex flex-col items-center justify-center">
       <Nav current="Estadistica" />
@@ -12,7 +30,7 @@ import PointsByPlayerGraph from '../components/Stats/PointsByPlayerGraph';
           
         </div>
         <div className='flex gap-6 p-6'>
-          <PointsByPlayerGraph game_id={2} />
+          <PointsByPlayerGraph stats={stats} />
           
         </div>
       </div>

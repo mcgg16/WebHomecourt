@@ -1,24 +1,8 @@
 import { PieChart,Pie, Cell, Tooltip, ResponsiveContainer} from 'recharts';
 import { useEffect, useState } from "react"
-import { getStatsByGameId} from "./getStatsByGameId" 
 import type {PlayerStat} from "./getStatsByGameId"
-function PointsByPlayerGraph({ game_id }: { game_id: number }) {
-  const [stats, setStats] = useState<PlayerStat[]>([])
-
-  useEffect(() => {
-    const loadStats = async () => {
-      try {
-        const data = await getStatsByGameId(game_id)
-        setStats(data)
-      } catch (err) {
-        console.error(err)
-      }
-    }
-
-    loadStats()
-  }, [game_id])
-
-  if (!stats.length) return <p>Loading...</p>
+function PointsByPlayerGraph({ stats }: { stats: PlayerStat[]}) {
+  
 
   const sorted = [...stats].sort((a, b) => b.points - a.points)
   const top5 = sorted.slice(0, 5)
