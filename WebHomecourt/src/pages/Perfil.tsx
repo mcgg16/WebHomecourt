@@ -1,17 +1,17 @@
 import Nav from '../components/Nav'
-import UserData from "../components/User"
+import ProfileHeader from "../components/Perfil/ProfileHeader"
+
 function Perfil() {
-  return (
-    <div>
-      <div className="flex flex-col items-center justify-center">
-        <Nav current="Perfi" />
-      </div>
-      <div>
-        <h1 className="text-5xl font-bold">Profile</h1>
-        <UserData userId="ac3a5447-1b6f-4324-8830-5ddc2d7b2c47"/>
-      </div>
-    </div>
-  )
+    return (
+        <div>
+            <div className="flex flex-col items-center justify-center">
+                <Nav current="Perfi" />
+            </div>
+            <div className="px-6 py-4">
+                <ProfileHeader userId="ac3a5447-1b6f-4324-8830-5ddc2d7b2c47"/>
+            </div>
+        </div>
+    )
 }
 
 export default Perfil
