@@ -1,5 +1,4 @@
 import { PieChart,Pie, Cell, Tooltip, ResponsiveContainer} from 'recharts';
-import { useEffect, useState } from "react"
 import type {PlayerStat} from "./getStatsByGameId"
 function PointsByPlayerGraph({ stats }: { stats: PlayerStat[]}) {
   
@@ -20,7 +19,7 @@ function PointsByPlayerGraph({ stats }: { stats: PlayerStat[]}) {
     "#3F2700","#8C5A08", "#FCB136", "#E7C081"] 
 
   return (
-    <div className="p-8 w-full h-[400px] flex flex-wrap justify-center items-center drop-shadow bg-white rounded outline rounded-2xl shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] outline outline-1 outline-offset-[-1px] outline-black/25">
+    <div className="p-8 w-full h-[400px] flex flex-wrap justify-center items-center bg-white border border-gray-300 rounded-2xl shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
       <h2>Points by Player</h2>
       <ResponsiveContainer>
         <PieChart>
