@@ -1,30 +1,39 @@
 import { MapContainer, TileLayer, Popup, useMapEvents, Circle, CircleMarker, Marker } from "react-leaflet";
+import { divIcon } from "leaflet";
 import "leaflet/dist/leaflet.css";
+import "./Map.css";
 import { useEffect, useState } from "react";
 import type { LatLng } from "leaflet";
 import type { Court } from "../services/apiMAP";
 import { getCourts } from "../services/apiMAP";
-// const position:[number, number]  =[25.646014, -100.291006]
 
-type Status = "idle" | "loading" | "success" | "error";
+function getCourtIcon(label: number | string) {
+  return divIcon({
+    className: "hc-court-marker",
+    html: `
+      <div class="hc-court-marker__pin">
+        <span class="hc-court-marker__label">${label}</span>
+        <span class="hc-court-marker__badge"></span>
+      </div>
+    `,
+    iconSize: [48, 48],
+    iconAnchor: [24, 44],
+    popupAnchor: [0, -38],
+  });
+}
 
 function CourtsMarkers() {
-  const [courts, setCourts] = useState<Court[] | null>(null);
+  const [courts, setCourts] = useState<Court[]>([]);
   const [error, setError] = useState<string>("");
-  const [status, setStatus] = useState<Status>("idle");
+  const fallbackPosition: [number, number] = [34.048408, -118.252957];
 
-  useEffect(()=>{
+  useEffect(() => {
     async function loadCourts() {
-      try{
-        setStatus("loading");
+      try {
         const data = await getCourts();
         console.log("Canchas obtenidas de la BD:", data);
-        if(data) {
-          setCourts(data);
-          setStatus("success");
-        }
-      } catch (error){
-        setStatus("error");
+        setCourts(data ?? []);
+      } catch (error) {
         setError(error instanceof Error ? error.message : "No se pudo cargar.");
       }
     }
@@ -34,8 +43,13 @@ function CourtsMarkers() {
 
   return (
     <>
-      {courts?.map((court) => (
-        <Marker key={court.court_id} position={[court.latitude, court.longitude]}>
+      {error ? (
+        <Marker position={fallbackPosition}>
+          <Popup>{error}</Popup>
+        </Marker>
+      ) : null}
+      {courts.map((court, index) => (
+        <Marker key={court.court_id} position={[court.latitude, court.longitude]} icon={getCourtIcon(index + 1)}>
           <Popup>
             <b>{court.name}</b><br/>
             {court.direction}
@@ -99,20 +113,44 @@ function LocationMarker() {
 
 export default function Map() {
   const fallbackPosition: [number, number] = [34.048408, -118.252957];
+  const courtCards = ["Court A", "Court B", "Court C", "Court D", "Court E"]; // Creo que pondremos los nombres que ya tienen
 
   return (
-    <MapContainer center={fallbackPosition} zoom={13} style={{ height: "500px", width: "80%" }}>
-      <TileLayer
-        attribution="© OpenStreetMap contributors"
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <LocationMarker />
-      <CourtsMarkers />
-      <Marker position={fallbackPosition}>
-        <Popup>
-          Cancha bb
-        </Popup>
-        </Marker>
-    </MapContainer>
+    <section className="hc-map-shell">
+      <header className="hc-map-topbar">
+        <p className="hc-map-topbar-title">MAP VIEW</p>
+        <div className="hc-map-topbar-actions">
+          <button type="button" className="hc-map-pill hc-map-pill--active">Satellite</button>
+          <button type="button" className="hc-map-pill">List</button>
+        </div>
+      </header>
+
+      <div className="hc-map-stage">
+        <MapContainer center={fallbackPosition} zoom={13} className="hc-map-canvas">
+          <TileLayer
+            attribution="© OpenStreetMap contributors"
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <LocationMarker />
+          <CourtsMarkers />
+          <Marker position={fallbackPosition} icon={getCourtIcon("H")}>
+            <Popup>
+              Cancha bb
+            </Popup>
+          </Marker>
+        </MapContainer>
+
+        <div className="hc-map-chip hc-map-chip--city">Los Angeles, CA</div>
+        <div className="hc-map-chip hc-map-chip--location">My Location</div>
+      </div>
+
+      <div className="hc-map-courts-strip">
+        {courtCards.map((courtCard) => (
+          <button key={courtCard} type="button" className="hc-map-court-card">
+            {courtCard}
+          </button>
+        ))}
+      </div>
+    </section>
   );
 }
