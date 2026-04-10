@@ -3,6 +3,7 @@ import { supabase } from "../lib/supabase"
 import Nav from '../components/Nav'
 import Button from '../components/button.tsx'
 import GameListItem from '../components/Agenda/GameListItem.tsx'
+import GameUpcoming from '../components/Agenda/GameUpcomingItem.tsx'
 
 /* 
 TODO 
@@ -16,6 +17,7 @@ export type GameItem = {
   opposing_team_id: number,
   home: boolean,
   start_date: string,
+  game_end_time: string | null, // No val recieved cast as null just in case
   team_name: string,
   logo_url: string, // Opp team pic
   // Calculated by funct 
@@ -52,6 +54,7 @@ export async function getGames(year: number, month: number, day: number, hour: n
       opposing_team_id: row.opposing_team_id,
       home: row.home,
       start_date: row.start_date,
+      game_end_time: row.game_end_time,
       team_name: row.team_name, 
       logo_url: row.logo_url, // Opp team pic
       // Calculated by funct 
@@ -61,39 +64,7 @@ export async function getGames(year: number, month: number, day: number, hour: n
   });
 
   return games
-
-
-  // For side display 
-  //let pastGames: Array<number>;
-  //let upcomingGames: Array<number>;
-  //let partitionFound = false; // Boolean once finds the switch from older to new game, swaps
-
-
-  // If selected month or selected year < curr month or curr year, viewing past games so adds all items to the list of past games 
-
-  // Else if selected month and selected year > curr month and or curr year, viewing future games so adds all items to list of upcoming matches 
-
-  // If current month and year are the same (aka will need to iterate list and div into past and upcoming matches) 
-    // Checks all items and compares against current date and time 
-    // If item date < selected date 
-      // Adds to pastGames
-    // Else if item date > selected date
-      // Adds to upcomingGames
-    // Else if item date == selected date 
-      // If item time < time (current, user can't mod it)
-       // Adds to pastGames
-      // Else if item time > time 
-        // Adds to upcomingGames
-      // Else 
-        // Print an error mssg to console  
-
-  // Else no results so some error handling 
-
-  // Return the lists of past and upcoming games 
-
-  // Return three lists ig... the allGames, pastGames, and upcomingGames
 }
-// Divide list into upcoming and past games using current date as reference to create two sublists
 
 function Agenda() {
   const [showUpcoming, setShowUpcoming] = useState(true); // Shows upcoming default but can switch to past 
@@ -135,14 +106,14 @@ function Agenda() {
     //setUpcomingGames(allGames.filter(game => new Date(game.start_date) >= currentDate));
   }, [agendaDate, currentDate]);
 
-  // Div into pastgames checking if curr game item is smaller than current date 
+  // Div into pastgames checking if curr game item is smaller than current date and checks game is marked as done
   const pastGames = allGames.filter(
-    (game) => new Date(game.start_date) < currentDate
+    (game) => new Date(game.start_date) < currentDate && game.game_end_time !== null
   );
 
-  // Upcoming game hasn't started or just started
+  // Upcoming game in a future date or has null end time aka already started
   const upcomingGames = allGames.filter(
-    (game) => new Date(game.start_date) >= currentDate
+    (game) => new Date(game.start_date) >= currentDate || game.game_end_time === null
   );
 
   // Funct to let user pick date from agenda, maybe this'll need to be handled in agenda component or as an export function idk
@@ -194,7 +165,7 @@ function Agenda() {
             {/* Agenda list view, each item spans all 4 cols */}
             <div className="flex flex-col gap-2">
               {/* if showUpcoming == true, shows the UpcomingGameItem w upcomingGames list; else shows PastGameItem w pastGames list reversed to show from closer to curr date backwards*/}
-              {showUpcoming ? <GameListItem games={upcomingGames} /> : <GameListItem games={pastGames.reverse()} />}
+              {showUpcoming ? <GameUpcoming games={upcomingGames} currentDate={currentDate}/> : <GameListItem games={pastGames.reverse()} />}
             </div>
 
           </div>
