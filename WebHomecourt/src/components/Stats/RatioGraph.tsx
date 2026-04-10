@@ -18,12 +18,12 @@ function RatioGraph({ stats }: { stats: PlayerStat[] }) {
     "#3F2700","#8C5A08", "#FCB136", "#E7C081"] 
 
   return (
-    <div className="p-6 w-full h-[400px] bg-white rounded-2xl shadow">
+    <div className="p-6 w-full h-[350px] bg-white rounded-2xl shadow">
       <h2 className="text-xl font-bold mb-4">
         Assist to Turnover Ratio
       </h2>
 
-      <ResponsiveContainer width="100%" height="95%">
+      <ResponsiveContainer width="100%" height="90%">
         <ScatterChart>
             <CartesianGrid />
             <XAxis

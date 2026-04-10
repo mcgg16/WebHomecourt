@@ -19,7 +19,7 @@ function PointsByPlayerGraph({ stats }: { stats: PlayerStat[]}) {
     "#3F2700","#8C5A08", "#FCB136", "#E7C081"] 
 
   return (
-    <div className="p-8 w-full h-[400px] flex flex-wrap justify-center items-center bg-white border border-gray-300 rounded-2xl shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+    <div className="p-8 w-full h-[350px] flex flex-wrap justify-center items-center bg-white border border-gray-300 rounded-2xl shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
       <h2>Points by Player</h2>
       <ResponsiveContainer>
         <PieChart>
@@ -27,7 +27,7 @@ function PointsByPlayerGraph({ stats }: { stats: PlayerStat[]}) {
             data={pieData}
             dataKey="points"
             nameKey="name"
-            outerRadius={120}
+            outerRadius="80%"
             label={({ name, percent }) =>
               `${name} ${((percent ?? 0) * 100).toFixed(0)}%`}
           >
@@ -38,7 +38,6 @@ function PointsByPlayerGraph({ stats }: { stats: PlayerStat[]}) {
               />
             ))}
           </Pie>
-          {/* <Legend/> */}
           <Tooltip />
         </PieChart>
       </ResponsiveContainer>

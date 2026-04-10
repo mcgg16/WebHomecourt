@@ -37,7 +37,9 @@ function Estadisticas({ game_id }: { game_id: number }) {
          
         </div>
         <div className='flex gap-6 pt-6 '>
-          <FGAvsFGMGraph stats={stats} />
+          <div className = 'width="30%"'>
+            <FGAvsFGMGraph stats={stats} />
+          </div>
           <RatioGraph stats={stats} />
         </div>
         
