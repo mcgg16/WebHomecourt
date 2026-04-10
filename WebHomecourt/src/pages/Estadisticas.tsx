@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 import { getStatsByGameId} from "../components/Stats/getStatsByGameId" 
 import type {PlayerStat} from "../components/Stats/getStatsByGameId"
 import GameSummaryGraph from '../components/Stats/GameSummaryGraph';
+import PlayerStatsTable from '../components/Stats/PlayerStatsTable';
 
 function Estadisticas({ game_id }: { game_id: number }) {
   //function Estadisticas(){
@@ -29,8 +30,8 @@ function Estadisticas({ game_id }: { game_id: number }) {
       <div className='px-14 py-5 bg-zinc-100 w-full'>
         <div className="w-full px-5 py-7 bg-violet-950 rounded-2xl shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] inline-flex flex-col justify-start items-start">
           <div className="justify-start text-zinc-100 text-4xl font-black font-['Graphik']">Statistics</div>
-          
         </div>
+        <div></div>
         <div className='flex gap-6 pt-6 '>
           <PointsByPlayerGraph stats={stats} />
           <GameSummaryGraph game_id={game_id}/>
@@ -42,7 +43,9 @@ function Estadisticas({ game_id }: { game_id: number }) {
           </div>
           <RatioGraph stats={stats} />
         </div>
-        
+        <div className='flex gap-6 pt-6 '>
+          <PlayerStatsTable stats={stats} />
+        </div>
       </div>
     </div>
   )
