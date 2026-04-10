@@ -139,6 +139,20 @@
   font-size: 1.02rem;
   font-weight: 700;
   background: #ffffff;
+  cursor: pointer;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background-color 180ms ease, color 180ms ease;
+}
+
+.hc-map-court-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 16px rgba(45, 23, 72, 0.16);
+}
+
+.hc-map-court-card--selected {
+  border-color: #7e57d7;
+  color: #3b195c;
+  background: #eee6ff;
+  box-shadow: 0 10px 20px rgba(47, 20, 79, 0.25);
 }
 
 .hc-map-stage .leaflet-container {
@@ -211,6 +225,17 @@
   color: #f3f2f3;
   background: #542581;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease;
+}
+
+.hc-court-marker--selected .hc-court-marker__pin {
+  border-color: #fcb136;
+  background: #7e57d7;
+  transform: scale(1.06);
+}
+
+.hc-court-marker--selected .hc-court-marker__badge {
+  background: #fcb136;
 }
 
 .hc-court-marker__map-pin {

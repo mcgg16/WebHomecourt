@@ -3,13 +3,13 @@ import { divIcon } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./Map.css";
 import { useEffect, useState } from "react";
-import type { LatLng } from "leaflet";
+import type { LatLng, Map as LeafletMap } from "leaflet";
 import type { Court } from "../services/apiMAP";
 import { getCiudad, getCourts } from "../services/apiMAP";
 
-function getCourtIcon(label: number | string) {
+function getCourtIcon(label: number | string, isSelected = false) {
   return divIcon({
-    className: "hc-court-marker",
+    className: `hc-court-marker${isSelected ? " hc-court-marker--selected" : ""}`,
     html: `
       <div class="hc-court-marker__pin">
         <span class="hc-court-marker__label">${label}</span>
@@ -25,7 +25,12 @@ function getCourtIcon(label: number | string) {
 
 
 
-function CourtsMarkers({ courts, error }: { courts: Court[]; error: string }) {
+function CourtsMarkers({ courts, error, selectedCourtId, onSelectCourt }: {
+  courts: Court[];
+  error: string;
+  selectedCourtId: number | null;
+  onSelectCourt: (court: Court) => void;
+}) {
   const fallbackPosition: [number, number] = [34.048408, -118.252957];
 
   return (
@@ -36,7 +41,14 @@ function CourtsMarkers({ courts, error }: { courts: Court[]; error: string }) {
         </Marker>
       ) : null}
       {courts.map((court, index) => (
-        <Marker key={court.court_id} position={[court.latitude, court.longitude]} icon={getCourtIcon(index + 1)}>
+        <Marker
+          key={court.court_id}
+          position={[court.latitude, court.longitude]}
+          icon={getCourtIcon(index + 1, selectedCourtId === court.court_id)}
+          eventHandlers={{
+            click: () => onSelectCourt(court),
+          }}
+        >
           <Popup>
             <b>{court.name}</b><br/>
             {court.direction}
@@ -66,7 +78,7 @@ function LocationMarker({ locateRequest, onCityChange }: { locateRequest: number
     map.locate({
       setView: true,
       maxZoom: 15,
-      enableHighAccuracy: true,
+      enableHighAccuracy: false,
     });
   }, [map]);
 
@@ -78,7 +90,7 @@ function LocationMarker({ locateRequest, onCityChange }: { locateRequest: number
     map.locate({
       setView: true,
       maxZoom: 15,
-      enableHighAccuracy: true,
+      enableHighAccuracy: false,
     });
   }, [map, locateRequest]);
 
@@ -148,6 +160,8 @@ export default function Map() {
   const [error, setError] = useState<string>("");
   const [locateRequest, setLocateRequest] = useState(0);
   const [currentCity, setCurrentCity] = useState("Detectando ciudad...");
+  const [selectedCourtId, setSelectedCourtId] = useState<number | null>(null);
+  const [map, setMap] = useState<LeafletMap | null>(null);
 
   useEffect(() => {
     async function loadCourts() {
@@ -163,6 +177,20 @@ export default function Map() {
     loadCourts();
   }, []);
 
+  useEffect(() => {
+    if (map === null || selectedCourtId === null) {
+      return;
+    }
+
+    const selectedCourt = courts.find((court) => court.court_id === selectedCourtId);
+
+    if (!selectedCourt) {
+      return;
+    }
+
+    map.flyTo([selectedCourt.latitude, selectedCourt.longitude], Math.max(map.getZoom(), 15));
+  }, [courts, map, selectedCourtId]);
+
   return (
     <section className="hc-map-shell">
       <header className="hc-map-topbar">
@@ -174,13 +202,19 @@ export default function Map() {
       </header>
 
       <div className="hc-map-stage">
-        <MapContainer center={fallbackPosition} zoom={13} className="hc-map-canvas">
+        {/* Aqui lo de ref = setMap es para poder usarlo fuera de el mapa, por asi decirlo. Cuando se renderiza, lo guarda y ya lo pueda usar fuera para poder ir si se selecionanuna cancha desde fuera. Si no tuviera la referencia no podria acceder desde fuera al componente */}
+        <MapContainer center={fallbackPosition} zoom={13} className="hc-map-canvas" ref={setMap}>
           <TileLayer
             attribution="© OpenStreetMap contributors"
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           <LocationMarker locateRequest={locateRequest} onCityChange={setCurrentCity} />
-          <CourtsMarkers courts={courts} error={error} />
+          <CourtsMarkers
+            courts={courts}
+            error={error}
+            selectedCourtId={selectedCourtId}
+            onSelectCourt={(court) => setSelectedCourtId(court.court_id)}
+          />
         </MapContainer>
 
         <div className="hc-map-chip hc-map-chip--city">{currentCity}</div>
@@ -190,7 +224,12 @@ export default function Map() {
       <div className="hc-map-courts-strip">
         {courts.length > 0 ? (
           courts.map((court) => (
-            <button key={court.court_id} type="button" className="hc-map-court-card">
+            <button
+              key={court.court_id}
+              type="button"
+              className={`hc-map-court-card${selectedCourtId === court.court_id ? " hc-map-court-card--selected" : ""}`}
+              onClick={() => setSelectedCourtId(court.court_id)}
+            >
               {court.name}
             </button>
           ))
