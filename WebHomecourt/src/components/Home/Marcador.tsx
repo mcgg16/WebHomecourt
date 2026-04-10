@@ -66,48 +66,19 @@ export const useContadorTiempo = (startDate?: string) => {
   return segundos;
 };
 
+type MarcadorActivoProps = {
+  juego: MarcadorJuego;
+};
+
 //Componente de marcador
-function MarcadorActivo(){
-  const [juego, setJuego] = useState<MarcadorJuego | null> (null);
+function MarcadorActivo({juego}:MarcadorActivoProps){
+
   const segundos = useContadorTiempo(juego?.start_date);
 
-    useEffect(() => {
-        const fetchJuego = async () =>{
-            try {
-                const data = await getMarcadorActivo();
-                setJuego(data);
-            } catch (error) {
-                console.error("Error loading marcador:", error)
-                setJuego(null)
-            }
-        };
-        fetchJuego();
-
-        //Canal para actualizar view cuando se detecte un cambio en update
-        const channel = supabase
-        .channel("marcador-live")
-        .on(
-          "postgres_changes",
-          {event: "UPDATE", schema: "simulacion_juego", table: "team_player_stats"},
-          async () => {
-            // console.log("Cambioooo!!");
-            const data = await getMarcadorActivo();
-            setJuego(data);
-          }
-        )
-        .subscribe();
-
-      return () => {
-        supabase.removeChannel(channel);
-      };
-    }, []);
-
-    if (!juego) return null;
-
     return(
-        <div className="px-4 md:px-14 py-5 bg-zinc-100 w-full">
-          <div className="w-full px-5 py-7 bg-purple-900 rounded-2xl shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] outline outline-1 outline-offset-[-1px] outline-black/25 flex flex-col justify-start items-start gap-3.5 overflow-hidden">
-            <div className="self-stretch flex justify-between items-center">
+        <section className="px-4 md:px-14 py-5 bg-zinc-100 w-full">
+          <article className="w-full px-5 py-7 bg-purple-900 rounded-2xl shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] outline outline-1 outline-offset-[-1px] outline-black/25 flex flex-col justify-start items-start gap-3.5 overflow-hidden">
+            <header className="self-stretch flex justify-between items-center">
               <div className="flex justify-start items-center gap-4 md:gap-7">
                 <div className="px-3 md:px-5 py-2 md:py-3 bg-red-500 rounded-2xl flex justify-center items-center gap-2.5">
                   <span className="material-symbols-outlined text-zinc-100 text-2xl md:text-4xl">motion_photos_on</span>
@@ -117,7 +88,7 @@ function MarcadorActivo(){
               <h3 className="text-white text-sm md:text-base">
                 {format(new Date(juego.start_date), "MMMM do, yyyy")}
               </h3>
-            </div>
+            </header>
             <div className="self-stretch px-2.5 py-5 md:py-7 bg-white rounded-2xl flex flex-col justify-center items-center gap-4 md:gap-5 overflow-hidden">
               <div className="flex justify-center items-center gap-4 md:gap-12">
                 <div className="flex flex-col justify-center items-center gap-1">
@@ -136,7 +107,7 @@ function MarcadorActivo(){
                   <p className="hidden md:block text-xs md:text-sm text-gray-500">{juego?.home ? "Visitor" : "Home"}</p>
                 </div>
               </div>
-              <div className="w-full h-0.5 bg-yellow-700" />
+              <hr className="w-full h-0.5 bg-yellow-700" />
               <div className="w-full flex justify-between items-center px-2 gap-2">
                 <div className="flex items-center gap-1.5">
                   <span className="material-symbols-outlined text-violet-950 text-base">history</span>
@@ -154,8 +125,8 @@ function MarcadorActivo(){
                 </div>
               </div>
             </div>
-          </div>
-        </div>  
+          </article>
+        </section>  
     )
 }
 
