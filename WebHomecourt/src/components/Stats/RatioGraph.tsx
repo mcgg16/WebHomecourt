@@ -23,7 +23,7 @@ function RatioGraph({ stats }: { stats: PlayerStat[] }) {
         Assist to Turnover Ratio
       </h2>
 
-      <ResponsiveContainer>
+      <ResponsiveContainer width="100%" height="95%">
         <ScatterChart>
             <CartesianGrid />
             <XAxis

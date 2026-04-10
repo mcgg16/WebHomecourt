@@ -4,8 +4,6 @@ export type PlayerStat = {
   team_player_stats_id: number
   game_id: number
   team_player_id: number
-  first_name: string,
-  last_name: string,
   full_name: string,
   minutes: string
   points: number
@@ -29,8 +27,6 @@ export async function getStatsByGameId(game_id: number): Promise<PlayerStat[]> {
       team_player_stats_id,
       game_id,
       team_player_id,
-      first_name,
-      last_name,
       full_name,
       minutes,
       points,

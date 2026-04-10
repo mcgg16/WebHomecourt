@@ -5,6 +5,7 @@ import RatioGraph from '../components/Stats/RatioGraph';
 import { useEffect, useState } from "react"
 import { getStatsByGameId} from "../components/Stats/getStatsByGameId" 
 import type {PlayerStat} from "../components/Stats/getStatsByGameId"
+import GameSummaryGraph from '../components/Stats/GameSummaryGraph';
 
 function Estadisticas({ game_id }: { game_id: number }) {
   //function Estadisticas(){
@@ -14,14 +15,13 @@ function Estadisticas({ game_id }: { game_id: number }) {
       try {
         const data = await getStatsByGameId(game_id)
         setStats(data)
+        
       } catch (err) {
         console.error(err)
       }
     }
   loadStats()}, [game_id])
 
-  if (!stats) return <p>Loading...</p>
-  if (stats.length === 0) return <p>No data</p>
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -33,9 +33,11 @@ function Estadisticas({ game_id }: { game_id: number }) {
         </div>
         <div className='flex gap-6 pt-6 '>
           <PointsByPlayerGraph stats={stats} />
-          <FGAvsFGMGraph stats={stats} />
+          <GameSummaryGraph game_id={game_id}/>
+         
         </div>
         <div className='flex gap-6 pt-6 '>
+          <FGAvsFGMGraph stats={stats} />
           <RatioGraph stats={stats} />
         </div>
         
