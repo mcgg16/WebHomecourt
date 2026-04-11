@@ -11,6 +11,7 @@ html, body {
     line-height: normal;
 }
 
+
 .title1 {
   font-size: clamp(28px, 3.5vw, 40px);
   font-weight: 900;
