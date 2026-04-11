@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { supabase } from "../lib/supabase"
 import MarcadorActivo, {getMarcadorActivo, type MarcadorJuego} from '../components/Home/Marcador'
 import NextGame from '../components/Home/NextGame'
+import GameSummaryMiniGraph from '../components/Home/MiniStats'
 
 function Home() {
   const [juego, setJuego] = useState<MarcadorJuego | null> (null);
@@ -46,7 +47,10 @@ function Home() {
     <div>
       <Nav current='Home'></Nav>
       {juego ? (
-        <MarcadorActivo juego={juego}></MarcadorActivo>
+        <section className="px-4 md:px-14 py-5 bg-zinc-100 w-full">
+          <MarcadorActivo juego={juego}></MarcadorActivo>
+          <GameSummaryMiniGraph game_id={juego.game_id}/>
+        </section>
       ):(
         <NextGame></NextGame>
       )}
