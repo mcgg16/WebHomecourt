@@ -51,6 +51,7 @@ function Home() {
           <MarcadorActivo juego={juego}></MarcadorActivo>
           <GameSummaryMiniGraph game_id={juego.game_id}/>
         </section>
+        <MarcadorActivo juego={juego}></MarcadorActivo>
       ):(
         <NextGame></NextGame>
       )}
