@@ -8,6 +8,8 @@ import LakersCourt from './pages/LakersCourt'
 import Juego from './pages/Juego'
 import Store from './pages/Store'
 import Perfil from './pages/Perfil'
+import Admin from './pages/Admin';
+import ReportDetails from './pages/ReportDetails';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
         <Route path="/juego" element={<Juego />} />
         <Route path="/store" element={<Store />} />
         <Route path="/perfil" element={<Perfil />} />
+        <Route path="/admin" element={<Admin/>} />
+        <Route path="/admin/report/:id" element={<ReportDetails />} />
       </Routes>
     </BrowserRouter>
   )
