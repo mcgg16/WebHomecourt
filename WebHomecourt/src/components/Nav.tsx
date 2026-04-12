@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from "react"
 import { getUserById, type User } from './User'
+// import { AuthContextProvider } from "../context/AuthContext.jsx"
 
 const pages = [
   { label: 'Home',          path: '/' },
