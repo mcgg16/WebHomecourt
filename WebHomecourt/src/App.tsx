@@ -10,10 +10,6 @@ import Store from './pages/Store'
 import Perfil from './pages/Perfil'
 import Admin from './pages/Admin';
 import ReportDetails from './pages/ReportDetails';
-import Login from './pages/Login'
-import Register from './pages/Register'
-// import { AuthContextProvider } from "../context/AuthContext.jsx"
-import UserSession from './pages/UserSession' // Ejemplo usando sesión de usuairo
 
 function App() {
   return (
@@ -22,16 +18,13 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/agenda" element={<Agenda />} />
         <Route path="/brackets" element={<Brackets />} />
-        <Route path="/estadisticas" element={<Estadisticas game_id={2} />} />
+        <Route path="/estadisticas" element={<Estadisticas />} />
         <Route path="/lakerscourt" element={<LakersCourt />} />
         <Route path="/juego" element={<Juego />} />
         <Route path="/store" element={<Store />} />
         <Route path="/perfil" element={<Perfil />} />
         <Route path="/admin" element={<Admin/>} />
         <Route path="/admin/report/:id" element={<ReportDetails />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/session" element={<UserSession />} /> 
       </Routes>
     </BrowserRouter>
   )
