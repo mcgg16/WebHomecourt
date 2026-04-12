@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 
 // Simple componet to show w Game list item w numbers and color
-interface SummaryScoreProp {
+export interface SummaryScoreProp {
     lakers_score: number,
     opposite_score: number
 }
 
-function SummaryScoreCard(prop: SummaryScoreProp) {
+export function SummaryScoreCard(prop: SummaryScoreProp) {
     const [winStatus, setWinStatus] = useState(true);
 
     // When loads, checks if they lost
