@@ -33,7 +33,7 @@ function GameSummaryGraph({ game_id }: { game_id: number}) {
     if (!teamA || !teamB) return null;
 
     return (
-    <div  className=" gap-8 w-full h-[350px] justify-center items-center bg-white border border-gray-300 rounded-2xl shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+    <div  className=" gap-8 w-full h-[350px] justify-center items-center bg-white border border-gray-300 rounded-2xl shadow">
         <h2 className="pt-6 pb-2 flex flex-wrap justify-center items-center" > Game summary</h2>
         <div className="px-8 pb-8"> 
         {STATS.map(({ key, label }) => (

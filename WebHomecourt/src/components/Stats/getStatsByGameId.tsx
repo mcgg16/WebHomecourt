@@ -3,6 +3,7 @@ import { supabase } from "../../lib/supabase"
 export type PlayerStat = { 
   team_player_stats_id: number
   game_id: number
+  photo_url: string
   team_player_id: number
   full_name: string,
   minutes: string
@@ -26,6 +27,7 @@ export async function getStatsByGameId(game_id: number): Promise<PlayerStat[]> {
     .select(`
       team_player_stats_id,
       game_id,
+      photo_url,
       team_player_id,
       full_name,
       minutes,
