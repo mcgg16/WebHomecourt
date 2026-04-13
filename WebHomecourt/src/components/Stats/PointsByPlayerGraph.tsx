@@ -19,7 +19,7 @@ function PointsByPlayerGraph({ stats }: { stats: PlayerStat[]}) {
     "#3F2700","#8C5A08", "#FCB136", "#E7C081"] 
 
   return (
-    <div className="p-8 w-full h-[350px] flex flex-wrap justify-center items-center bg-white border border-gray-300 rounded-2xl shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+    <div className="p-8 w-full h-[350px] flex flex-wrap justify-center items-center bg-white border border-gray-300 rounded-2xl shadow">
       <h2>Points by Player</h2>
       <ResponsiveContainer>
         <PieChart>

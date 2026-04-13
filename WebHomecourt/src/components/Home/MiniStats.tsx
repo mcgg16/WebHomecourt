@@ -64,7 +64,7 @@ function GameSummaryMiniGraph({ game_id, refreshKey = 0, pastGame }: GameSummary
             }
         }
 
-        loadStats()
+        loadStats();
     }, [game_id, refreshKey])
 
     const teamA = {
