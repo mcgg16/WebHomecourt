@@ -26,7 +26,7 @@ function GameUpcoming({ games, currentDate }: GameProp) {
           // Game is live if: current time has passed start AND game hasn't ended yet
           const parsedGameStart = parseISO(game.start_date);
           const isLive = currentDate >=  parsedGameStart && game.game_end_time === null;
-          console.log(`Game ${game.game_id} status ${isLive} parsedGameStart ${parsedGameStart} game end time ${game.game_end_time}`);
+          //console.log(`Game ${game.game_id} status ${isLive} parsedGameStart ${parsedGameStart} game end time ${game.game_end_time}`);
 
           return (
             <div key={game.game_id} className={`${homeBaseCSS} ${game.home ? "border-amarillo-oscuro" : "border-morado-lakers"}`}>

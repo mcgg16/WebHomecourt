@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { supabase } from "../lib/supabase"
-import Nav from '../components/Nav'
-import Button from '../components/button.tsx'
-import GameListItem from '../components/Agenda/GameListItem.tsx'
-import GameUpcoming from '../components/Agenda/GameUpcomingItem.tsx'
+import { supabase } from "../lib/supabase";
+import Nav from '../components/Nav';
+import Button from '../components/button.tsx';
+import GameListItem from '../components/Agenda/GameListItem.tsx';
+import GameUpcoming from '../components/Agenda/GameUpcomingItem.tsx';
+import Calendar from '../components/Agenda/Calendar.tsx';
 
 /* 
 TODO 
@@ -31,9 +32,9 @@ export async function getGames(year: number, month: number, day: number, hour: n
   // Query using all of the info w parametrized values to obtain all of the games in the current year and month selected 
   // Connection to supabase, calls function in supabase passing param of year and month
   const { data, error } = await supabase.rpc("get_agenda_games", {
-  p_year: year,
-  p_month: (month+1), // Must add month cause they're 0 based in typescript
-  }) 
+    p_year: year,
+    p_month: (month + 1), // Must add month cause they're 0 based in typescript
+  })
 
   // Smth died
   if (error) {
@@ -55,7 +56,7 @@ export async function getGames(year: number, month: number, day: number, hour: n
       home: row.home,
       start_date: row.start_date,
       game_end_time: row.game_end_time,
-      team_name: row.team_name, 
+      team_name: row.team_name,
       logo_url: row.logo_url, // Opp team pic
       // Calculated by funct 
       lakers_score: row.lakers_score,
@@ -99,7 +100,7 @@ function Agenda() {
 
     // Calls functs and then sets all the games found to the allGames arr here
     getGames(year, month, day, hour, minutes, currentDate)
-    .then(games => setAllGames(games));
+      .then(games => setAllGames(games));
 
     // Try to divide into past and upcoming
     //setPastGames(allGames.filter(game => new Date(game.start_date) < currentDate));
@@ -134,10 +135,14 @@ function Agenda() {
         <p>Current year: ${currYear}, month: ${currMonth} day: ${currDay} time: ${currTime}</p>*/}
 
         {/* Setup for agenda and matches list using grid */}
-        <div className="grid grid-cols-6 gap-4 mt-4">
+        <div className="grid grid-cols-6 gap-4 mt-4 ">
           {/* Space for agenda */}
-          <div className="col-span-2 bg-gray-200 p-4">
-            <p>Calendar</p>
+          <div className="col-span-2 text-center bg-white p-4 rounded-2xl outline outline-2 outline-gray-200">
+            <Calendar
+              agendaDate={agendaDate}
+              games={allGames}
+              onChangeMonth={setAgendaDate}
+            />
           </div>
 
           {/* Side list view spanning 4 cols w buttons */}
@@ -165,7 +170,7 @@ function Agenda() {
             {/* Agenda list view, each item spans all 4 cols */}
             <div className="flex flex-col gap-2">
               {/* if showUpcoming == true, shows the UpcomingGameItem w upcomingGames list; else shows PastGameItem w pastGames list reversed to show from closer to curr date backwards*/}
-              {showUpcoming ? <GameUpcoming games={upcomingGames} currentDate={currentDate}/> : <GameListItem games={pastGames.reverse()} />}
+              {showUpcoming ? <GameUpcoming games={upcomingGames} currentDate={currentDate} /> : <GameListItem games={pastGames.reverse()} />}
             </div>
 
           </div>
