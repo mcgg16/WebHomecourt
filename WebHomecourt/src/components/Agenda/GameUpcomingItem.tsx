@@ -14,7 +14,7 @@ type GameProp = {
 
 // Will pass map of games and the current date
 function GameUpcoming({ games, currentDate }: GameProp) {
-  const homeBaseCSS = "flex flex-row justify-left bg-white rounded-lg outline-2 outline-gray-200 gap-5 mb-7 px-4 py-5 border-l-9 justify-center items-center"; // To inject css for home color bar
+  const homeBaseCSS = "flex flex-col md:flex-row justify-center items-center bg-white rounded-lg outline-2 outline-gray-200 gap-5 mb-7 px-4 py-5 border-l-9";
 
   if (!games.length) {
     return <p>No games available for this month.</p>
@@ -29,10 +29,9 @@ function GameUpcoming({ games, currentDate }: GameProp) {
           //console.log(`Game ${game.game_id} status ${isLive} parsedGameStart ${parsedGameStart} game end time ${game.game_end_time}`);
 
           return (
-            <div key={game.game_id} className={`${homeBaseCSS} ${game.home ? "border-amarillo-oscuro" : "border-morado-lakers"}`}>
+            <div key={game.game_id} className={` ${homeBaseCSS} ${game.home ? "border-amarillo-oscuro" : "border-morado-lakers"}`}>
 
               {/* Left side */}
-
               <div className="flex flex-row flex-1 items-center">
                 <img
                   src={game.logo_url}
@@ -46,13 +45,13 @@ function GameUpcoming({ games, currentDate }: GameProp) {
                 </div>
               </div>
 
-
-              <div className="md:flex md:flex-row items-center gap-2 flex-shrink-0">
+              {/* Right side */}
+              <div className="w-full md:w-auto mt-3 md:mt-0 flex justify-center md:justify-end">
                 <Button
                   text="Watch"
                   type={isLive ? 'primary' : 'primarydisable'}
                   onClick={isLive ? () => { } : () => { }}
-                  className={"text-sm"}
+                  className={"text-sm md:text-base w-full"}
                 />
               </div>
 
