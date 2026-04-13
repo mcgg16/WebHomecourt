@@ -8,6 +8,7 @@ import LakersCourt from './pages/LakersCourt'
 import Juego from './pages/Juego'
 import Store from './pages/Store'
 import Perfil from './pages/Perfil'
+import EditarPerfil from './pages/EditarPerfil'
 import Admin from './pages/Admin';
 import ReportDetails from './pages/ReportDetails';
 import Login from './pages/Login'
@@ -27,6 +28,7 @@ function App() {
         <Route path="/juego" element={<Juego />} />
         <Route path="/store" element={<Store />} />
         <Route path="/perfil" element={<Perfil />} />
+        <Route path="/editar-perfil" element={<EditarPerfil />} />
         <Route path="/admin" element={<Admin/>} />
         <Route path="/admin/report/:id" element={<ReportDetails />} />
         <Route path="/login" element={<Login />} />
