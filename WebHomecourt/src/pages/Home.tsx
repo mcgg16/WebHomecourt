@@ -4,6 +4,9 @@ import { supabase } from "../lib/supabase"
 import MarcadorActivo, {getMarcadorActivo, type MarcadorJuego} from '../components/Home/Marcador'
 import NextGame from '../components/Home/NextGame'
 import GameSummaryMiniGraph from '../components/Home/MiniStats'
+import MiniBrackets from '../components/Home/MiniBrakets'
+import RealtimeChat from '../components/RealtimeChat'
+
 
 //Obtener el id del ultimo partido
 export async function getPastGameId(): Promise<number> {
@@ -71,20 +74,27 @@ function Home() {
   }, [])
   return (
     <div>
-      <Nav current='Home'></Nav>
-      {juego ? (
-        <section className="px-4 md:px-14 py-5 bg-zinc-100 w-full flex flex-col gap-6">
-          <MarcadorActivo juego={juego} />
-          <GameSummaryMiniGraph game_id={juego.game_id} refreshKey={miniStatsRefreshKey} pastGame={false}/>
-        </section>
-      ):(
-        <section className="px-4 md:px-14 py-5 bg-zinc-100 w-full flex flex-col gap-6">
-          <NextGame></NextGame>
-          {pastgame !== null ? (
-            <GameSummaryMiniGraph game_id={pastgame} refreshKey={miniStatsRefreshKey} pastGame={true}/>
-          ) : null}
-        </section>
-      )}
+    <Nav current="Home" />
+    <section className="px-4 md:px-14 py-5 bg-zinc-100 w-full flex flex-col gap-6">
+      <div>
+        {juego ? (<MarcadorActivo juego={juego} />
+        ) : (<NextGame />)}
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className=" flex flex-col gap-6">
+          {juego ? (<GameSummaryMiniGraph game_id={juego.game_id} refreshKey={miniStatsRefreshKey} pastGame={false}/>) 
+          : (pastgame !== null && (<GameSummaryMiniGraph game_id={pastgame} refreshKey={miniStatsRefreshKey} pastGame={true}/>)
+          )}
+          <MiniBrackets />
+        </div>
+        <div className="flex flex-col gap-6 lg:sticky lg:top-6">
+          {/* <div className="bg-white rounded-2xl p-6">
+            AQUI VA EL CHAT EN TIEMPO REAL
+          </div> */}
+          <RealtimeChat></RealtimeChat>
+        </div>
+      </div>
+    </section>
     </div>
   )
 }
