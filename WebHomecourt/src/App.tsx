@@ -8,6 +8,10 @@ import LakersCourt from './pages/LakersCourt'
 import Juego from './pages/Juego'
 import Store from './pages/Store'
 import Perfil from './pages/Perfil'
+import Login from './pages/Login'
+import Register from './pages/Register'
+// import { AuthContextProvider } from "../context/AuthContext.jsx"
+import UserSession from './pages/UserSession' // Ejemplo usando sesión de usuairo
 
 function App() {
   return (
@@ -21,6 +25,9 @@ function App() {
         <Route path="/juego" element={<Juego />} />
         <Route path="/store" element={<Store />} />
         <Route path="/perfil" element={<Perfil />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/session" element={<UserSession />} /> 
       </Routes>
     </BrowserRouter>
   )
