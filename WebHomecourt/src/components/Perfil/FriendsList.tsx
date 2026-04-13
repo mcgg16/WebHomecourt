@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getFriendsList } from '../../lib/friends'
+import { getFriendsList } from '../../lib/Perfil/friends'
 import { usePresence } from '../../hooks/usePresence'
 import FriendCard from './FriendCard'
 
@@ -51,14 +51,19 @@ function FriendsList({ userId, currentUser }: FriendsListProps) {
 
     return (
         <div className="w-full bg-white rounded-[15px] border border-black/8 shadow-[0_4px_4px_0_rgba(0,0,0,0.08)] py-[21px] px-[25px]">
-            {/* Header */}
+    
             <div className="flex justify-between items-center mb-4">
-                <h2 className="text-[#11061A] text-[18px] font-normal">
-                    Friends ({friends.length})
+                <h2 className="flex items-baseline gap-1">
+                    <span className="text-[#11061A] text-[18px] font-normal leading-[27px]">
+                        Friends
+                    </span>
+                    <span className="text-[#6F6975] text-[14px] font-normal leading-[21px]">
+                        ({friends.length})
+                    </span>
                 </h2>
 
                 <button className="flex items-center gap-1 hover:opacity-80">
-                    <span className="text-morado-lakers text-[13px] font-medium">
+                    <span className="text-[#542581] text-center text-[13px] font-medium leading-[19.5px]">
                         View all
                     </span>
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -67,9 +72,9 @@ function FriendsList({ userId, currentUser }: FriendsListProps) {
                 </button>
             </div>
 
-            {/* Lista horizontal */}
+       
             <div className="flex overflow-x-auto gap-5 scrollbar-hide">
-                {/* Botón Agregar */}
+              
                 <div className="flex flex-col items-center flex-shrink-0 cursor-pointer hover:opacity-80 w-[64px] h-[88.5px] gap-2">
                     <div className="rounded-full flex items-center justify-center w-[60px] h-[60px] border-2 border-[#A09CA4]">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -81,7 +86,7 @@ function FriendsList({ userId, currentUser }: FriendsListProps) {
                     </span>
                 </div>
 
-                {/* Lista de amigos */}
+          
                 {friends.map(friend => (
                     <FriendCard 
                         key={friend.user_id}

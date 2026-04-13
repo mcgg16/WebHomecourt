@@ -61,7 +61,7 @@ export function usePresence(currentUser: {
                         photo_url: currentUser.photo_url || '',
                         online_at: new Date().toISOString()
                     })
-                    console.log('✅ Presencia activada para:', currentUser.nickname)
+                    console.log('Presencia activada para:', currentUser.nickname)
                 }
             })
 
