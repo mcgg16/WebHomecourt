@@ -9,7 +9,6 @@ import GameSummaryGraph from '../components/Stats/GameSummaryGraph';
 import PlayerStatsTable from '../components/Stats/PlayerStatsTable';
 
 function Estadisticas({ game_id }: { game_id: number }) {
-  //function Estadisticas(){
   const [stats, setStats] = useState<PlayerStat[]>([])
   useEffect(() => {
     const loadStats = async () => {
@@ -43,7 +42,7 @@ function Estadisticas({ game_id }: { game_id: number }) {
           </div>
           <RatioGraph stats={stats} />
         </div>
-        <div className='flex gap-6 pt-6 '>
+        <div className='flex center gap-6 pt-6 '>
           <PlayerStatsTable stats={stats} />
         </div>
       </div>
