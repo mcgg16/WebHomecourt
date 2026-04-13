@@ -102,9 +102,12 @@ function Agenda() {
     getGames(year, month, day, hour, minutes, currentDate)
       .then(games => setAllGames(games));
 
-    // Try to divide into past and upcoming
-    //setPastGames(allGames.filter(game => new Date(game.start_date) < currentDate));
-    //setUpcomingGames(allGames.filter(game => new Date(game.start_date) >= currentDate));
+    // Auto navigation to show view that best matches navigation altering
+    if (agendaDate < currentDate) {
+      setShowUpcoming(false);
+    } else if (agendaDate > currentDate) {
+      setShowUpcoming(true);
+    }
   }, [agendaDate, currentDate]);
 
   // Div into pastgames checking if curr game item is smaller than current date and checks game is marked as done

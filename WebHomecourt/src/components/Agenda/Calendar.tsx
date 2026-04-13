@@ -1,18 +1,5 @@
 import type { GameItem } from '../../pages/Agenda' // Has to be a type cosa estupida
-import {
-    addMonths,
-    subMonths,
-    startOfMonth,
-    endOfMonth,
-    startOfWeek,
-    endOfWeek,
-    eachDayOfInterval,
-    format,
-    isSameMonth,
-    isToday,
-    getDay,
-    lastDayOfMonth,
-} from "date-fns";
+import { startOfMonth, endOfMonth, addMonths, subMonths, eachDayOfInterval, format, isSameMonth, isToday, getDay } from "date-fns";
 
 // Data that will be passed, note that when month changes it'll pass the new date and that'll be handled by Agenda area w funct call
 type CalendarProp = {
@@ -50,7 +37,7 @@ function AgendaCalendar({ agendaDate, games, onChangeMonth }: CalendarProp) {
     }
 
     return (
-        <div className="p-5">
+        <div className="p-4">
             {/* Header month and arrows */}
             <div className="flex items-center justify-between">
                 <h4 className="text-morado-lakers mb-1">{format(agendaDate, "MMMM yyyy")}</h4>
@@ -99,6 +86,7 @@ function AgendaCalendar({ agendaDate, games, onChangeMonth }: CalendarProp) {
                         cellStyle += " bg-morado-bajo"
                     }
 
+                    // Uses the style built and returns the day number
                     return (
                         <div className={cellStyle}>
                             {format(day, "d")}
@@ -118,7 +106,7 @@ function AgendaCalendar({ agendaDate, games, onChangeMonth }: CalendarProp) {
                 
             </div>
 
-            {/* Legend w dates and such */}
+            {/* Legend indicating cell colors */}
             <div className="mt-4 flex flex-col gap-2">
                 {/* Home */ }
                 <div className="inline-flex justify-start items-start gap-2.5 overflow-hidden">
