@@ -117,7 +117,7 @@ function Agenda() {
   return (
     <div className="flex flex-col items-center justify-center">
       <Nav current="Agenda" />
-      <div className="px-14 py-5 bg-zinc-100 w-full">
+      <div className="px-4 py-5 md:px-14 md:py-5 bg-zinc-100 w-full">
         {/* Title comp */}
         <div className="w-full px-3 py-4 md:px-5 md:py-7 bg-violet-950 rounded-2xl shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] outline outline-1 outline-offset-[-1px] outline-black/25 flex md:justify-between items-center overflow-hidden">
           <h1 className="justify-start text-white title1">Agenda</h1>
