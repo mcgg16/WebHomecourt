@@ -6,12 +6,6 @@ import GameListItem from '../components/Agenda/GameListItem.tsx';
 import GameUpcoming from '../components/Agenda/GameUpcomingItem.tsx';
 import Calendar from '../components/Agenda/Calendar.tsx';
 
-/* 
-TODO 
-* Calculate the lakers won vs losses per item, and maybe need to add a row to the GameItem itself
-* Maybe might need to add live so in case the game end time is null, that menas it's ongoing so it'll appear as a live game
-*/
-
 // Actually used in query
 export type GameItem = {
   game_id: number,
