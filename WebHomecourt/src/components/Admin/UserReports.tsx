@@ -1,9 +1,18 @@
-import { userReports } from '../../lib/mockReports'
-import { useNavigate } from 'react-router-dom'
 import UserReportRow from './UserReportRow'
+import { getUserReports } from '../../pages/Admin'
+import { useEffect, useState } from 'react'
 
 const UserReportsTable = () => {
-  const navigate = useNavigate()
+  const [reports, setReports] = useState<any[]>([])
+
+  useEffect(() => {
+    const fetchReports = async () => {
+      const data = await getUserReports()
+      setReports(data)
+    }
+    fetchReports()
+  }, [])
+
   return (
     <div className="bg-white rounded-xl border border-gray-200 overflow-hidden mt-6">
       <div className="bg-violet-950 px-5 py-5">
@@ -22,12 +31,13 @@ const UserReportsTable = () => {
             </tr>
           </thead>
           <tbody>
-            {userReports.map((report) => (
+            {reports.map((report) => (
               <UserReportRow
-                key={report.id}
-                id={report.id}
-                event={report.event}
-                reportedUser={report.reportedUser}
+                key={report.ureport_id}
+                id={report.ureport_id}
+                event={report.event?.event_name ?? 'N/A'}
+                reportedUser={report.reported_user?.username ?? 'N/A'}
+                pfp={report.reported_user?.photo_url ?? ''}
                 priority={report.priority}
                 status={report.status}
               />

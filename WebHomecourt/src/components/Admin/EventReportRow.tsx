@@ -17,18 +17,19 @@ interface EventReportRowProps {
   event: string
   location: string
   host: string
+  pfp: string
   reports: number
   priority: string
   status: string
 }
 
-const EventReportRow = ({ id, event, location, host, reports, priority, status }: EventReportRowProps) => {
+const EventReportRow = ({ id, event, location, host, pfp, reports, priority, status }: EventReportRowProps) => {
   const navigate = useNavigate()
 
   return (
     <tr className="border-t border-gray-100 hover:bg-gray-50">
       <td className="px-4 py-3 text-center">
-        <h2 style={{ fontSize: '18px' }}>{id}</h2>
+        <h2 style={{ fontSize: '18px' }}>#{id}</h2>
       </td>
       <td className="px-4 py-3 text-center">
         <p>{event}</p>
@@ -38,7 +39,13 @@ const EventReportRow = ({ id, event, location, host, reports, priority, status }
       </td>
       <td className="px-4 py-3 text-center">
         <div className="flex items-center gap-2 w-[140px] mx-auto">
-          <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden" />
+          <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden flex-shrink-0">
+            {pfp ? (
+              <img src={pfp} className="w-full h-full object-cover" />
+            ) : (
+              <div className="w-full h-full bg-gray-300" />
+            )}
+          </div>
           <p>{host}</p>
         </div>
       </td>

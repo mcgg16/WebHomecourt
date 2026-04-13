@@ -16,24 +16,31 @@ interface UserReportRowProps {
   id: string
   event: string
   reportedUser: string
+  pfp: string
   priority: string
   status: string
 }
 
-const UserReportRow = ({ id, event, reportedUser, priority, status }: UserReportRowProps) => {
+const UserReportRow = ({ id, event, reportedUser, pfp, priority, status }: UserReportRowProps) => {
   const navigate = useNavigate()
 
   return (
     <tr className="border-t border-gray-100 hover:bg-gray-50">
       <td className="px-4 py-3 text-center">
-        <h2 style={{ fontSize: '18px' }}>{id}</h2>
+        <h2 style={{ fontSize: '18px' }}>#{id}</h2>
       </td>
       <td className="px-4 py-3 text-center">
         <p>{event}</p>
       </td>
       <td className="px-4 py-3 text-center">
         <div className="flex items-center gap-2 w-[140px] mx-auto">
-          <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden" />
+          <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden flex-shrink-0">
+            {pfp ? (
+              <img src={pfp} className="w-full h-full object-cover" />
+            ) : (
+              <div className="w-full h-full bg-gray-300" />
+            )}
+          </div>
           <p>{reportedUser}</p>
         </div>
       </td>
@@ -52,7 +59,7 @@ const UserReportRow = ({ id, event, reportedUser, priority, status }: UserReport
       </td>
       <td className="px-4 py-3 text-center">
         <button
-          onClick={() => navigate(`/admin/report/${id.replace('#', '')}`)}
+          onClick={() => navigate(`/admin/report/${id}`)}
           className="w-28 border border-morado-lakers text-morado-lakers px-4 py-1 rounded-lg text-sm font-medium hover:bg-morado-lakers hover:text-white transition-colors"
         >
           {status === 'Pending' ? 'Review' : 'View'}
