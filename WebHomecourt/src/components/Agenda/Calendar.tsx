@@ -39,12 +39,9 @@ function AgendaCalendar({ agendaDate, games, onChangeMonth }: CalendarProp) {
     const startingDayIndex = getDay(firstDayMonth); // Checks curr day of month
     const endingDayIndex = getDay(lastDayMonth);
 
-    //const calendarStart = startOfWeek(monthStart, { weekStartsOn: 0 });
-    //const calendarEnd = endOfWeek(monthEnd, { weekStartsOn: 0 });
-
     // Map game to this calendar day number "date": GameItem
     const gamesByDateKey = new Map<string, GameItem>();
-    
+
     for (const game of games) {
         const gameDate = new Date(game.start_date);
         const key = format(gameDate, "yyyy-MM-dd");
@@ -59,8 +56,8 @@ function AgendaCalendar({ agendaDate, games, onChangeMonth }: CalendarProp) {
                 <h4 className="text-morado-lakers mb-1">{format(agendaDate, "MMMM yyyy")}</h4>
 
                 <div className="flex gap-5 text-2xl text-morado-lakers">
-                    <button onClick={() => onChangeMonth(subMonths(agendaDate, 1))}>&lt;</button>
-                    <button onClick={() => onChangeMonth(addMonths(agendaDate, 1))}>&gt;</button>
+                    <button onClick={() => onChangeMonth(subMonths(agendaDate, 1))} className="hover:underline hover:text-morado-bajo hover:font-semibold">&lt;</button>
+                    <button onClick={() => onChangeMonth(addMonths(agendaDate, 1))} className="hover:underline hover:text-morado-bajo hover:font-semibold">&gt;</button>
                 </div>
             </div>
 
@@ -109,8 +106,8 @@ function AgendaCalendar({ agendaDate, games, onChangeMonth }: CalendarProp) {
                     );
                 })}
 
-                {/* Map to skip dates and compensate for month starting on a day that isn't Sunday 
-                {Array.from({ length: endingDayIndex }).map((_, index) => {
+                {/* Map to color remaining cells gray so if the day ends on day 4 aka thursday does 6-4=2 cells to color in remaining */}
+                {Array.from({ length:(6-endingDayIndex) }).map((_, index) => {
                     return (
                         <div
                             key={`empty-${index}`}
@@ -118,7 +115,7 @@ function AgendaCalendar({ agendaDate, games, onChangeMonth }: CalendarProp) {
                         />
                     );
                 })}
-                */}
+                
             </div>
 
             {/* Legend w dates and such */}

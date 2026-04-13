@@ -116,11 +116,7 @@ function Agenda() {
   const upcomingGames = allGames.filter(
     (game) => new Date(game.start_date) >= currentDate || game.game_end_time === null
   );
-
-  // Funct to let user pick date from agenda, maybe this'll need to be handled in agenda component or as an export function idk
-  // important thing is that if the user wants to view any other month, the cagendaDay is set to day 1 and time as 12:01 am 
-  // to show either all as past or all as upcoming for that future entry
-
+  
   return (
     <div className="flex flex-col items-center justify-center">
       <Nav current="Agenda" />
