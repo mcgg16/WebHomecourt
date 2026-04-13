@@ -9,7 +9,6 @@ import GameSummaryGraph from '../components/Stats/GameSummaryGraph';
 import PlayerStatsTable from '../components/Stats/PlayerStatsTable';
 
 function Estadisticas({ game_id }: { game_id: number }) {
-  //function Estadisticas(){
   const [stats, setStats] = useState<PlayerStat[]>([])
   useEffect(() => {
     const loadStats = async () => {
