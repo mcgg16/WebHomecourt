@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import Button from '../components/button.tsx'
 import { supabase } from "../lib/supabase"
 //import { UserAuth } from "../context/AuthContext.tsx";
+import GoogleButton from '../components/botongoogle.tsx'
 
 function Login() {
   const [loading, setLoading] = useState(false);
@@ -84,7 +85,10 @@ function Login() {
             <a href="#" className="text-morado-bajo hover:text-morado-lakers">Forgot Password?</a>
           </div>
 
+          {/* Google button */}
+          <GoogleButton></GoogleButton>
           
+          {/* Normal sign in button */}
           <Button
             text="Sign-in"
             type="primary"
