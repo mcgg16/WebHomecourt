@@ -1,4 +1,5 @@
 import Nav from '../components/Nav'
+import { useLocation } from 'react-router-dom'
 import PointsByPlayerGraph from '../components/Stats/PointsByPlayerGraph';
 import FGAvsFGMGraph from '../components/Stats/FGAvsFGMGraph';
 import RatioGraph from '../components/Stats/RatioGraph';
@@ -8,7 +9,12 @@ import type {PlayerStat} from "../components/Stats/getStatsByGameId"
 import GameSummaryGraph from '../components/Stats/GameSummaryGraph';
 import PlayerStatsTable from '../components/Stats/PlayerStatsTable';
 
-function Estadisticas({ game_id }: { game_id: number }) {
+function Estadisticas() {
+  const location = useLocation()
+  const state = location.state as { game_id?: number } | null
+  //Para evitar el broken access control
+  const game_id = typeof state?.game_id === 'number' && state.game_id > 0 ? state.game_id : 1
+
   const [stats, setStats] = useState<PlayerStat[]>([])
   useEffect(() => {
     const loadStats = async () => {
