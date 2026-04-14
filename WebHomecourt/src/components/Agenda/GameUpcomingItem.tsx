@@ -49,9 +49,9 @@ function GameUpcoming({ games, currentDate }: GameProp) {
               <div className="w-full md:w-auto mt-3 md:mt-0 flex justify-center md:justify-end">
                 <Button
                   text="Watch"
-                  type={isLive ? 'primary' : 'primary-disabled'}
+                  type="primarydisable"
                   onClick={isLive ? () => { } : () => { }}
-                  className={" w-full"}
+                  className={"w-full"}
                 />
               </div>
 
