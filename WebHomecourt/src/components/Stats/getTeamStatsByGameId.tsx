@@ -18,7 +18,8 @@ export async function getTeamStatsByGameId(game_id: number): Promise<TeamStat[]>
   }
 
   const { data, error } = await supabase
-    .from("team_stats_comparision")
+    .schema("simulacion_juego") 
+    .from("view_team_stats_comparision")
     .select(`
       game_id,
       team_id,

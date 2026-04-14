@@ -1,5 +1,6 @@
 import { supabase } from "../../lib/supabase";
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom";
 import { BarChart, Bar, XAxis, YAxis, LabelList, ResponsiveContainer,} from "recharts";
 import { format } from "date-fns";
 import { SummaryScoreCard } from "../Agenda/GameScore";
@@ -53,6 +54,7 @@ type GameSummaryMiniGraphProps = {
 }
 
 function GameSummaryMiniGraph({ game_id, refreshKey = 0, pastGame }: GameSummaryMiniGraphProps) {
+  const navigate = useNavigate();
     const [teamStats, setTeamStats] = useState<MiniStats | null >(null);
     useEffect(() => {
         const loadStats = async () => {
@@ -80,34 +82,38 @@ function GameSummaryMiniGraph({ game_id, refreshKey = 0, pastGame }: GameSummary
     };
 
     return (
-    <div className="w-full px-4 md:px-6 pt-6 pb-7 bg-white rounded-2xl border border-black/25 flex flex-col gap-6">
+    <div className="w-full px-3 md:px-5 pt-4 pb-5 bg-white rounded-2xl border border-black/25 flex flex-col gap-4">
       <div className="flex justify-between items-center">
-        <h2 className="text-purple-900 text-xl md:text-3xl font-medium">
+        <h2 className="text-purple-900 text-base md:text-2xl font-medium">
           {pastGame ? "Last Game Summary" : "Live Stats Summary"}
         </h2>
-        <div className="flex items-center gap-2 text-zinc-500 text-sm md:text-lg">
+        <button
+          type="button"
+          onClick={() => navigate('/estadisticas', { state: { game_id } })}
+          className="flex items-center gap-1.5 text-zinc-500 text-xs md:text-sm hover:text-zinc-700 transition-colors"
+        >
           <span>View more</span>
-          <span className="material-symbols-outlined  text-2xl md:text-4xl">arrow_forward</span>
-        </div>
+          <span className="material-symbols-outlined text-xl md:text-2xl">arrow_forward</span>
+        </button>
       </div>
       {pastGame ? (
-        <div className="w-full px-4 md:px-8 py-3 flex flex-col md:flex-row md:justify-between md:items-center gap-4 bg-white rounded-2xl">
-          <div className="flex items-center gap-4 md:gap-7">
+        <div className="w-full px-3 md:px-6 py-2.5 flex flex-col md:flex-row md:justify-between md:items-center gap-3 bg-white rounded-2xl">
+          <div className="flex items-center gap-3 md:gap-5">
             <div className="flex flex-col justify-center">
-              <div className="text-black text-xl md:text-3xl font-normal">vs {teamStats?.opposing_team_name}</div>
-              <div className="text-black text-sm md:text-lg font-normal">{teamStats?.start_date ? format(new Date(teamStats.start_date), "MMMM do, yyyy") : "N/A"}</div>
+              <div className="text-black text-base md:text-2xl font-normal">vs {teamStats?.opposing_team_name}</div>
+              <div className="text-black text-xs md:text-sm font-normal">{teamStats?.start_date ? format(new Date(teamStats.start_date), "MMMM do, yyyy") : "N/A"}</div>
             </div>
-            <div className="w-10 h-10 md:w-14 md:h-14">
+            <div className="w-9 h-9 md:w-12 md:h-12">
               <img className="w-full h-full object-contain" src={teamStats?.opposing_team_logo}/>
             </div>
           </div>
           <SummaryScoreCard lakers_score={teamStats?.lakers_points ?? 0} opposite_score={teamStats?.opposing_points ?? 0} />
         </div>
       ) : null}
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-4">
         {MINI_STATS.map(({ key, label }) => (
-          <div key={key} className="flex flex-col gap-2">
-            <div className="w-full h-10 md:h-12 rounded-2xl overflow-hidden">
+          <div key={key} className="flex flex-col gap-1.5">
+            <div className="w-full h-8 md:h-10 rounded-2xl overflow-hidden">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
                   layout="vertical"
@@ -127,7 +133,7 @@ function GameSummaryMiniGraph({ game_id, refreshKey = 0, pastGame }: GameSummary
                       valueAccessor={() => teamA[key]}
                       position="insideLeft"
                       offset={20}
-                      className="fill-white text-xs md:text-base font-medium"
+                      className="fill-white text-[10px] md:text-sm font-medium"
                     />
                   </Bar>
                   <Bar
@@ -140,20 +146,20 @@ function GameSummaryMiniGraph({ game_id, refreshKey = 0, pastGame }: GameSummary
                       valueAccessor={() => teamB[key]}
                       position="insideRight"
                       offset={20}
-                      className="fill-purple-900 text-xs md:text-base font-medium"
+                      className="fill-purple-900 text-[10px] md:text-sm font-medium"
                     />
                   </Bar>
                 </BarChart>
               </ResponsiveContainer>
             </div>
-            <p className="text-violet-950 text-lg md:text-lg">
+            <p className="text-violet-950 text-sm md:text-base">
               {label}
             </p>
           </div>
         ))}
-        <div className="flex justify-between pt-2">
-          <span className="text-violet-950 text-lg md:text-2xl">{teamStats?.lakers_abv ?? "LA"}</span>
-          <span className="text-violet-950 text-lg md:text-2xl">{teamStats?.opposing_abv ?? "OPP"}</span>
+        <div className="flex justify-between pt-1">
+          <span className="text-violet-950 text-sm md:text-lg">{teamStats?.lakers_abv ?? "LA"}</span>
+          <span className="text-violet-950 text-sm md:text-lg">{teamStats?.opposing_abv ?? "OPP"}</span>
         </div>
       </div>
     </div>
