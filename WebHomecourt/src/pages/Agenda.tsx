@@ -119,9 +119,6 @@ function Agenda() {
           {/*<h3 className="justify-start text-white">2025 - 2026 Season</h3>*/}
         </div>
 
-        {/* Temp show component for info 
-        <p>Current year: ${currYear}, month: ${currMonth} day: ${currDay} time: ${currTime}</p>*/}
-
         {/* Setup for agenda and matches list using grid */}
         <div className="flex flex-col md:grid md:grid-cols-6 gap-4 mt-4 ">
           {/* Space for agenda */}
