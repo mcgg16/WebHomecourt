@@ -14,6 +14,7 @@ type GameProp = {
 
 // Will pass map of games and the current date
 function GameUpcoming({ games, currentDate }: GameProp) {
+  const navigate = useNavigate(); // Switch to diff screen 
   const homeBaseCSS = "flex flex-col md:flex-row justify-center items-center bg-white rounded-lg outline-2 outline-gray-200 gap-5 mb-7 px-4 py-5 border-l-9";
 
   if (!games.length) {
@@ -49,8 +50,8 @@ function GameUpcoming({ games, currentDate }: GameProp) {
               <div className="w-full md:w-auto mt-3 md:mt-0 flex justify-center md:justify-end">
                 <Button
                   text="Watch"
-                  type="primarydisable"
-                  onClick={isLive ? () => { } : () => { }}
+                  type={isLive ? 'primary' : 'primarydisable'}
+                  onClick={isLive ? () => { navigate('/estadisticas', { state: { game_id: game.game_id } }) } : () => { }} // Does nothing if it's not live cause the button is blocked
                   className={"w-full"}
                 />
               </div>

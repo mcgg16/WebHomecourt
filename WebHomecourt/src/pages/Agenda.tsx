@@ -71,11 +71,6 @@ function Agenda() {
   // All fetched games here
   const [allGames, setAllGames] = useState<GameItem[]>([]);
 
-  // Array for different games 
-  //const [pastGames, setPastGames] = useState<GameItem[]>([]);
-  //const [upcomingGames, setUpcomingGames] = useState<GameItem[]>([]);
-
-
   // Initial function to render
   useEffect(() => {
     // This code runs once after the initial render
@@ -109,7 +104,7 @@ function Agenda() {
     (game) => new Date(game.start_date) < currentDate && game.game_end_time !== null
   );
 
-  // Upcoming game in a future date or has null end time aka still in progress
+  // Upcoming game in a future date or has null end time aka still in progress porque se rompe sin el &&
   const upcomingGames = allGames.filter(
     (game) => new Date(game.start_date) >= currentDate && game.game_end_time === null
   );
