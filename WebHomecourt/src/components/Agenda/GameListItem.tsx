@@ -52,8 +52,6 @@ function GameListItem({ games }: GameProp) {
           </div>
         ))}
       </div>
-
-      
     </div>
   )
 }
