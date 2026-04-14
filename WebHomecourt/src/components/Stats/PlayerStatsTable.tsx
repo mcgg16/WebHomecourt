@@ -30,10 +30,14 @@ function PlayerStatsTable({ stats }: { stats: PlayerStat[]}) {
     const gridCols = `2fr ${activeCols.map(() => "1fr").join(" ")}`;
 
     return (
-    <div className= "flex  gap-2 w-full"> 
-        <div>
-            <div className="bg-[#542581] w-50 text-white rounded-2xl p-4 flex flex-col gap-2">
+    // toggles
+    <div className= "flex flex-col md:flex-row gap-6 w-full"> 
+        <div >
+            <div>
+                <div className="bg-[#542581] w-50 text-white rounded-2xl p-4 flex flex-col gap-2">
+                
                 <h3 className="">Statistics</h3 >
+                
                 {COLUMNS.map((col) => (
                 <label key={col.key} className="flex items-center gap-2 text-sm cursor-pointer">
                     <input
@@ -45,50 +49,55 @@ function PlayerStatsTable({ stats }: { stats: PlayerStat[]}) {
                     {col.label}
                 </label>
                 ))}
+                </div> 
             </div> 
         </div>
-        
-        <div className="w-full table-fixed bg-white border border-gray-300 rounded-2xl shadow overflow-hidden">
-            <div className="bg-[#542581] text-white font-semibold px-4 py-3 grid gap-2" 
-            style={{ gridTemplateColumns: gridCols }}
-            >
-                <span>PLAYER</span>
-                {activeCols.map((col) => (
-                    <span key={col.key}>{col.abbr}</span>
-                ))}
-            </div>
-
-            <div className="text-sm">
-                {stats.map((player, index) => (
-                    <div key={index}
-                        className="grid items-center px-4 py-3"
-                        style={{ gridTemplateColumns: gridCols }}
-                        >
-                        <div className=" flex items-center gap-2">
-                            <img
-                                src={player.photo_url}
-                                className="w-12 h-12 object-cover rounded-full bg-[#542581]"
-                            />
-                            <div className="px-2">{player.full_name}</div>
-                        </div>
-                        {activeCols.map((col) => (
-                        <div key={col.key}>{player[col.key]}</div>
-                        ))}
-                    </div>
-                ))}
-            </div>
-        
-            <div className="bg-[#FCB136] font-semibold px-4 py-3 grid gap-2"
+        {/* tabla */}
+        <div className="w-full overflow-x-auto">
+            <div className="min-w-[500px] bg-white border border-gray-300 rounded-2xl shadow overflow-hidden">
+                {/* header */}
+                <div className="bg-[#542581] text-white font-semibold px-4 py-3 grid gap-3" 
                 style={{ gridTemplateColumns: gridCols }}
                 >
-                <span>Team Total</span>
-                {activeCols.map((col) => (
-                    <span key={col.key}>
-                    {col.key === "minutes"
-                        ? ""
-                        : stats.reduce((sum, p) => sum + (p[col.key] as number), 0)}
-                    </span>
-                ))}
+                    <span>PLAYER</span>
+                    {activeCols.map((col) => (
+                        <span key={col.key}>{col.abbr}</span>
+                    ))}
+                </div>
+                {/* contenido */}
+                <div className="text-xs md:text-sm w-full w-full overflow-x-auto">
+                    {stats.map((player, index) => (
+                        <div key={index}
+                            className="grid items-center px-4 py-3"
+                            style={{ gridTemplateColumns: gridCols }}
+                            >
+                            <div className=" flex items-center gap-2">
+                                <img
+                                    src={player.photo_url}
+                                    className="w-6 h-6 md:w-12 md:h-12 object-cover rounded-full bg-[#542581]"
+                                />
+                                <div className="px-2">{player.full_name}</div>
+                            </div>
+                            {activeCols.map((col) => (
+                            <div className="px-2 text-xs md:text-sm" key={col.key}>{player[col.key]}</div>
+                            ))}
+                        </div>
+                    ))}
+                </div>
+            
+                {/* tatal */}
+                <div className="bg-[#FCB136] font-semibold px-4 py-3 grid gap-2"
+                    style={{ gridTemplateColumns: gridCols }}
+                    >
+                    <span>Team Total</span>
+                    {activeCols.map((col) => (
+                        <span key={col.key}>
+                        {col.key === "minutes"
+                            ? ""
+                            : stats.reduce((sum, p) => sum + (p[col.key] as number), 0)}
+                        </span>
+                    ))}
+                </div>
             </div>
         </div>
     </div>

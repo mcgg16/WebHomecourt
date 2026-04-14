@@ -35,7 +35,7 @@ function Nav({ current }: NavProps) {
   return (
     <div className="w-full">
       <div className="mx-auto w-full ">
-        <div className="w-full h-10  bg-gradient-to-r from-purple-900 to-amber-400" />
+        <div className="w-full h-10  bg-linear-to-r from-purple-900 to-amber-400" />
 
         <div className="w-full px-2 md:px-15 py-6 md:py-2 inline-flex flex-col xl:flex-row justify-between items-center gap-6 overflow-hidden">
           <img
@@ -66,7 +66,7 @@ function Nav({ current }: NavProps) {
           </div>
 
           <div className="flex justify-start items-center gap-7">
-            <div className="p-2.5 bg-white rounded-2xl outline outline-1 outline-offset-[-1px] outline-black/25 flex justify-start items-center gap-3.5">
+            <div className="p-2.5 bg-white rounded-2xl outline -outline-offset-1 outline-black/25 flex justify-start items-center gap-3.5">
               <span className="material-symbols-outlined text-amber-400 text-[200px]">payments</span>
                       
               <div className="justify-start text-black text-2xl font-normal font-['Graphik']">{user?.credits ?? 0}</div>
