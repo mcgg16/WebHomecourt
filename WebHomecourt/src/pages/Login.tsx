@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import Button from '../components/button.tsx'
 import { supabase } from "../lib/supabase"
 //import { UserAuth } from "../context/AuthContext.tsx";
+import GoogleButton from '../components/botongoogle.tsx'
 
 function Login() {
   const [loading, setLoading] = useState(false);
@@ -13,20 +14,42 @@ function Login() {
   const [user, setUser] = useState<any>(null);
   const [errorMessage, setErrorMessage] = useState('');
 
+  // Checks fields are filled in, and does the login w supabase 
   const handleLogin = async () => {
     setError('');
     setErrorMessage('');
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) {
-      setError(error.message);
-      console.log(`Error iniciando sesión ${error.message}`);
-      setErrorMessage("Incorrect credentials");
+
+    // Checks fields are filled in
+    if (email == '' && password == '') {
+      // No credentials
+      setErrorMessage("Please provide your email and password");
+    } else if (email == '') {
+      setErrorMessage("Please provide your email");
+    } else if (password == '') {
+      setErrorMessage("Please provide your password")
     } else {
-      console.log(`Sí inició sesión`);
-      setUser(data.user); // Sets the user data 
-      navigate('/session');
+      // Filled everything in so tries to sign in now
+      setLoading(true);
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) {
+        setError(error.message);
+        console.log(`Error iniciando sesión ${error.message}`);
+        setErrorMessage("Incorrect credentials");
+      } else {
+        console.log(`Sí inició sesión`);
+        setUser(data.user); // Sets the user data 
+        navigate('/session');
+      }
     }
   };
+
+  // Sends request to reset password
+  /*
+  const handleForgotten = async () => {
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: 'https://example.com/update-password',
+    })
+  }*/
 
   return (
     // Uses relative so that it calcs diff layout positions to this main div */}
@@ -76,6 +99,7 @@ function Login() {
             />
           </div>
 
+          {/* No functionality */}
           <div className="flex justify-between items-center font-semibold">
             <label className="flex items-center text-morado-lakers gap-2 ">
               <input type="checkbox" className="accent-morado-lakers" />
@@ -84,16 +108,19 @@ function Login() {
             <a href="#" className="text-morado-bajo hover:text-morado-lakers">Forgot Password?</a>
           </div>
 
-          
+          {/* Google button */}
+          <GoogleButton></GoogleButton>
+
+          {/* Normal sign in button */}
           <Button
-            text="Sign-in"
+            text={loading ? "Signing-in" : "Sign-in"}
             type="primary"
             onClick={handleLogin}
             className="text-lg"
-          /> 
+          />
         </div>
         {/* Error display*/}
-        {errorMessage && <p className="text-red-600 mt-5 mb-1">{errorMessage}</p>}
+        {errorMessage && <p className="text-center rounded-lg bg-red-100 text-red-800 outline-2 outline-red-800 mt-5 mb-1 px-2 py-3">{errorMessage}</p>}
 
         <p className="mt-4 mb-2 text-morado-lakers font-semibold">Don't have an account yet?</p>
         <a href="/register" className="text-morado-bajo font-semibold hover:text-morado-lakers">Sign Up Now</a>
