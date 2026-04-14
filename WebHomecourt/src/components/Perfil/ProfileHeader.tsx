@@ -136,74 +136,80 @@ function ProfileHeader({ userId }: { userId: string }) {
                         {profile.nickname}
                     </h1>
                     <div className="flex items-center gap-1 mt-1">
-                        <img src="/groups.svg" alt="Friends" className="w-4 h-4" />
+                        <span className="material-symbols-outlined text-[#E7E6E8] text-base">
+                            groups
+                        </span>
                         <span className="text-[#E7E6E8] text-sm">
                             {stats.friendsCount} Friends
                         </span>
                     </div>
                 </div>
             </div>
-            <div className="flex items-center justify-between gap-4 mt-4">
+            <div className="flex items-end justify-between gap-4 mt-4">
                 <div className="flex items-center gap-4">
-                <div className="flex items-center gap-1">
-                    <img src="/Star.svg" alt="Star" className="w-5 h-5" />
-                    <span className="text-amarillo-lakers text-[22px]">
-                        {(profile.reputation ?? 0).toFixed(1)}
-                    </span>
-                    <span className="text-[#9482A5] text-sm ml-1">
-                        Reputation
-                    </span>
-                </div>
+                    <div className="flex items-center gap-1">
+                        <span className="material-symbols-outlined text-amarillo-lakers text-xl" style={{ fontVariationSettings: '"FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24' }}>
+                            star
+                        </span>
+                        <span className="text-amarillo-lakers text-[22px]">
+                            {(profile.reputation ?? 0).toFixed(1)}
+                        </span>
+                        <span className="text-[#9482A5] text-sm ml-1">
+                            Reputation
+                        </span>
+                    </div>
 
-                <StatDivider />
-                <div className="flex items-center gap-1">
-                    <span className="text-[#F3F2F3] text-[22px]">
-                        {profile.credits}
-                    </span>
-                    <span className="text-[#9482A5] text-sm">
-                        Credits
-                    </span>
-                </div>
+                    <StatDivider />
+                    <div className="flex items-center gap-1">
+                        <span className="text-[#F3F2F3] text-[22px]">
+                            {profile.credits}
+                        </span>
+                        <span className="text-[#9482A5] text-sm">
+                            Credits
+                        </span>
+                    </div>
 
-                <StatDivider />
-                <div className="flex items-center gap-1">
-                    <span className="text-[#F3F2F3] text-[22px]">
-                        {stats.eventsCreated}
-                    </span>
-                    <span className="text-[#9482A5] text-sm">
-                        Events Created
-                    </span>
-                </div>
+                    <StatDivider />
+                    <div className="flex items-center gap-1">
+                        <span className="text-[#F3F2F3] text-[22px]">
+                            {stats.eventsCreated}
+                        </span>
+                        <span className="text-[#9482A5] text-sm">
+                            Events Created
+                        </span>
+                    </div>
 
-                <StatDivider />
+                    <StatDivider />
 
-                <div className="flex items-center gap-1">
-                    <span className="text-[#F3F2F3] text-[22px]">
-                        {stats.eventsAttended}
-                    </span>
-                    <span className="text-[#9482A5] text-sm">
-                        Events Attended
-                    </span>
-                </div>
+                    <div className="flex items-center gap-1">
+                        <span className="text-[#F3F2F3] text-[22px]">
+                            {stats.eventsAttended}
+                        </span>
+                        <span className="text-[#9482A5] text-sm">
+                            Events Attended
+                        </span>
+                    </div>
 
-                <StatDivider />
+                    <StatDivider />
 
-                <div className="flex items-center gap-1">
-                    <span className="text-[#F3F2F3] text-[22px]">
-                        {stats.cardsCollected}
-                    </span>
-                    <span className="text-[#9482A5] text-sm">
-                        Cards collected
-                    </span>
-                </div>
+                    <div className="flex items-center gap-1">
+                        <span className="text-[#F3F2F3] text-[22px]">
+                            {stats.cardsCollected}
+                        </span>
+                        <span className="text-[#9482A5] text-sm">
+                            Cards collected
+                        </span>
+                    </div>
                 </div>
 
                 <button
                     onClick={() => navigate("/editar-perfil")}
-                    className="flex items-center gap-3 bg-morado-lakers hover:bg-morado-lakers/90 text-white px-8 py-4 rounded-[20px] transition-colors"
+                    className="flex items-center justify-center gap-2 bg-morado-lakers hover:bg-morado-lakers/90 px-6 py-2 rounded-xl transition-colors"
                 >
-                    <img src="/edit.svg" alt="Edit" className="w-6 h-6" />
-                    <span className="text-[32px] font-semibold">
+                    <span className="material-symbols-outlined text-2xl text-[#F3F2F3] leading-none">
+                        edit
+                    </span>
+                    <span className="text-[#F3F2F3] font-['Graphik'] text-lg font-medium leading-normal">
                         Edit Profile
                     </span>
                 </button>

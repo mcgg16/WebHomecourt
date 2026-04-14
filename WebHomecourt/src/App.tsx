@@ -8,7 +8,6 @@ import LakersCourt from './pages/LakersCourt'
 import Juego from './pages/Juego'
 import Store from './pages/Store'
 import Perfil from './pages/Perfil'
-import EditarPerfil from './pages/EditarPerfil'
 import Admin from './pages/Admin';
 import ReportDetails from './pages/ReportDetails';
 import Login from './pages/Login'
@@ -16,6 +15,7 @@ import Register from './pages/Register'
 // import { AuthContextProvider } from "../context/AuthContext.jsx"
 import UserSession from './pages/UserSession' // Ejemplo usando sesión de usuairo
 import EventReportDetails from './pages/EventReportDetails'
+import EditarPerfil from './pages/EditarPerfil';
 
 function App() {
   return (

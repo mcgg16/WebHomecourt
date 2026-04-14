@@ -9,7 +9,7 @@ const GoogleButton = () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/session`, // TEMPORARY REDIRECT
+        redirectTo: `${window.location.origin}/`, 
       },
     });
 
