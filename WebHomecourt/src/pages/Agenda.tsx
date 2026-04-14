@@ -109,9 +109,9 @@ function Agenda() {
     (game) => new Date(game.start_date) < currentDate && game.game_end_time !== null
   );
 
-  // Upcoming game in a future date or has null end time aka already started
+  // Upcoming game in a future date or has null end time aka still in progress
   const upcomingGames = allGames.filter(
-    (game) => new Date(game.start_date) >= currentDate || game.game_end_time === null
+    (game) => new Date(game.start_date) >= currentDate && game.game_end_time === null
   );
   
   return (
