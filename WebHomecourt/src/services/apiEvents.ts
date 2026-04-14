@@ -1,26 +1,26 @@
 import { supabase } from "../lib/supabase";
 
 export interface CourtTournament {
-  event_id: number;
-  event_name: string;
-  date: string | null;
-  created_user_id: string;
-  court_id: number;
-  max_players: number;
-  current_players: number;
-  min_age: number;
-  max_age: number;
-  skill_level_id: number | null;
-  allow_event: boolean;
+  event_id: number; // ID unico del evento.
+  event_name: string; // Nombre del evento.
+  date: string | null; // Fecha/hora del evento (puede venir null).
+  created_user_id: string; // Usuario que creo el evento.
+  court_id: number; // ID de la cancha.
+  max_players: number; // Cupo maximo permitido.
+  current_players: number; // Jugadores inscritos actualmente.
+  min_age: number; // Edad minima permitida.
+  max_age: number; // Edad maxima permitida.
+  skill_level_id: number | null; // Nivel de skill requerido (o null).
+  allow_event: boolean; // Bandera para mostrar/ocultar evento.
 }
 
 export interface SkillLevel {
-  skill_level_id: number;
-  description: string;
+  skill_level_id: number; // ID del nivel.
+  description: string; // Texto del nivel (ej. Beginner, Intermediate).
 }
 
 type CourtTournamentRow = Omit<CourtTournament, "court_id" | "current_players"> & {
-  court_id: number | string;
+  court_id: number | string; // Puede venir numerico o string desde BD.
 };
 
 interface UserEventRow {
@@ -28,15 +28,16 @@ interface UserEventRow {
 }
 
 interface UserEventMembershipRow {
-  user_event_id: number;
-  rated_others: boolean | null;
+  user_event_id: number; // PK de la fila en user_event.
+  rated_others: boolean | null; // Estado de si ya califico a otros jugadores.
 }
 
 type SkillLevelRow = {
-  skill_level_id: number | string;
-  description: string;
+  skill_level_id: number | string; // Puede llegar string desde BD.
+  description: string; // Etiqueta del nivel.
 };
 
+// Obtiene el user.id autenticado para operaciones de inscripcion/baja.
 async function getCurrentUserId(): Promise<string> {
   const {
     data: { user },
@@ -75,13 +76,17 @@ export async function getCourtTournaments(): Promise<CourtTournament[]> {
     return [];
   }
 
+  // Mapa para acumular cuantos inscritos tiene cada evento.
   const playersCountByEvent = new Map<number, number>();
   const eventIds = normalizedRows.map((row) => row.event_id);
+
+  // Lee todas las filas de user_event asociadas a esos eventos.
   const { data: userEventsData, error: userEventsError } = await supabase
     .from("user_event")
     .select("event_id")
     .in("event_id", eventIds);
 
+  // Si la consulta no falla, se cuenta cuantas filas hay por cada event_id.
   if (!userEventsError) {
     ((userEventsData ?? []) as UserEventRow[]).forEach((row) => {
       const eventId = Number(row.event_id);
@@ -114,11 +119,13 @@ export async function getSkillLevels(): Promise<SkillLevel[]> {
     .filter((row) => !Number.isNaN(row.skill_level_id));
 }
 
+// Obtiene IDs de eventos donde el usuario actual ya esta inscrito.
 export async function getCurrentUserJoinedEventIds(eventIds: number[]): Promise<Set<number>> {
   if (eventIds.length === 0) {
     return new Set<number>();
   }
 
+  // Lee usuario autenticado para filtrar solo sus inscripciones.
   const {
     data: { user },
     error: userError,
@@ -128,6 +135,7 @@ export async function getCurrentUserJoinedEventIds(eventIds: number[]): Promise<
     return new Set<number>();
   }
 
+  // Busca en user_event solo filas del usuario y de los eventos visibles.
   const { data, error } = await supabase
     .from("user_event")
     .select("event_id")
@@ -146,12 +154,15 @@ export async function getCurrentUserJoinedEventIds(eventIds: number[]): Promise<
     }
   });
 
+  // Retorna el conjunto final de eventos inscritos por el usuario.
   return joinedEventIds;
 }
 
+// Inscribe al usuario actual en un evento si aun no existe su fila en user_event.
 export async function signUpTournament(eventId: number): Promise<void> {
   const userId = await getCurrentUserId();
 
+  // Busca si ya existe una inscripcion previa para evitar duplicados.
   const { data: membershipData, error: membershipError } = await supabase
     .from("user_event")
     .select("user_event_id, rated_others")
@@ -166,6 +177,7 @@ export async function signUpTournament(eventId: number): Promise<void> {
 
   const membership = membershipData as UserEventMembershipRow | null;
   if (membership) {
+    // Si venia marcado como true, se reinicia a false para un nuevo flujo de juego/rating.
     if (membership.rated_others) {
       const { error: updateError } = await supabase
         .from("user_event")
@@ -180,6 +192,7 @@ export async function signUpTournament(eventId: number): Promise<void> {
     return;
   }
 
+  // Inserta nueva inscripcion en user_event para este usuario y evento.
   const { error: insertError } = await supabase.from("user_event").insert({
     event_id: eventId,
     user_id: userId,
@@ -191,6 +204,7 @@ export async function signUpTournament(eventId: number): Promise<void> {
   }
 }
 
+// Quita la inscripcion del usuario actual en el evento indicado.
 export async function leaveTournament(eventId: number): Promise<void> {
   const userId = await getCurrentUserId();
 
