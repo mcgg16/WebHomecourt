@@ -1,7 +1,18 @@
-import { eventReports } from '../../lib/mockReports'
+import { useEffect, useState } from 'react'
+import { getEventReports } from '../../pages/Admin'
 import EventReportRow from './EventReportRow'
 
 const EventReports = () => {
+  const [reports, setReports] = useState<any[]>([])
+
+  useEffect(() => {
+    const fetchReports = async () => {
+      const data = await getEventReports()
+      setReports(data)
+    }
+    fetchReports()
+  }, [])
+
   return (
     <div className="bg-white rounded-xl border border-gray-200 overflow-hidden mt-6">
       <div className="bg-violet-950 px-5 py-5">
@@ -23,14 +34,15 @@ const EventReports = () => {
             </tr>
           </thead>
           <tbody>
-            {eventReports.map((report) => (
+            {reports.map((report) => (
               <EventReportRow
-                key={report.id}
-                id={report.id}
-                event={report.event}
-                location={report.location}
-                host={report.host}
-                reports={report.reports}
+                key={report.ereport_id}
+                id={report.ereport_id}
+                event={report.event?.event_name ?? 'N/A'}
+                location={report.event?.court?.name ?? 'N/A'}
+                host={report.reporter?.username ?? 'N/A'}
+                pfp={report.reporter?.photo_url ?? ''}
+                reports={report.reportCount}
                 priority={report.priority}
                 status={report.status}
               />

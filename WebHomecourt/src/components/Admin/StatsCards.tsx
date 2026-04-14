@@ -1,16 +1,32 @@
-import { adminStats } from '../../lib/mockReports'
-
-const stats = [
-  { label: 'Reports Pending', value: adminStats.reportsPending, icon: 'assignment' },
-  { label: 'Users Flagged',   value: adminStats.usersFlagged, icon: 'person_alert' },
-  { label: 'Events Flagged',  value: adminStats.eventsFlagged, icon: 'flag' },
-  { label: 'Suspended Users', value: adminStats.suspendedUsers, icon: 'account_circle_off' },
-]
+import { useEffect, useState } from 'react'
+import { getAdminStats } from '../../pages/Admin'
 
 const StatsCards = () => {
+  const [stats, setStats] = useState({
+    reportsPending: 0,
+    usersFlagged: 0,
+    eventsFlagged: 0,
+    suspendedUsers: 0,
+  })
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      const data = await getAdminStats()
+      setStats(data)
+    }
+    fetchStats()
+  }, [])
+
+  const cards = [
+    { label: 'Reports Pending', value: stats.reportsPending, icon: 'assignment' },
+    { label: 'Users Flagged',   value: stats.usersFlagged,   icon: 'person_alert' },
+    { label: 'Events Flagged',  value: stats.eventsFlagged,  icon: 'flag' },
+    { label: 'Suspended Users', value: stats.suspendedUsers, icon: 'account_circle_off' },
+  ]
+  
   return (
     <div className="grid grid-cols-4 gap-4">
-      {stats.map((s) => (
+      {cards.map((s) => (
         <div key={s.label} className="bg-white rounded-xl p-4 border border-gray-200 flex flex-col items-center">
           <h2 className="text-sm font-medium text-black text-center" style={{ fontSize: '20px' }} >{s.label}</h2>
           <div className="flex items-center gap-3 mt-2">

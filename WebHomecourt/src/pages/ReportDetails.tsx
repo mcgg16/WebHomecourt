@@ -1,12 +1,59 @@
 import { useNavigate } from 'react-router-dom'
 import Nav from '../components/Nav'
-import { reportDetails } from '../lib/mockReports'
 import UserHistory from '../components/ReportDetails/UserHistory'
 import ActionButtons from '../components/ReportDetails/ActionButtons'
+import { useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { supabase } from '../lib/supabase'
+import { getUserHistory } from './Admin'
 
+const formatDate = (dateStr: string) => {
+  return new Intl.DateTimeFormat('es-MX', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+  }).format(new Date(dateStr))
+}
 
 const ReportDetails = () => {
   const navigate = useNavigate()
+  const { id } = useParams()
+  const [report, setReport] = useState<any>(null)
+  const [userHistory, setUserHistory] = useState<any[]>([])
+
+   useEffect(() => {
+    const fetchReport = async () => {
+      const { data, error } = await supabase
+        .from('user_report')
+        .select(`
+          ureport_id,
+          comment,
+          key_words,
+          priority,
+          status,
+          created_at,
+          reported_user_id,
+          reported_user:user_laker!reported_user_id(username, photo_url, reputation),
+          event:event!event_id(event_name, date, max_players, court:court!court_id(name))
+        `)
+        .eq('ureport_id', id)
+        .single()
+
+      if (error) {
+        console.error(error)
+        return
+      }
+      setReport(data)
+
+      const historyData = await getUserHistory(data.reported_user_id)
+      setUserHistory(historyData)
+    }
+    fetchReport()
+  }, [id])
+
+  if (!report) return <div>Loading...</div>
 
   return (
     <div className="flex flex-col min-h-screen bg-zinc-100">
@@ -36,22 +83,22 @@ const ReportDetails = () => {
             {/* Left side */}
             <div className="flex-1 flex flex-col gap-6 p-6 ">
               
-              <h2 className="font-bold text-black"  style={{ fontSize: '27px' }}>Event: {reportDetails.event}</h2>
+              <h2>Event: {report.event?.event_name}</h2>
 
               <div className="flex flex-wrap gap-25">
                 <div className="flex items-center gap-1">
                   <span className="material-symbols-outlined text-black" style={{ fontSize: '18px' }}>location_on</span>
-                  <p>Location: {reportDetails.location}</p>
+                  <p>Location: {report.event.court.name}</p>
                 </div>
                 <div className="flex items-center gap-1">
                   <span className="material-symbols-outlined text-black" style={{ fontSize: '18px' }}>groups</span>
-                  <p>Participants: {reportDetails.participants}</p>
+                  <p>Participants: {report.event.max_players}</p>
                 </div>
               </div>
 
               <div className="flex items-center gap-1">
                 <span className="material-symbols-outlined text-black" style={{ fontSize: '18px' }}>calendar_today</span>
-                <p>Date: {reportDetails.date}</p>
+                <p>{formatDate(report.event?.date)}</p>
               </div>
 
               <hr className="border-amarillo-lakers border-t-2 my-4  -mx-12" />
@@ -61,7 +108,7 @@ const ReportDetails = () => {
 
               <h2 className="font-medium text-black" style={{ fontSize: '20px' }}>Report Comment</h2>
               <div className="bg-[#9382A5]/50 border border-gray-200 rounded-xl p-4 min-h-[150px]">
-                <p className="text-black">{reportDetails.comment}</p>
+                <p className="text-black">{report.comment}</p>
               </div>
 
               {/* Action Buttons */}
@@ -73,7 +120,20 @@ const ReportDetails = () => {
               />
             </div>
             <div className="w-0.5 bg-black/20 self-stretch -mr-6 -mb-10" />
-            <UserHistory />
+            <UserHistory
+              reportedUser={{
+                name: report.reported_user?.username ?? 'N/A',
+                photo_url: report.reported_user?.photo_url ?? '',
+                rating: report.reported_user?.reputation ?? 0,
+                totalReports: userHistory.length,
+              }}
+              history={userHistory.map((h) => ({
+                event: h.event?.event_name ?? 'N/A',
+                date: new Date(h.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+                rating: h.reported_user?.reputation ?? 0,
+                tags: h.key_words ?? [],
+              }))}
+            />
           </div>
         </div>
       </div>

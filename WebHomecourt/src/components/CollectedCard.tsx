@@ -108,9 +108,9 @@ function DisplayUserCards({ userId }: { userId: string }) {
             {cards.map(card => (
                 <div
                     key={card.card_id}
-                    className="bg-white rounded-md justify-center text-center px-2 py-3 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] w-[14.625rem] min-h-[20.5rem]">
+                    className="bg-white rounded-md justify-center text-center px-2 py-3 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] w-58.5 min-h-82">
                     <h1 className="text-lg font-black ">{card.player_name}</h1>
-                    <img src={card.web_url} alt={card.player_name} className="w-[10.75rem] max-h-[14.25rem] mx-auto" />
+                    <img src={card.web_url} alt={card.player_name} className="w-43 max-h-57 mx-auto" />
                     <p>Value: ${card.cost}</p>
                     <p>Unlocked: {card.unlocked ? "Yes" : "No"}</p>
                     {/* Display rare status only if true and (then shows the thingy) */}

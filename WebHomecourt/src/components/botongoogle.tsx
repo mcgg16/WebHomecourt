@@ -1,7 +1,7 @@
 import { supabase } from "../lib/supabase";
 import { useState } from "react";
 
-const SignInButton = () => {
+const GoogleButton = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const signIn = async () => {
@@ -9,7 +9,7 @@ const SignInButton = () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/`,
+        redirectTo: `${window.location.origin}/session`, // TEMPORARY REDIRECT
       },
     });
 
@@ -20,15 +20,15 @@ const SignInButton = () => {
   };
 
   return (
-    <button
-      onClick={signIn}
-      disabled={isLoading}
-      className="inline-flex items-center gap-2 rounded-xl border border-zinc-300 bg-white px-5 py-2.5 text-sm font-semibold text-zinc-800 shadow-sm transition hover:-translate-y-0.5 hover:bg-zinc-50 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-violet-400 disabled:cursor-not-allowed disabled:opacity-70"
-    >
-      <span className="text-base" aria-hidden="true">G</span>
-      {isLoading ? "Redirecting..." : "Sign in with Google"}
-    </button>
+      <button
+        onClick={signIn}
+        disabled={isLoading}
+        className="inline-flex justify-center gap-2 rounded-2xl outline-2 outline-morado-lakers bg-white px-3 py-2.5 font-semibold text-morado-lakers hover:text-morado-bajo hover:outline-morado-bajo selected:text-morado-oscuro selected:outline-morado-oscuro"
+      >
+        <img src="/GoogleLogo.png" alt="G" className="w-6 h-6 mr-2"></img>
+        {isLoading ? "Redirecting..." : "Continue with Google"}
+      </button>
   );
 };
 
-export default SignInButton;
+export default GoogleButton;
