@@ -38,7 +38,7 @@ function Login() {
       } else {
         console.log(`Sí inició sesión`);
         setUser(data.user); // Sets the user data 
-        navigate('/session');
+        navigate('/'); // Takes to home
       }
     }
   };
@@ -100,12 +100,12 @@ function Login() {
           </div>
 
           {/* No functionality */}
-          <div className="flex justify-between items-center font-semibold">
+          <div className="flex justify-center items-center font-semibold"> {/*"flex justify-between items-center font-semibold">*/}
             <label className="flex items-center text-morado-lakers gap-2 ">
               <input type="checkbox" className="accent-morado-lakers" />
               Remember me
             </label>
-            <a href="#" className="text-morado-bajo hover:text-morado-lakers">Forgot Password?</a>
+            {/*<a href="#" className="text-morado-bajo hover:text-morado-lakers">Forgot Password?</a>*/}
           </div>
 
           {/* Google button */}
