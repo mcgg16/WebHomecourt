@@ -127,7 +127,7 @@ function ProfileHeader({ userId }: { userId: string }) {
         <div className="bg-morado-oscuro rounded-2xl p-6">
             <div className="flex items-center gap-4 mb-4">
                 <img
-                    src={profile.photo_url || "/default-avatar.png"}
+                    src={profile.photo_url || DEFAULT_AVATAR}
                     alt={profile.nickname}
                     className="w-[110px] h-[112px] rounded object-cover flex-shrink-0"
                 />

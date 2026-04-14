@@ -2,13 +2,18 @@ import { useEffect, useState } from 'react'
 import { getEventReports } from '../../pages/Admin'
 import EventReportRow from './EventReportRow'
 
+const priorityOrder: Record<string, number> = { High: 1, Medium: 2, Low: 3 }
+
 const EventReports = () => {
   const [reports, setReports] = useState<any[]>([])
 
   useEffect(() => {
     const fetchReports = async () => {
       const data = await getEventReports()
-      setReports(data)
+      const sorted = [...data].sort((a, b) =>
+        (priorityOrder[a.priority] ?? 99) - (priorityOrder[b.priority] ?? 99)
+      )
+      setReports(sorted)
     }
     fetchReports()
   }, [])
