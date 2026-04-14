@@ -20,7 +20,7 @@ interface NavProps {
 
 function Nav({ current }: NavProps) {
   const navigate = useNavigate()
-  const { user: authUser } = useAuth()
+  const { user: authUser, userType } = useAuth()
   const [user, setUser] = useState<User | null>(null)
 
   useEffect(() => {
@@ -32,6 +32,10 @@ function Nav({ current }: NavProps) {
 
     loadUser()
   }, [authUser?.id])
+
+  const navPages = userType === 1
+    ? [...pages, { label: 'Admin', path: '/admin' }]
+    : pages
 
   return (
     <div className="w-full">
@@ -46,7 +50,7 @@ function Nav({ current }: NavProps) {
           />
 
           <div className="flex flex-wrap justify-center items-center gap-7">
-            {pages.map((p) => {
+            {navPages.map((p) => { 
               const isCurrent = p.label === current
 
               return (
