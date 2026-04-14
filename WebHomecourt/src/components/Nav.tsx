@@ -1,17 +1,17 @@
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from "react"
 import { getUserById, type User } from './User'
-// import { AuthContextProvider } from "../context/AuthContext.jsx"
+import { useAuth } from '../context/AuthContext'
+
+const DEFAULT_AVATAR = "https://ptbcoxaguvbwprxdundz.supabase.co/storage/v1/object/public/user_images/profile_picture_default.png"
 
 const pages = [
   { label: 'Home',          path: '/' },
   { label: 'Agenda',        path: '/agenda' },
-  { label: 'Brackets',      path: '/brackets' },
   { label: 'Statistics',  path: '/estadisticas' },
   { label: 'LakersCourt',   path: '/lakerscourt' },
   { label: 'Dunk Royale',         path: '/juego' },
   { label: 'Store',         path: '/store' },
-  { label: 'Profile',        path: '/perfil' },
 ]
 
 interface NavProps {
@@ -19,18 +19,19 @@ interface NavProps {
 }
 
 function Nav({ current }: NavProps) {
-  const userId = "ac3a5447-1b6f-4324-8830-5ddc2d7b2c47"
   const navigate = useNavigate()
+  const { user: authUser } = useAuth()
   const [user, setUser] = useState<User | null>(null)
 
   useEffect(() => {
     const loadUser = async () => {
-      const data = await getUserById(userId)
+      if (!authUser?.id) return
+      const data = await getUserById(authUser.id)
       setUser(data)
     }
 
     loadUser()
-  }, [userId])
+  }, [authUser?.id])
 
   return (
     <div className="w-full">
@@ -72,15 +73,16 @@ function Nav({ current }: NavProps) {
               <div className="justify-start text-black text-2xl font-normal font-['Graphik']">{user?.credits ?? 0}</div>
             </div>
 
-            <div className="w-15 h-15 relative rounded-full outline outline-2 outline-offset-[-2px] outline-gray-200 overflow-hidden bg-gray-300">
-              {user?.photo_url && (
-                <img
-                  className="w-full h-full object-cover"
-                  src={user.photo_url}
-                  alt="User avatar"
-                />
-              )}
-            </div>
+            <button
+              onClick={() => navigate('/perfil')}
+              className="w-15 h-15 relative rounded-full outline outline-2 outline-offset-[-2px] outline-gray-200 overflow-hidden bg-gray-300 cursor-pointer hover:opacity-80 transition-opacity"
+            >
+              <img
+                className="w-full h-full object-cover"
+                src={user?.photo_url || DEFAULT_AVATAR}
+                alt="User avatar"
+              />
+            </button>
           </div>
         </div>
 
