@@ -1,18 +1,23 @@
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext'
+
 function SettingsSection() {
+    const navigate = useNavigate()
+    const { signOut } = useAuth()
+
+    const handleLogout = async () => {
+        await signOut()
+        navigate('/login')
+    }
+
     const settingsItems = [
-        {
-            icon: 'settings',
-            title: 'Account Settings',
-            description: 'Privacy, security, and preferences',
-            iconBg: 'bg-morado-lakers',
-            showChevron: true
-        },
         {
             icon: 'help_outline',
             title: 'Help & Support',
             description: 'FAQ, contact us, report issues',
             iconBg: 'bg-morado-lakers',
-            showChevron: true
+            showChevron: true,
+            onClick: undefined
         },
         {
             icon: 'logout',
@@ -20,7 +25,8 @@ function SettingsSection() {
             description: '',
             iconBg: 'bg-[#E7E6E8]',
             showChevron: false,
-            iconColor: 'text-[#6F6975]'
+            iconColor: 'text-[#6F6975]',
+            onClick: handleLogout
         }
     ]
 
@@ -39,6 +45,7 @@ function SettingsSection() {
                     <div
                         key={index}
                         className="px-6 py-4 flex items-center gap-4 cursor-pointer hover:bg-[#F9F8FA] transition-colors"
+                        onClick={item.onClick}
                     >
                     
                         <div className={`w-12 h-12 ${item.iconBg} rounded-full flex items-center justify-center flex-shrink-0`}>

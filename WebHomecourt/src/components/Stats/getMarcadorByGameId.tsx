@@ -4,7 +4,7 @@ import { supabase } from "../../lib/supabase"
 export async function getMarcadorByGameId(game_id: number): Promise<MarcadorJuego>{
     const {data, error} = await supabase
         .schema("simulacion_juego")    
-        .from("v_marcador_activo")
+        .from("view_marcadores")
         .select("*")
         .eq("game_id", game_id)
         .single();
@@ -14,5 +14,3 @@ export async function getMarcadorByGameId(game_id: number): Promise<MarcadorJueg
     }
     return data
 }
-
-

@@ -9,7 +9,6 @@ const priorityStyles: Record<string, string> = {
 const statusStyles: Record<string, string> = {
   Pending:  'bg-gray-200 text-gray-600',
   Reviewed: 'bg-morado-disabled text-white',
-  Resolved: 'bg-morado-lakers text-white',
 }
 
 interface EventReportRowProps {
@@ -67,7 +66,7 @@ const EventReportRow = ({ id, event, location, host, pfp, reports, priority, sta
       </td>
       <td className="px-4 py-3 text-center">
         <button
-          onClick={() => navigate(`/admin/event/${id.replace('#', '')}`)}
+          onClick={() => navigate(`/admin/event/${id}`)}
           className="w-28 border border-morado-lakers text-morado-lakers px-4 py-1 rounded-lg text-sm font-medium hover:bg-morado-lakers hover:text-white transition-colors"
         >
           {status === 'Pending' ? 'Review' : 'View'}

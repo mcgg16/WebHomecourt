@@ -47,7 +47,7 @@ const ReportDetails = () => {
       }
       setReport(data)
 
-      const historyData = await getUserHistory(data.reported_user_id)
+      const historyData = await getUserHistory(data.reported_user_id, data.ureport_id)
       setUserHistory(historyData)
     }
     fetchReport()

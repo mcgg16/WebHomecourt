@@ -13,6 +13,7 @@ export type MarcadorJuego = {
   opposing_score: number;
   home: boolean;
   start_date: string;
+  game_end_time: string | null;
   seconds_elapsed: number;
   current_quarter: number;
   venue: string;
@@ -72,7 +73,8 @@ type MarcadorActivoProps = {
 
 //Componente de marcador
 function MarcadorActivo({juego}:MarcadorActivoProps){
-
+  
+  const isLive = juego.game_end_time == null;
   const segundos = useContadorTiempo(juego?.start_date);
 
     return(
@@ -80,11 +82,17 @@ function MarcadorActivo({juego}:MarcadorActivoProps){
           <article className="w-full px-4 md:px-5 py-5 bg-purple-900 rounded-2xl shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] outline outline-1 outline-offset-[-1px] outline-black/25 flex flex-col justify-start items-start gap-3 overflow-hidden">
             <header className="self-stretch flex justify-between items-center">
               <div className="flex justify-start items-center gap-3 md:gap-5">
-                <div className="px-2.5 md:px-4 py-1.5 md:py-2.5 bg-red-500 rounded-2xl flex justify-center items-center gap-2">
-                  <span className="material-symbols-outlined text-zinc-100 text-xl md:text-3xl">motion_photos_on</span>
+              {isLive && (
+                <div className="flex items-center gap-2">
+                  <div className="px-2.5 md:px-4 py-1.5 md:py-2.5 bg-red-500 rounded-2xl flex justify-center items-center gap-2">
+                    <span className="material-symbols-outlined text-zinc-100 text-xl md:text-3xl">
+                      motion_photos_on
+                    </span>
+                  </div>
+                  <h1 className="hidden md:block text-zinc-100 title1">Live game</h1>
                 </div>
-                <h1 className="hidden md:block text-zinc-100 title1">Live game</h1>
-              </div>
+              )}
+            </div>
               <h3 className="text-white text-xs md:text-sm">
                 {format(new Date(juego.start_date), "MMMM do, yyyy")}
               </h3>

@@ -6,8 +6,11 @@ import NextGame from '../components/Home/NextGame'
 import GameSummaryMiniGraph from '../components/Home/MiniStats'
 import MiniBrackets from '../components/Home/MiniBrakets'
 import RealtimeChat from '../components/RealtimeChat'
+import PrivateChat from '../components/Home/PrivateChat'
+import ListChats from '../components/Home/ListChats.tsx'
+import type { FriendChat } from '../components/Home/ListChats.tsx'
 
-
+type ChatView = "community" | "private-list" | "private-chat"
 //Obtener el id del ultimo partido
 export async function getPastGameId(): Promise<number> {
   const { data, error } = await supabase.rpc("get_last_game_id", {}) 
@@ -25,6 +28,8 @@ function Home() {
   const [pastgame, setPastGame] = useState<number | null> (null);
   const [miniStatsRefreshKey, setMiniStatsRefreshKey] = useState(0);
   const [isGameLoading, setIsGameLoading] = useState(true);
+  const [chatView, setChatView] = useState<ChatView>("community")
+  const [selectedChat, setSelectedChat] = useState<FriendChat | null>(null)
   useEffect(() => {
     const fetchJuego = async () =>{
         try {
@@ -75,6 +80,25 @@ function Home() {
       supabase.removeChannel(channel);
     };
   }, [])
+
+  const handleOpenCommunity = () => {
+    setChatView("community")
+    setSelectedChat(null)
+  }
+
+  const handleOpenPrivateList = () => {
+    setChatView("private-list")
+  }
+
+  const handleOpenPrivateChat = (chat: FriendChat) => {
+    setSelectedChat(chat)
+    setChatView("private-chat")
+  }
+
+  const handleBackToPrivateList = () => {
+    setChatView("private-list")
+  }
+
   console.log(`past game:${pastgame}`);
   return (
     <div>
@@ -92,10 +116,28 @@ function Home() {
           {!isGameLoading && <MiniBrackets />}
         </div>
         <div className="flex flex-col gap-6 h-full">
-          {/* <div className="bg-white rounded-2xl p-6">
-            AQUI VA EL CHAT EN TIEMPO REAL
-          </div> */}
-          <RealtimeChat gameId={juego?.game_id ?? null} isGameLoading={isGameLoading} />
+          {chatView === "community" && (
+            <RealtimeChat
+              gameId={juego?.game_id ?? null}
+              isGameLoading={isGameLoading}
+              onOpenPrivateList={handleOpenPrivateList}
+            />
+          )}
+
+          {chatView === "private-list" && (
+            <ListChats
+              onOpenCommunity={handleOpenCommunity}
+              onOpenPrivateChat={handleOpenPrivateChat}
+            />
+          )}
+
+          {chatView === "private-chat" && selectedChat && (
+            <PrivateChat
+              selectedChat={selectedChat}
+              onBack={handleBackToPrivateList}
+              onOpenCommunity={handleOpenCommunity}
+            />
+          )}
         </div>
       </div>
     </section>
