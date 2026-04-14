@@ -25,7 +25,7 @@ const StatsCards = () => {
   ]
   
   return (
-    <div className="grid grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       {cards.map((s) => (
         <div key={s.label} className="bg-white rounded-xl p-4 border border-gray-200 flex flex-col items-center">
           <h2 className="text-sm font-medium text-black text-center" style={{ fontSize: '20px' }} >{s.label}</h2>

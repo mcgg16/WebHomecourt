@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react';
 import Nav from '../components/Nav'
-import Button from '../components/button.tsx'
 import StatsCards from '../components/Admin/StatsCards'
 import UserReports from '../components/Admin/UserReports';
 import ActiveEvents from '../components/Admin/ActiveEvents.tsx'
@@ -66,10 +64,12 @@ export const getActiveEvents = async () => {
       event_name,
       max_players,
       allow_event,
+      date,
       created_user:user_laker!created_user_id(username, photo_url),
       court:court!court_id(name)
     `)
     .eq('allow_event', true)
+    .order('date', { ascending: true })
 
   if (error) {
     console.error('getActiveEvents error:', error)
@@ -96,7 +96,7 @@ export const getAdminStats = async () => {
   }
 }
 
-export const getUserHistory = async (userId: string) => {
+export const getUserHistory = async (userId: string, currentReportId: string) => {
   const { data, error } = await supabase
     .from('user_report')
     .select(`
@@ -111,6 +111,7 @@ export const getUserHistory = async (userId: string) => {
       event:event!event_id(event_name, date, max_players, court:court!court_id(name))
     `)
     .eq('reported_user_id', userId)
+    .neq('ureport_id', currentReportId)
     .order('created_at', { ascending: false })
 
   if (error) {
