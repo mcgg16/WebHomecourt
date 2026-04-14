@@ -51,7 +51,7 @@ export async function getPendingRatingPlayers(): Promise<PendingRateResponse | n
   const {data: { user },error: userError} = await supabase.auth.getUser()
 
   if (userError || !user?.id) {
-    throw new Error('No se pudo obtener el usuario actual')
+    throw new Error('')
   }
 
   const { data: pendingData, error: pendingError } = await supabase.rpc('get_pending_rating', {

@@ -12,6 +12,7 @@ import {
   type SkillLevel,
 } from "../services/apiEvents";
 import { useCourtTournamentFilters } from "../hooks/useCourtTournamentFilters";
+import { useAuth } from "../context/AuthContext";
 
 interface CourtTournamentsProps {
   selectedCourtId: number | null;
@@ -61,6 +62,7 @@ function formatCreatorLabel(userId: string): string {
 }
 
 export default function CourtTournaments({ selectedCourtId }: CourtTournamentsProps) {
+  const { user } = useAuth();
   const [tournaments, setTournaments] = useState<CourtTournament[]>([]);
   const [courts, setCourts] = useState<Court[]>([]);
   const [skillLevels, setSkillLevels] = useState<SkillLevel[]>([]);
@@ -374,7 +376,9 @@ export default function CourtTournaments({ selectedCourtId }: CourtTournamentsPr
           <div className="h-full min-h-62.5 rounded-[14px] border-[0.8px] border-[#E7E6E8] bg-[#F3F2F5] flex items-center justify-center">
             <div className="text-[#6F6975] text-base font-semibold">
               {selectedCourtId === null
-                ? "No hay torneos activos en este momento"
+                ? user
+                  ? "No hay torneos activos en este momento"
+                  : "Inicia sesionb para pdoer unirte a un juego"
                 : `No hay torneos para ${selectedCourtName}`}
             </div>
           </div>

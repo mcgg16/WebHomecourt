@@ -2,6 +2,8 @@ import Nav from '../components/Nav'
 import Map from "../components/Map"
 import CourtTournaments from '../components/CourtTournaments'
 import RatePlayersPanel from '../components/RatePlayersPanel'
+import YourActivityCard from '../components/YourActivityCard'
+import ActiveModerationCard from '../components/ActiveModerationCard'
 import { useEffect, useState } from 'react'
 import {
   getPendingRatingPlayers,
@@ -9,7 +11,8 @@ import {
   saveUserEventRating,
   type RatePlayer,
 } from '../services/apiRate'
-import { getCurrentUserReputation } from '../services/apiUser'
+import { getCurrentUserActivity, getCurrentUserReputation } from '../services/apiUser'
+import type { UserActivityStats } from '../services/apiUser'
 
 function LakersCourt() {
   const [players, setPlayers] = useState<RatePlayer[]>([])
@@ -22,6 +25,9 @@ function LakersCourt() {
   const [selectedCourtId, setSelectedCourtId] = useState<number | null>(null)
   const [userReputation, setUserReputation] = useState<number | null>(null)
   const [loadingReputation, setLoadingReputation] = useState(true)
+  const [userActivity, setUserActivity] = useState<UserActivityStats | null>(null)
+  const [loadingActivity, setLoadingActivity] = useState(true)
+  const [activityError, setActivityError] = useState<string | null>(null)
   const allPlayersRated =
     players.length > 0 && players.every((player) => Boolean(selectedRatings[player.id]))
 
@@ -82,6 +88,21 @@ function LakersCourt() {
     }
   }
 
+  const loadUserActivity = async () => {
+    setLoadingActivity(true)
+    setActivityError(null)
+
+    try {
+      const activity = await getCurrentUserActivity()
+      setUserActivity(activity)
+    } catch (error) {
+      setUserActivity(null)
+      setActivityError(error instanceof Error ? error.message : 'Error al cargar tu actividad')
+    } finally {
+      setLoadingActivity(false)
+    }
+  }
+
   const handlePlayerRating = (playerId: string, rating: number) => {
     setPlayersError(null)
     setSelectedRatings((prev) => ({
@@ -118,6 +139,7 @@ function LakersCourt() {
   useEffect(() => {
     loadPendingRatings()
     loadUserReputation()
+    loadUserActivity()
   }, [])
 
   return (
@@ -169,6 +191,16 @@ function LakersCourt() {
         </div>
         <div className="w-full mt-15">
           <CourtTournaments selectedCourtId={selectedCourtId} />
+        </div>
+        <div className="w-full max-w-315 mx-auto mt-6 mb-8 grid grid-cols-1 xl:grid-cols-2 gap-6">
+          <ActiveModerationCard />
+          <YourActivityCard
+            stats={userActivity}
+            loading={loadingActivity}
+            reputation={userReputation}
+            loadingReputation={loadingReputation}
+            error={activityError}
+          />
         </div>
       </div>
     </div>
