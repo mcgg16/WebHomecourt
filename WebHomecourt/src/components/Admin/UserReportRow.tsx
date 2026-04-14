@@ -9,7 +9,6 @@ const priorityStyles: Record<string, string> = {
 const statusStyles: Record<string, string> = {
   Pending:  'bg-gray-200 text-gray-600',
   Reviewed: 'bg-morado-disabled text-white',
-  Resolved: 'bg-morado-lakers text-white',
 }
 
 interface UserReportRowProps {
