@@ -21,22 +21,22 @@ const ActiveEvents= () => {
   return (
     <div className="bg-white rounded-xl border border-gray-200 overflow-hidden mt-6">
       <div className="bg-violet-950 px-5 py-5 flex items-center justify-between">
-        <p className="text-white font-bold text-[1.625rem] leading-tight">Active and Newly Created Events</p>
+        <p className="text-white font-bold leading-tight" style={{ fontSize: '26px' }}>Active Events</p>
         <div className="flex items-center gap-2 shrink-0 ml-4">
           <button
             onClick={() => setPage((p) => Math.max(0, p - 1))}
             disabled={page === 0}
-            className="text-white disabled:opacity-30 hover:opacity-75 transition text-xl px-2"
+            className="text-white disabled:opacity-30 hover:opacity-75 transition text-4xl px-4"
           >
             ‹
           </button>
-          <span className="text-white text-sm">
+          <span className="text-white text-base">
             {page + 1} / {totalPages || 1}
           </span>
           <button
             onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
             disabled={page >= totalPages - 1}
-            className="text-white disabled:opacity-30 hover:opacity-75 transition text-xl px-2"
+            className="text-white disabled:opacity-30 hover:opacity-75 transition text-4xl px-4"
           >
             ›
           </button>

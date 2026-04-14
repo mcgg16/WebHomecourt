@@ -2,13 +2,18 @@ import UserReportRow from './UserReportRow'
 import { getUserReports } from '../../pages/Admin'
 import { useEffect, useState } from 'react'
 
+const priorityOrder: Record<string, number> = { High: 1, Medium: 2, Low: 3 }
+
 const UserReportsTable = () => {
   const [reports, setReports] = useState<any[]>([])
 
   useEffect(() => {
     const fetchReports = async () => {
       const data = await getUserReports()
-      setReports(data)
+      const sorted = [...data].sort((a, b) =>
+        (priorityOrder[a.priority] ?? 99) - (priorityOrder[b.priority] ?? 99)
+      )
+      setReports(sorted)
     }
     fetchReports()
   }, [])
