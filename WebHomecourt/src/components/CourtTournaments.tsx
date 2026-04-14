@@ -374,7 +374,7 @@ export default function CourtTournaments({ selectedCourtId }: CourtTournamentsPr
           <div className="h-full min-h-62.5 rounded-[14px] border-[0.8px] border-[#E7E6E8] bg-[#F3F2F5] flex items-center justify-center">
             <div className="text-[#6F6975] text-base font-semibold">
               {selectedCourtId === null
-                ? "No hay torneos activos en este momento"
+                ? "Inicia sesion pra ver los torneos"
                 : `No hay torneos para ${selectedCourtName}`}
             </div>
           </div>
