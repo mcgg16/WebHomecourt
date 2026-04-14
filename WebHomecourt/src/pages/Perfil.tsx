@@ -42,6 +42,7 @@ function Perfil() {
                 })
             }
 
+           
             const eventsData = await getUpcomingEvents(userId)
             setEvents(eventsData)
         }
@@ -67,6 +68,7 @@ function Perfil() {
             <div className="flex flex-col items-center justify-center">
                 <Nav current="Perfil" />
             </div>
+
             <div className="px-[60px] py-[20px] flex flex-col gap-[31px]">
                 <ProfileHeader userId={userId} />
                 <FriendsList
