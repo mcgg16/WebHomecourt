@@ -45,15 +45,19 @@ const UserHistory = ({ reportedUser, history }: UserHistoryProps) => {
 
       <p className="font-medium pt-6 px-1" style={{ fontSize: '20px' }}>History</p>
       <div className="flex flex-col gap-3">
-        {history.map((h, i) => (
-          <HistoryCard
-            key={i}
-            event={h.event}
-            date={h.date}
-            rating={h.rating}
-            tags={h.tags ?? []}
-          />
-        ))}
+        {history.length === 0 ? (
+          <p className="text-gray-500 text-center py-4">No previous reports</p>
+        ) : (
+          history.map((h, i) => (
+            <HistoryCard
+              key={i}
+              event={h.event}
+              date={h.date}
+              rating={h.rating}
+              tags={h.tags ?? []}
+            />
+          ))
+        )}
       </div>
 
     </div>
