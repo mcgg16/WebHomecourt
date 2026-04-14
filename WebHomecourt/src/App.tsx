@@ -8,6 +8,7 @@ import LakersCourt from './pages/LakersCourt'
 import Juego from './pages/Juego'
 import Store from './pages/Store'
 import Perfil from './pages/Perfil'
+import EditarPerfil from './pages/EditarPerfil'
 import Admin from './pages/Admin';
 import ReportDetails from './pages/ReportDetails';
 import Login from './pages/Login'
@@ -32,6 +33,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/session" element={<UserSession />} /> 
+        <Route path="/editar-perfil" element={<EditarPerfil />} />
       </Routes>
     </BrowserRouter>
   )
