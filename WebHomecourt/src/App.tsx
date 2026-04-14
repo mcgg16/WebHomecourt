@@ -23,17 +23,17 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/agenda" element={<Agenda />} />
         <Route path="/brackets" element={<Brackets />} />
-        <Route path="/estadisticas" element={<Estadisticas game_id={2} />} />
+        <Route path="/estadisticas" element={<Estadisticas />} />
         <Route path="/lakerscourt" element={<LakersCourt />} />
         <Route path="/juego" element={<Juego />} />
         <Route path="/store" element={<Store />} />
         <Route path="/perfil" element={<Perfil />} />
-        <Route path="/editar-perfil" element={<EditarPerfil />} />
         <Route path="/admin" element={<Admin/>} />
         <Route path="/admin/report/:id" element={<ReportDetails />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/session" element={<UserSession />} /> 
+        <Route path="/editar-perfil" element={<EditarPerfil />} />
       </Routes>
     </BrowserRouter>
   )

@@ -81,25 +81,25 @@ function NextGame(){
 
     return(
 
-          <article className="w-full px-5 py-7 bg-purple-900 rounded-2xl shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] outline outline-1 outline-offset-[-1px] outline-black/25 flex flex-col justify-start items-start gap-3.5 overflow-hidden">
+          <article className="w-full px-4 md:px-5 py-5 bg-purple-900 rounded-2xl shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] outline outline-1 outline-offset-[-1px] outline-black/25 flex flex-col justify-start items-start gap-3 overflow-hidden">
             <header className="self-stretch flex justify-between items-center">
-              <div className="flex justify-start items-center gap-4 md:gap-7">
+              <div className="flex justify-start items-center gap-3 md:gap-5">
                 <h1 className="hidden md:block text-zinc-100 title1">Next game</h1>
               </div>
-              <h3 className="text-white text-sm md:text-base">
+              <h3 className="text-white text-xs md:text-sm">
                 {format(new Date(juego.start_date), "MMMM do, yyyy")}
               </h3>
             </header>
-            <div className="self-stretch px-2.5 py-5 md:py-7 bg-white rounded-2xl flex flex-col justify-center items-center gap-4 md:gap-5 overflow-hidden">
-              <div className="px-3 md:px-5 py-6 bg-white rounded-2xl flex flex-col items-center gap-5">
-                <div className="flex flex-col md:flex-row items-center gap-4 md:gap-10 text-center">
-                    <img className="w-12 h-12 md:w-16 md:h-16 object-contain" src={juego.opposing_team_logo}/>
-                    <h2 className="text-violet-950 text-lg md:text-2xl font-medium"> vs {juego.opposing_team_name} </h2>
+            <div className="self-stretch px-2 py-4 md:py-5 bg-white rounded-2xl flex flex-col justify-center items-center gap-3 md:gap-4 overflow-hidden">
+              <div className="px-2.5 md:px-4 py-4 md:py-5 bg-white rounded-2xl flex flex-col items-center gap-4">
+                <div className="flex flex-col md:flex-row items-center gap-3 md:gap-7 text-center">
+                    <img className="w-10 h-10 md:w-14 md:h-14 object-contain" src={juego.opposing_team_logo}/>
+                    <h2 className="text-violet-950 text-base md:text-xl font-medium"> vs {juego.opposing_team_name} </h2>
                 </div>
-                <div className="text-violet-950 text-4xl md:text-7xl font-black tracking-wider">
+                <div className="text-violet-950 text-3xl md:text-6xl font-black tracking-wider">
                     {formatTime(segundos)}
                 </div>
-                <p className="text-violet-950 text-xs md:text-base">
+                <p className="text-violet-950 text-[10px] md:text-sm">
                     {mostrarDias ? "Days : Hours : Minutes : Seconds" : "Hours : Minutes : Seconds"}
                 </p>
               </div>

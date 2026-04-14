@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getFriendsList } from '../../lib/Perfil/friends'
-import { usePresence } from '../../hooks/usePresence'
+import { usePresence } from '../../hooks/Perfil/usePresence'
 import FriendCard from './FriendCard'
 
 type Friend = {

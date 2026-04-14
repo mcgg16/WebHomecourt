@@ -24,6 +24,7 @@ function Home() {
   const [juego, setJuego] = useState<MarcadorJuego | null> (null);
   const [pastgame, setPastGame] = useState<number | null> (null);
   const [miniStatsRefreshKey, setMiniStatsRefreshKey] = useState(0);
+  const [isGameLoading, setIsGameLoading] = useState(true);
   useEffect(() => {
     const fetchJuego = async () =>{
         try {
@@ -32,6 +33,8 @@ function Home() {
         } catch (error) {
             console.error("Error loading marcador:", error)
             setJuego(null)
+    } finally {
+      setIsGameLoading(false)
         }
     };
     fetchJuego();
@@ -72,6 +75,7 @@ function Home() {
       supabase.removeChannel(channel);
     };
   }, [])
+  console.log(`past game:${pastgame}`);
   return (
     <div>
     <Nav current="Home" />
@@ -80,18 +84,18 @@ function Home() {
         {juego ? (<MarcadorActivo juego={juego} />
         ) : (<NextGame />)}
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
         <div className=" flex flex-col gap-6">
           {juego ? (<GameSummaryMiniGraph game_id={juego.game_id} refreshKey={miniStatsRefreshKey} pastGame={false}/>) 
           : (pastgame !== null && (<GameSummaryMiniGraph game_id={pastgame} refreshKey={miniStatsRefreshKey} pastGame={true}/>)
           )}
-          <MiniBrackets />
+          {!isGameLoading && <MiniBrackets />}
         </div>
-        <div className="flex flex-col gap-6 lg:sticky lg:top-6">
+        <div className="flex flex-col gap-6 h-full">
           {/* <div className="bg-white rounded-2xl p-6">
             AQUI VA EL CHAT EN TIEMPO REAL
           </div> */}
-          <RealtimeChat></RealtimeChat>
+          <RealtimeChat gameId={juego?.game_id ?? null} isGameLoading={isGameLoading} />
         </div>
       </div>
     </section>

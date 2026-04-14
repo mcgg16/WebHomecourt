@@ -11,6 +11,7 @@ type GameProp = {
 }
 
 function GameListItem({ games }: GameProp) {
+  const navigate = useNavigate(); // Switch to diff screen 
   const homeBaseCSS = "flex flex-col md:flex-row justify-center items-center bg-white rounded-lg outline-2 outline-gray-200 gap-5 mb-7 px-4 py-5 border-l-9";//"flex flex-row justify-left bg-white rounded-lg outline-2 outline-gray-200 gap-5 mb-7 px-4 py-5 border-l-9 justify-center"; // To inject css for home color bar
 
   if (!games.length) {
@@ -44,18 +45,13 @@ function GameListItem({ games }: GameProp) {
               <Button
                 text="Recap"
                 type="primary"
-                onClick={() => {}} // Update to use redirect 
+                onClick={() => navigate('/estadisticas', { state: { game_id: game.game_id } })} // Redirect by passing game id
                 className="w-full md:ml-5 m-2 md:mt-0"
               />
             </div>
-
-            
-
           </div>
         ))}
       </div>
-
-      
     </div>
   )
 }

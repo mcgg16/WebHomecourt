@@ -1,5 +1,8 @@
 import { supabase } from "../../lib/supabase"
 import { useEffect, useState } from "react"
+import { useAuth } from "../../hooks/Perfil/useAuth"
+const DEFAULT_AVATAR = "https://ptbcoxaguvbwprxdundz.supabase.co/storage/v1/object/public/user_images/profile_picture_default.png"
+
 
 // tipos
 type Gender = {
@@ -79,12 +82,12 @@ async function uploadPhoto(userId: string, file: File): Promise<string | null> {
 
 // componente principal
 interface EditProfileProps {
-    userId: string
     onBack: () => void
     onSave?: () => void
 }
 
-function EditProfile({ userId, onBack, onSave }: EditProfileProps) {
+function EditProfile({ onBack, onSave }: EditProfileProps) {
+    const { userId } = useAuth()
     const [loading, setLoading] = useState(true)
     const [saving, setSaving] = useState(false)
     const [genders, setGenders] = useState<Gender[]>([])
@@ -101,6 +104,7 @@ function EditProfile({ userId, onBack, onSave }: EditProfileProps) {
     const [photoPreview, setPhotoPreview] = useState<string | null>(null)
 
     useEffect(() => {
+        if (!userId) return
         async function fetchData() {
             setLoading(true)
             const [userData, genderData] = await Promise.all([
@@ -168,7 +172,9 @@ function EditProfile({ userId, onBack, onSave }: EditProfileProps) {
         )
     }
 
-    const displayPhoto = photoPreview || photoUrl || "/default-avatar.png"
+    const displayPhoto =
+    photoPreview ||
+    (photoUrl && photoUrl.trim() !== "" ? photoUrl : DEFAULT_AVATAR)
 
     return (
         <div className="bg-Background min-h-screen">
