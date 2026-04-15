@@ -7,7 +7,8 @@ import { supabase } from "../lib/supabase";
 interface AuthContextType {
   session: Session | null; // Sesión actualizada del usuario autenticado
   user: User | null; // Información del usuario autenticado
-  userType: number | null; // Tipo de usuario (0 = normal, 1 = admin)
+  userType: number | null; // NUEVOOO: Rol del usuario: null = visitante, 0 = usuario normal, 1 = admin
+  loading: boolean; // NUEVOOO: espera a que supabase confirme si hay sesión antes de cargar pantalla
   signIn: (email: string, password: string) => Promise<{ error: any } | undefined>; // Función para iniciar sesión
   signOut: () => Promise<void>; // Función para cerrar sesión
 }
@@ -25,43 +26,49 @@ type RequireSessionProps = {
 export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
-  const [userType, setUserType] = useState<number | null>(null)
+  const [userType, setUserType] = useState<number | null>(null); // NUEVOOO: Empieza en null hasta obtener el rol del usuario
+  const [loading, setLoading] = useState(true); // NUEVOOO: Empieza en true hasta que supabase confirme si hay sesión activa o no
 
   // Obtiene sesion actual y escucha cambios de autenticacion
   useEffect(() => {
     // Sesion actual de Supabase
-    supabase.auth.getSession().then(async ({ data }) => {
-    setSession(data.session)
-    setUser(data.session?.user ?? null)
-    
-    if (data.session?.user) {
-      const { data: userData } = await supabase
-        .from('user_laker')
-        .select('user_type')
-        .eq('user_id', data.session.user.id)
-        .single()
-      setUserType(userData?.user_type ?? null)
-    }
-  });
+    supabase.auth.getSession().then(({ data }) => {
+      setSession(data.session);
+      setUser(data.session?.user ?? null);
+      setLoading(false); // NUEVOOO: no espera el query de userType
 
-  const { data: listener } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-
-      // NUEVO: actualiza user_type en cada cambio de auth
-      if (session?.user) {
-        const { data: userData } = await supabase
-          .from("user_laker")
-          .select("user_type")
-          .eq("user_id", session.user.id)
-          .single();
-        setUserType(userData?.user_type ?? null);
-      } else {
-        setUserType(null); // NUEVO: limpia al cerrar sesión
+      // NUEVOOO: corre en background sin bloquear render
+      if (data.session?.user) {
+        supabase
+          .from('user_laker')
+          .select('user_type')
+          .eq('user_id', data.session.user.id)
+          .single()
+          .then(({ data: userData }) => {
+            setUserType(userData?.user_type ?? null);
+          });
       }
     });
 
-    
+    // Checa cambios en el estado de auth
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+
+      if (session?.user) {
+        supabase
+          .from('user_laker')
+          .select('user_type')
+          .eq('user_id', session.user.id)
+          .single()
+          .then(({ data: userData }) => {
+            setUserType(userData?.user_type ?? null);
+          });
+      } else {
+        setUserType(null);
+      }
+    });
+
     // Desuscribete para evitar memory leaks
     return () => {
       listener?.subscription.unsubscribe();
@@ -80,7 +87,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ session, user, userType, signIn, signOut }}> 
+    <AuthContext.Provider value={{ session, user, userType, loading, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );
@@ -100,23 +107,17 @@ export const useAuth = UserAuth;
 // Lanza error si el usuario no esta autenticado
 export const useRequiredSession = () => {
   const { session } = useAuth();
-
-  if (!session) {
-    throw new Error("This component requires an active session");
-  }
-
+  if (!session) throw new Error("This component requires an active session");
   return session;
 };
 
-// Renderiza contenido condicionalmente según si hay sesió¿on activa
+// Renderiza contenido condicionalmente según si hay sesión activa
 // Muestra fallback si no hay sesion, o children si la hay
 export const RequireSession = ({ children, fallback = null }: RequireSessionProps) => {
   const { session } = useAuth();
 
   // Si no hay sesion activa, renderiza el fallback
-  if (!session) {
-    return <>{fallback}</>;
-  }
+  if (!session) return <>{fallback}</>;
 
   // Si hay sesion, renderiza el contenido principal
   return <>{children}</>;
