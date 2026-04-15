@@ -359,19 +359,19 @@ export default function CourtTournaments({ selectedCourtId }: CourtTournamentsPr
 
       <div className="flex-1 min-h-0 overflow-y-auto">
         {loading ? (
-          <div className="h-full min-h-62.5 rounded-[14px] border-[0.8px] border-[#E7E6E8] bg-[#F3F2F5] flex items-center justify-center">
+          <div className="h-full min-h-62.5 rounded-[14px] border-[0.8px] border-[#E7E6E8] bg-Background flex items-center justify-center">
             <div className="text-morado-lakers text-base font-semibold">Cargando torneos...</div>
           </div>
         ) : null}
 
         {!loading && loadError ? (
-          <div className="h-full min-h-62.5 rounded-[14px] border-[0.8px] border-[#E7E6E8] bg-[#F3F2F5] flex items-center justify-center">
+          <div className="h-full min-h-62.5 rounded-[14px] border-[0.8px] border-[#E7E6E8] bg-Background flex items-center justify-center">
             <div className="text-red-600 text-base font-semibold">{loadError}</div>
           </div>
         ) : null}
 
         {!loading && !loadError && filteredTournaments.length === 0 ? (
-          <div className="h-full min-h-62.5 rounded-[14px] border-[0.8px] border-[#E7E6E8] bg-[#F3F2F5] flex items-center justify-center">
+          <div className="h-full min-h-62.5 rounded-[14px] border-[0.8px] border-[#E7E6E8] bg-Background flex items-center justify-center">
             <div className="text-Gris-Oscuro text-base font-semibold">
               {selectedCourtId === null
                 ? "Inicia sesion pra ver los torneos"
@@ -404,7 +404,7 @@ export default function CourtTournaments({ selectedCourtId }: CourtTournamentsPr
               return (
                 <article
                   key={tournament.event_id}
-                  className="min-h-62.5 rounded-[14px] bg-[#F3F2F5] border-[0.8px] border-transparent px-5 pt-5 pb-5.25"
+                  className="min-h-62.5 rounded-[14px] bg-Background border-[0.8px] border-transparent px-5 pt-5 pb-5.25"
                 >
                   <div className="flex flex-col">
                     <div className="flex items-start justify-between gap-3">
