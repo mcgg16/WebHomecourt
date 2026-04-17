@@ -50,8 +50,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
       }
     });
 
-    // Checa cambios en el estado de auth
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+  const { data: listener } = supabase.auth.onAuthStateChange(async (_event, session) => {
       setSession(session);
       setUser(session?.user ?? null);
 

@@ -20,15 +20,15 @@ export type GameItem = {
   opposite_score: number
 };
 
-// API call using current year and month and compares against the user selected date
-export async function getGames(year: number, month: number, day: number, hour: number, minutes: number, currentDate: Date) {
-  let allGames: Array<GameItem>; // For agenda to disp all games 
+// API call using current year and month and compares against the user selected date day: number, hour: number, minutes: number, currentDate: Date
+async function getGames(year: number, month: number) {
+  //let allGames: Array<GameItem>; // For agenda to disp all games 
   // Query using all of the info w parametrized values to obtain all of the games in the current year and month selected 
   // Connection to supabase, calls function in supabase passing param of year and month
   const { data, error } = await supabase.rpc("get_agenda_games", {
     p_year: year,
     p_month: (month + 1), // Must add month cause they're 0 based in typescript
-  })
+  });
 
   // Smth died
   if (error) {
@@ -58,14 +58,14 @@ export async function getGames(year: number, month: number, day: number, hour: n
     }
   });
 
-  return games
+  return games;
 }
 
 function Agenda() {
   const [showUpcoming, setShowUpcoming] = useState(true); // Shows upcoming default but can switch to past 
 
   // Default date set to right now
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const [currentDate] = useState(new Date());
   const [agendaDate, setAgendaDate] = useState(new Date());
 
   // All fetched games here
@@ -87,8 +87,8 @@ function Agenda() {
     // For me to see info
     console.log(`Selected year: ${year}, month: ${month}, day: ${day}, time: ${hour}:${minutes}`);
 
-    // Calls functs and then sets all the games found to the allGames arr here
-    getGames(year, month, day, hour, minutes, currentDate)
+    // Calls functs and then sets all the games found to the allGames arr here , day, hour, minutes, currentDate
+    getGames(year, month)
       .then(games => setAllGames(games));
 
     // Auto navigation to show view that best matches navigation altering

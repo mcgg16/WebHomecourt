@@ -9,14 +9,14 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState(''); // Future allow username
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  //const [error, setError] = useState('');
   const navigate = useNavigate();
-  const [user, setUser] = useState<any>(null);
+  //const [user, setUser] = useState<any>(null);
   const [errorMessage, setErrorMessage] = useState('');
 
   // Checks fields are filled in, and does the login w supabase 
   const handleLogin = async () => {
-    setError('');
+    //setError('');
     setErrorMessage('');
 
     // Checks fields are filled in
@@ -26,30 +26,22 @@ function Login() {
     } else if (email == '') {
       setErrorMessage("Please provide your email");
     } else if (password == '') {
-      setErrorMessage("Please provide your password")
+      setErrorMessage("Please provide your password");
     } else {
       // Filled everything in so tries to sign in now
       setLoading(true);
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) {
-        setError(error.message);
-        console.log(`Error iniciando sesión ${error.message}`);
+        //setError(error.message);
+        console.log(`Error iniciando sesión ${error}`);
         setErrorMessage("Incorrect credentials");
       } else {
         console.log(`Sí inició sesión`);
-        setUser(data.user); // Sets the user data 
+        //setUser(data.user); // Sets the user data 
         navigate('/');
       }
     }
   };
-
-  // Sends request to reset password
-  /*
-  const handleForgotten = async () => {
-    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: 'https://example.com/update-password',
-    })
-  }*/
 
   return (
     // Uses relative so that it calcs diff layout positions to this main div */}
@@ -100,12 +92,12 @@ function Login() {
           </div>
 
           {/* No functionality */}
-          <div className="flex justify-between items-center font-semibold">
+          <div className="flex justify-center items-center font-semibold"> {/*"flex justify-between items-center font-semibold">*/}
             <label className="flex items-center text-morado-lakers gap-2 ">
               <input type="checkbox" className="accent-morado-lakers" />
               Remember me
             </label>
-            <a href="#" className="text-morado-bajo hover:text-morado-lakers">Forgot Password?</a>
+            {/*<a href="#" className="text-morado-bajo hover:text-morado-lakers">Forgot Password?</a>*/}
           </div>
 
           {/* Google button */}
