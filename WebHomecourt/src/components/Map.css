@@ -1,0 +1,77 @@
+/* ─── Leaflet container ─── */
+.hc-map-canvas { font-family: "Graphik", sans-serif; background: #1a1a2e; }
+
+/* Reposicionar zoom controls */
+.hc-map-stage .leaflet-top.leaflet-left {
+  top: 50%;
+  right: 18px;
+  left: auto;
+  bottom: auto;
+  transform: translateY(-18%);
+}
+@media (max-width: 640px) {
+  .hc-map-stage .leaflet-top.leaflet-left {
+    right: 12px;
+    left: auto;
+    transform: translateY(-12%);
+  }
+}
+
+.hc-map-canvas .leaflet-control-zoom { border: 0; box-shadow: none; margin: 0; }
+.hc-map-canvas .leaflet-control-zoom a {
+  align-items: center;
+  background-color: #3b195ce6;
+  border: 0.8px solid #54258180;
+  border-radius: 10px;
+  color: #f3f2f3;
+  display: flex;
+  font-size: 20px;
+  font-weight: 500;
+  height: 36px;
+  justify-content: center;
+  line-height: 1;
+  margin: 8px 0 0;
+  position: relative;
+  width: 36px;
+}
+.hc-map-canvas .leaflet-control-zoom a:first-child,
+.hc-map-canvas .leaflet-control-zoom a:last-child {
+  border-radius: 10px;
+}
+
+/* Popups */
+.hc-map-canvas .leaflet-popup-content-wrapper {
+  color: #f5f1ff; border-radius: 12px; background: #2f1551;
+  box-shadow: 0 12px 22px rgba(26, 10, 47, 0.46);
+}
+.hc-map-canvas .leaflet-popup-tip { background: #2f1551; }
+.hc-map-canvas .leaflet-popup-content { margin: 12px 14px; line-height: 1.35; }
+
+/* ─── Court markers (generados por divIcon, fuera del árbol React) ─── */
+.hc-court-marker { background: transparent; border: 0; }
+
+.hc-court-marker__pin {
+  position: relative; width: 48px; height: 48px;
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 2px; border-radius: 999px;
+  border: 1.6px solid rgba(148, 130, 165, 0.5);
+  color: #f3f2f3; background: #542581;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -4px rgba(0,0,0,.1);
+  transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease;
+}
+.hc-court-marker--selected .hc-court-marker__pin {
+  border-color: #fcb136; background: #7e57d7; transform: scale(1.06);
+}
+.hc-court-marker--selected .hc-court-marker__badge { background: #fcb136; }
+
+.hc-court-marker__label {
+  display: block; min-width: 7px; font-family: "Graphik", sans-serif;
+  font-weight: 500; font-size: 10px; line-height: 15px;
+  text-align: center; color: #f3f2f3;
+}
+.hc-court-marker__badge {
+  position: absolute; top: -4px; right: -4px;
+  width: 20px; height: 20px; border-radius: 999px;
+  border: 1.6px solid #1a1a2e; background: #22c55e;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -2px rgba(0,0,0,.1);
+}

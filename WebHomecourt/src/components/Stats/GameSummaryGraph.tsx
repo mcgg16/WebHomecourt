@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 import { BarChart, Bar, XAxis, YAxis, Cell, LabelList, ResponsiveContainer,
 } from "recharts";
 
-const STATS = [
+export const STATS = [
   { key: "total_points",    label: "Points"    },
   { key: "total_rebounds",  label: "Rebounds"  },
   { key: "total_assists",   label: "Assists"   },

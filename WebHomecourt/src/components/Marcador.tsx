@@ -20,7 +20,7 @@ export async function getScoreboard(): Promise<MarcadorReal | null> {
     .schema("simulacion_juego")
     .from("v_scoreboard")
     .select("*")
-    .single()
+    .maybeSingle()
 
   if (error) {
     console.error("Supabase error:", error.message)
