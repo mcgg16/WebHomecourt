@@ -1,11 +1,12 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
+import type { GameItem } from '../../pages/Agenda'; // Has to be a type cosa estupida
+import SummaryScoreCard from '../Agenda/GameScore.tsx'; 
+import Button from '../button.tsx';
+import { format, parseISO } from 'date-fns'; // For date formattings 
 
-// Individual item for each game
-interface GameListItemProp {
-  game_id: string; 
-  home: boolean;
-  start_date: string; 
-  
+// Prop for the game item
+type GameProp = {
+  games: GameItem[]; 
 }
 
 function GameListItem({ games }: GameProp) {

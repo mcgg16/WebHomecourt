@@ -62,7 +62,7 @@ function formatCreatorLabel(userId: string): string {
 }
 
 export default function CourtTournaments({ selectedCourtId }: CourtTournamentsProps) {
-  const { user } = useAuth();
+  useAuth();
   const [tournaments, setTournaments] = useState<CourtTournament[]>([]);
   const [courts, setCourts] = useState<Court[]>([]);
   const [skillLevels, setSkillLevels] = useState<SkillLevel[]>([]);
@@ -239,8 +239,8 @@ export default function CourtTournaments({ selectedCourtId }: CourtTournamentsPr
         <p className="text-[14px] leading-5.25 text-[#11061A]">Filters</p>
 
         <div className="mt-3 grid grid-cols-1 xl:grid-cols-2 gap-3">
-          <div className="bg-[#F3F2F5] rounded-xl px-4 pt-3 pb-2.5">
-            <p className="text-[12px] leading-4.5 font-medium text-[#6F6975]">Age Range</p>
+          <div className="bg-Background rounded-xl px-4 pt-3 pb-2.5">
+            <p className="text-[12px] leading-4.5 font-medium text-Gris-Oscuro">Age Range</p>
 
             <div className="mt-1 flex items-center gap-3">
               <div className="relative h-6 flex-1">
@@ -280,12 +280,12 @@ export default function CourtTournaments({ selectedCourtId }: CourtTournamentsPr
                 />
               </div>
 
-              <p className="text-[13px] leading-[19.5px] text-[#11061A] whitespace-nowrap">{`${currentMinAge} - ${currentMaxAge}`}</p>
+              <p className="text-[13px] leading-[19.5px] text-[#11061A] whitespace-nowrap">{`${currentMinAge ?? '0'} - ${currentMaxAge ?? '-'}`}</p>
             </div>
           </div>
 
-          <div className="bg-[#F3F2F5] rounded-xl px-4 pt-3 pb-2.5">
-            <p className="text-[12px] leading-4.5 font-medium text-[#6F6975]">Skill Level</p>
+          <div className="bg-Background rounded-xl px-4 pt-3 pb-2.5">
+            <p className="text-[12px] leading-4.5 font-medium text-Gris-Oscuro">Skill Level</p>
             <div className="mt-1 flex items-center gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {skillFilterOptions.map((skillOption) => {
                 const isActive = skillLevelFilter === skillOption.value;
@@ -299,7 +299,7 @@ export default function CourtTournaments({ selectedCourtId }: CourtTournamentsPr
                       "h-6.5 rounded-lg px-3 text-[12px] leading-4.5 font-medium whitespace-nowrap",
                       isActive
                         ? "bg-morado-lakers text-[#F3F2F3]"
-                        : "bg-[#E7E6E8] text-[#6F6975]",
+                        : "bg-[#E7E6E8] text-Gris-Oscuro",
                     ].join(" ")}
                   >
                     {skillOption.label}
@@ -350,7 +350,7 @@ export default function CourtTournaments({ selectedCourtId }: CourtTournamentsPr
         </label>
 
       {selectedCourtId !== null ? (
-        <div className="text-[13px] leading-[19.5px] text-[#6F6975]">
+        <div className="text-[13px] leading-[19.5px] text-Gris-Oscuro">
           Mostrando torneos de <span className="text-morado-lakers">{selectedCourtName}</span>
         </div>
       ) : null}
@@ -361,24 +361,22 @@ export default function CourtTournaments({ selectedCourtId }: CourtTournamentsPr
 
       <div className="flex-1 min-h-0 overflow-y-auto">
         {loading ? (
-          <div className="h-full min-h-62.5 rounded-[14px] border-[0.8px] border-[#E7E6E8] bg-[#F3F2F5] flex items-center justify-center">
+          <div className="h-full min-h-62.5 rounded-[14px] border-[0.8px] border-[#E7E6E8] bg-Background flex items-center justify-center">
             <div className="text-morado-lakers text-base font-semibold">Cargando torneos...</div>
           </div>
         ) : null}
 
         {!loading && loadError ? (
-          <div className="h-full min-h-62.5 rounded-[14px] border-[0.8px] border-[#E7E6E8] bg-[#F3F2F5] flex items-center justify-center">
+          <div className="h-full min-h-62.5 rounded-[14px] border-[0.8px] border-[#E7E6E8] bg-Background flex items-center justify-center">
             <div className="text-red-600 text-base font-semibold">{loadError}</div>
           </div>
         ) : null}
 
         {!loading && !loadError && filteredTournaments.length === 0 ? (
-          <div className="h-full min-h-62.5 rounded-[14px] border-[0.8px] border-[#E7E6E8] bg-[#F3F2F5] flex items-center justify-center">
-            <div className="text-[#6F6975] text-base font-semibold">
+          <div className="h-full min-h-62.5 rounded-[14px] border-[0.8px] border-[#E7E6E8] bg-Background flex items-center justify-center">
+            <div className="text-Gris-Oscuro text-base font-semibold">
               {selectedCourtId === null
-                ? user
-                  ? "No hay torneos activos en este momento"
-                  : "Inicia sesionb para pdoer unirte a un juego"
+                ? "Inicia sesion pra ver los torneos"
                 : `No hay torneos para ${selectedCourtName}`}
             </div>
           </div>
@@ -408,7 +406,7 @@ export default function CourtTournaments({ selectedCourtId }: CourtTournamentsPr
               return (
                 <article
                   key={tournament.event_id}
-                  className="min-h-62.5 rounded-[14px] bg-[#F3F2F5] border-[0.8px] border-transparent px-5 pt-5 pb-5.25"
+                  className="min-h-62.5 rounded-[14px] bg-Background border-[0.8px] border-transparent px-5 pt-5 pb-5.25"
                 >
                   <div className="flex flex-col">
                     <div className="flex items-start justify-between gap-3">
@@ -416,20 +414,20 @@ export default function CourtTournaments({ selectedCourtId }: CourtTournamentsPr
                         <div className="text-[16px] leading-6 font-normal text-[#11061A] ">
                           {tournament.event_name}
                         </div>
-                        <div className="mt-2 flex items-center gap-1.5 text-[12px] leading-4.5 text-[#6F6975]">
+                        <div className="mt-2 flex items-center gap-1.5 text-[12px] leading-4.5 text-Gris-Oscuro">
                           <LuMapPin size={12} />
                           {courtName}
                         </div>
                       </div>
                       <div className="text-right shrink-0">
                         <div className="text-[14px] leading-5.25 text-[#11061A]">{dateLabel}</div>
-                        <div className="text-[12px] leading-4.5 text-[#6F6975]">{timeLabel}</div>
+                        <div className="text-[12px] leading-4.5 text-Gris-Oscuro">{timeLabel}</div>
                       </div>
                     </div>
 
                     <div className="mt-4 flex flex-col gap-1.5">
                       <div className="flex items-center justify-between text-[13px] leading-[19.5px]">
-                        <span className="text-[#6F6975]">Players</span>
+                        <span className="text-Gris-Oscuro">Players</span>
                         <span className="text-[#11061A]">
                           {currentPlayers}/{safeMaxPlayers}
                         </span>
@@ -442,11 +440,11 @@ export default function CourtTournaments({ selectedCourtId }: CourtTournamentsPr
                       </div>
                     </div>
 
-                    <div className="mt-4 border-b-[0.8px] border-[#E7E6E8] pb-3 text-[12px] leading-4.5 text-[#6F6975]">
+                    <div className="mt-4 border-b-[0.8px] border-[#E7E6E8] pb-3 text-[12px] leading-4.5 text-Gris-Oscuro">
                       Age: <span className="text-morado-lakers">{`${tournament.min_age}-${tournament.max_age}`}</span> | Skill level: <span className="text-morado-lakers">{getSkillLabel(tournament.skill_level_id)}</span>
                     </div>
 
-                    <div className="mt-3 border-b-[0.8px] border-[#E7E6E8] pb-3 text-[12px] leading-4.5 text-[#6F6975]">
+                    <div className="mt-3 border-b-[0.8px] border-[#E7E6E8] pb-3 text-[12px] leading-4.5 text-Gris-Oscuro">
                       Created by: <span className="text-morado-lakers">{formatCreatorLabel(tournament.created_user_id)}</span>
                     </div>
 

@@ -1,8 +1,7 @@
-import { supabase } from "../../lib/supabase"
 import type {TeamStat} from "./getTeamStatsByGameId"
 import {getTeamStatsByGameId} from "./getTeamStatsByGameId"
 import { useEffect, useState } from "react"
-import { BarChart, Bar, XAxis, YAxis, Cell, LabelList, ResponsiveContainer,
+import { BarChart, Bar, XAxis, YAxis, LabelList, ResponsiveContainer,
 } from "recharts";
 
 export const STATS = [
@@ -50,7 +49,7 @@ function GameSummaryGraph({ game_id }: { game_id: number}) {
 
               <Bar dataKey="teamA" stackId="a" fill="#542581" radius={[18, 0, 0, 18]}>
                 <LabelList
-                  valueAccessor={(entry: any) => teamA[key]}
+                  valueAccessor={(_: any) => teamA[key]}
                   position="insideLeft"
                   style={{ fill: "#fff", fontSize: 13, fontWeight: 500 }}
                 />
@@ -58,7 +57,7 @@ function GameSummaryGraph({ game_id }: { game_id: number}) {
 
               <Bar dataKey="teamB" stackId="a" fill="#A09CA4" radius={[0, 18, 18, 0]}>
                 <LabelList
-                  valueAccessor={(entry: any) => teamB[key]}
+                  valueAccessor={(_: any) => teamB[key]}
                   position="insideRight"
                   style={{ fill: "#542581", fontSize: 13, fontWeight: 500 }}
                 />
