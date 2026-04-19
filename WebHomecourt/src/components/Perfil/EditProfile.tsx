@@ -106,6 +106,8 @@ function EditProfile({ onBack, onSave }: EditProfileProps) {
     useEffect(() => {
         if (!userId) return
         async function fetchData() {
+            if (!userId) return
+
             setLoading(true)
             const [userData, genderData] = await Promise.all([
                 getUserData(userId),
@@ -135,6 +137,8 @@ function EditProfile({ onBack, onSave }: EditProfileProps) {
     }
 
     const handleSave = async () => {
+        if (!userId) return
+
         setSaving(true)
 
         let newPhotoUrl = photoUrl

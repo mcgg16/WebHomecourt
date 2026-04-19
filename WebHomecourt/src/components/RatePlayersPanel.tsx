@@ -53,7 +53,7 @@ export default function RatePlayersPanel({
         </div>
 
         <Button
-          type={submitDisabled ? "primary-disabled" : "primary"}
+          type={submitDisabled ? "primarydisable" : "primary"}
           text={submittingRatings ? "Enviando calificaciones..." : submitText}
           onClick={submitDisabled ? () => {} : onSubmit}
           className={[

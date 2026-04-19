@@ -28,6 +28,8 @@ function Perfil() {
         if (!userId) return
 
         async function loadData() {
+            if (!userId) return
+
             const { data: userData } = await supabase
                 .from('user_laker')
                 .select('user_id, nickname, photo_url')
@@ -42,7 +44,7 @@ function Perfil() {
                 })
             }
 
-           
+
             const eventsData = await getUpcomingEvents(userId)
             setEvents(eventsData)
         }
