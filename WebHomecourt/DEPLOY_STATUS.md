@@ -16,7 +16,7 @@ Ninguno
 # Sprint 2
 ## Entornos configurados
 - Producción:   https://mcgg-lakers-homecourt.vercel.app  (rama: main)
-- Desarrollo:   https://mcgg-dev-lakers-homecourt.vercel.app  (rama: develop)
+- Desarrollo:   https://mcgg-dev-lakers-homecourt.vercel.app  (rama: dev)
 
 ## Supabase
 - Proyecto PROD: https://supabase.com/dashboard/project/esabzagsyxpivebqfbqt 
