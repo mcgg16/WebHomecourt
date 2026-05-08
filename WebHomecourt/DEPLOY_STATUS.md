@@ -1,4 +1,4 @@
-# Deployment Sprint 1
+# Sprint 1
 ## Estado del deploy
 Vercel sí está conectado al repo con variables de entorno
 Deployment producción main: https://mcgg-lakers-homecourt.vercel.app/
@@ -26,3 +26,11 @@ Ninguno
 - [X] Creé un registro en DEV y NO aparece en PROD
 - [X] El banner de entorno muestra colores distintos en cada URL
 - [X] Las migraciones están aplicadas en ambos proyectos
+
+# Sprint 3
+## Responsables de entornos
+| Entorno | Rama | Responsable | URL |
+|---------|------|-------------|-----|
+| Producción | `main` | @mcgg16 | https://mcgg-lakers-homecourt.vercel.app |
+| Desarrollo | `develop` | @mcgg16 | https://mcgg-dev-lakers-homecourt.vercel.app |
+
