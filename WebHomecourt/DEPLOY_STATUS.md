@@ -34,3 +34,24 @@ Ninguno
 | Producción | `main` | @mcgg16 | https://mcgg-lakers-homecourt.vercel.app |
 | Desarrollo | `develop` | @mcgg16 | https://mcgg-dev-lakers-homecourt.vercel.app |
 
+## Branch protection
+- [ ] main: requiere PR + 1 aprobación configurado 
+- [ ] develop: requiere PR + 1 aprobación configurado
+- [X] Verificado: push directo a main falla con error GH006
+
+## Roles del equipo
+- Dueño de main:    @mcgg16
+- Dueño de develop: @mcgg16
+
+## Evidencia de flujo de PR
+- [ ] Al menos 1 PR mergeado a develop con review aprobado
+      Link: https://github.com/mcgg16/WebHomecourt/pull/9
+- [ ] Al menos 1 PR de develop → main
+      Link: https://github.com/.../pull/...
+
+## Conventional Commits
+- [ ] Los últimos 5 commits del repo siguen el formato
+      (verificar con: git log --oneline -5)
+
+## Que falta
+Actualmente está deshabilitada que se requiera una aprobación adicional configurada porque solo yo estoy trabajando sobre este repositorio, por lo que no hay alguien más que esté revisando mi código. 
