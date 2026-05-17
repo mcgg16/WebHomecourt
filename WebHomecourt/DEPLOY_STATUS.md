@@ -53,7 +53,7 @@ Ninguno
 - [-] Los últimos 5 commits del repo siguen el formato
       (verificar con: git log --oneline -5)
 
-## Que falta
+## Para continuar
 Actualmente está deshabilitada que se requiera una aprobación adicional configurada porque solo yo estoy trabajando sobre este repositorio, por lo que no hay alguien más que esté revisando mi código. 
 Adicionalmente, este trabajo sigue el flujo de feature -> dev -> QA -> staging -> main
 También me falta seguir más el formato de keyword: descripción, pero espero mostrar estos en los siguientes sprints. 
