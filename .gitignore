@@ -2,3 +2,5 @@
 supabase/
 schema.sql
 seed.sql
+.vercel
+.env*.local

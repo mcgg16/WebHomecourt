@@ -16,7 +16,7 @@ Ninguno
 # Sprint 2
 ## Entornos configurados
 - Producción:   https://mcgg-lakers-homecourt.vercel.app  (rama: main)
-- Desarrollo:   https://mcgg-dev-lakers-homecourt.vercel.app  (rama: dev)
+- Desarrollo:   https://dev-mcgg-lakers-homecourt.vercel.app/  (rama: dev)
 
 ## Supabase
 - Proyecto PROD: https://supabase.com/dashboard/project/esabzagsyxpivebqfbqt 
@@ -32,7 +32,7 @@ Ninguno
 | Entorno | Rama | Responsable | URL |
 |---------|------|-------------|-----|
 | Producción | `main` | @mcgg16 | https://mcgg-lakers-homecourt.vercel.app |
-| Desarrollo | `develop` | @mcgg16 | https://mcgg-dev-lakers-homecourt.vercel.app |
+| Desarrollo | `develop` | @mcgg16 | https://dev-mcgg-lakers-homecourt.vercel.app/ |
 
 ## Branch protection
 - [ ] main: requiere PR + 1 aprobación configurado 
