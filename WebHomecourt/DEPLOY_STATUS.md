@@ -64,3 +64,24 @@ Me quedé en paso 6, hubo problemas con los tests
 ## Para continuar 
 Actualmente está deshabilitada que se requiera una aprobación adicional configurada porque solo yo estoy trabajando sobre este repositorio, por lo que no hay alguien más que esté revisando mi código. 
 No pude encontrar el require branches to be up to date para protecciones de staging.
+
+## Entornos
+- DEV:     https://_____________.vercel.app  (rama: develop)
+- Staging: https://_____________.vercel.app  (rama: staging)
+- Prod:    https://_____________.vercel.app  (rama: main)
+
+## CI/CD
+- [ ] Los 4 workflows están en .github/workflows/
+- [X] El pipeline de DEV pasó al menos una vez (link al run exitoso):
+      https://github.com/mcgg16/WebHomecourt/actions/runs/26013883735 
+- [ ] El pipeline de STAGING pasó al menos una vez:
+      https://github.com/.../actions/runs/...
+- [ ] El pipeline de PROD pausó esperando aprobación y se aprobó:
+      https://github.com/.../actions/runs/...
+
+## Migraciones automáticas
+- [ ] Se puede ver en el log del pipeline que `supabase db push` corrió
+
+## Aprobación manual
+- [ ] El environment "production" tiene required reviewers configurado
+- [ ] Se hizo al menos una aprobación manual de un deploy a prod

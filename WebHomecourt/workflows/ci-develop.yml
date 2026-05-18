@@ -6,7 +6,7 @@ name: CI/CD — DEV
 
 on:
   push:
-    branches: [develop]
+    branches: [dev]
 
 # Un solo deploy a la vez en este entorno
 concurrency:
@@ -29,11 +29,11 @@ jobs:
 
       - name: Instalar dependencias
         run: npm ci
-        # working-directory: frontend
+        working-directory: WebHomecourt
 
       - name: Ejecutar tests
         run: npm test
-        # working-directory: frontend
+        working-directory: WebHomecourt
 
   # ── 2. Migraciones ───────────────────────────────────────────────────────────
   migrate:
@@ -42,16 +42,26 @@ jobs:
     needs: test
     environment: development
 
-    steps:
-      - uses: actions/checkout@v4
+  steps:
+    - uses: actions/checkout@v4
 
-      - name: Instalar Supabase CLI
-        uses: supabase/setup-cli@v1
-        with:
-          version: latest
+    - name: Instalar Supabase CLI
+      uses: supabase/setup-cli@v1
+      with:
+        version: latest
 
-      - name: Aplicar migraciones
-        run: supabase db push --db-url "${{ secrets.DEV_DB_URL }}"
+    - name: Link proyecto Supabase
+      run: supabase link --project-ref ${{ secrets.DEV_PARTIAL_URL }} 
+      working-directory: WebHomecourt
+      env:
+        SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+
+    - name: Aplicar migraciones
+      run: supabase db push
+      working-directory: WebHomecourt
+      env:
+        SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        SUPABASE_DB_PASSWORD: ${{ secrets.DEV_DB_PASSWORD }}
 
   # ── 3. Deploy a Vercel ───────────────────────────────────────────────────────
   deploy:
@@ -70,9 +80,11 @@ jobs:
 
       - name: Instalar dependencias
         run: npm ci
+        working-directory: WebHomecourt
 
       - name: Instalar Vercel CLI
         run: npm install -g vercel
+        working-directory: WebHomecourt
 
       - name: Pull configuración de Vercel
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
@@ -91,9 +103,9 @@ jobs:
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.DEV_SUPABASE_ANON_KEY }}
           NEXT_PUBLIC_ENV_NAME: development
           # Path B (Vite) — descomentar si aplica
-          # VITE_SUPABASE_URL: ${{ secrets.DEV_SUPABASE_URL }}
-          # VITE_SUPABASE_ANON_KEY: ${{ secrets.DEV_SUPABASE_ANON_KEY }}
-          # VITE_ENV_NAME: development
+          VITE_SUPABASE_URL: ${{ secrets.DEV_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.DEV_SUPABASE_ANON_KEY }}
+          VITE_ENV_NAME: development
           # Path C (Vite + backend) — descomentar si aplica
           # VITE_BACKEND_URL: ${{ secrets.DEV_BACKEND_URL }}
           # VITE_ENV_NAME: development
