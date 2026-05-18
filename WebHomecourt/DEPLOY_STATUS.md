@@ -16,7 +16,7 @@ Ninguno
 # Sprint 2
 ## Entornos configurados
 - Producción:   https://mcgg-lakers-homecourt.vercel.app  (rama: main)
-- Desarrollo:   https://mcgg-dev-lakers-homecourt.vercel.app  (rama: dev)
+- Desarrollo:   https://dev-mcgg-lakers-homecourt.vercel.app/  (rama: dev)
 
 ## Supabase
 - Proyecto PROD: https://supabase.com/dashboard/project/esabzagsyxpivebqfbqt 
@@ -32,7 +32,7 @@ Ninguno
 | Entorno | Rama | Responsable | URL |
 |---------|------|-------------|-----|
 | Producción | `main` | @mcgg16 | https://mcgg-lakers-homecourt.vercel.app |
-| Desarrollo | `develop` | @mcgg16 | https://mcgg-dev-lakers-homecourt.vercel.app |
+| Desarrollo | `develop` | @mcgg16 | https://dev-mcgg-lakers-homecourt.vercel.app/ |
 
 ## Branch protection
 - [ ] main: requiere PR + 1 aprobación configurado 
@@ -59,3 +59,8 @@ Adicionalmente, este trabajo sigue el flujo de feature -> dev -> QA -> staging -
 También me falta seguir más el formato de keyword: descripción, pero espero mostrar estos en los siguientes sprints. 
 
 # Sprint 4
+Me quedé en paso 4 tengo mucho sueño
+
+## Para continuar
+Actualmente está deshabilitada que se requiera una aprobación adicional configurada porque solo yo estoy trabajando sobre este repositorio, por lo que no hay alguien más que esté revisando mi código. 
+No pude encontrar el require branches to be up to date. 
