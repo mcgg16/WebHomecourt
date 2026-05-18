@@ -44,14 +44,23 @@ Ninguno
 - Dueño de develop: @mcgg16
 
 ## Evidencia de flujo de PR
-- [ ] Al menos 1 PR mergeado a develop con review aprobado
+- [X] Al menos 1 PR mergeado a develop con review aprobado
       Link: https://github.com/mcgg16/WebHomecourt/pull/9
-- [ ] Al menos 1 PR de develop → main
+- [X] Al menos 1 PR de develop → main
       Link: https://github.com/.../pull/...
 
 ## Conventional Commits
-- [ ] Los últimos 5 commits del repo siguen el formato
+- [-] Los últimos 5 commits del repo siguen el formato
       (verificar con: git log --oneline -5)
 
 ## Que falta
 Actualmente está deshabilitada que se requiera una aprobación adicional configurada porque solo yo estoy trabajando sobre este repositorio, por lo que no hay alguien más que esté revisando mi código. 
+Adicionalmente, este trabajo sigue el flujo de feature -> dev -> QA -> staging -> main
+También me falta seguir más el formato de keyword: descripción, pero espero mostrar estos en los siguientes sprints. 
+
+# Sprint 4
+Me quedé en paso 6, hubo problemas con los tests
+
+## Para continuar 
+Actualmente está deshabilitada que se requiera una aprobación adicional configurada porque solo yo estoy trabajando sobre este repositorio, por lo que no hay alguien más que esté revisando mi código. 
+No pude encontrar el require branches to be up to date para protecciones de staging.
