@@ -1,0 +1,117 @@
+# CI/CD — DEV
+# Se ejecuta al mergear a la rama develop.
+# Orden: tests → migraciones → build → deploy a entorno DEV.
+
+name: CI/CD — DEV
+
+on:
+  push:
+    branches: [dev]
+
+# Un solo deploy a la vez en este entorno
+concurrency:
+  group: deploy-dev
+  cancel-in-progress: true
+
+jobs:
+  # ── 1. Tests ─────────────────────────────────────────────────────────────────
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+        working-directory: WebHomecourt
+
+      - name: Ejecutar tests
+        run: npm test
+        working-directory: WebHomecourt
+
+  # ── 2. Migraciones ───────────────────────────────────────────────────────────
+  migrate:
+    name: Aplicar migraciones → DEV
+    runs-on: ubuntu-latest
+    needs: test
+    environment: development
+
+  steps:
+    - uses: actions/checkout@v4
+
+    - name: Instalar Supabase CLI
+      uses: supabase/setup-cli@v1
+      with:
+        version: latest
+
+    - name: Link proyecto Supabase
+      run: supabase link --project-ref ${{ secrets.DEV_PARTIAL_URL }} 
+      working-directory: WebHomecourt
+      env:
+        SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+
+    - name: Aplicar migraciones
+      run: supabase db push
+      working-directory: WebHomecourt
+      env:
+        SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        SUPABASE_DB_PASSWORD: ${{ secrets.DEV_DB_PASSWORD }}
+
+  # ── 3. Deploy a Vercel ───────────────────────────────────────────────────────
+  deploy:
+    name: Deploy → DEV
+    runs-on: ubuntu-latest
+    needs: migrate
+    environment: development
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+        working-directory: WebHomecourt
+
+      - name: Instalar Vercel CLI
+        run: npm install -g vercel
+        working-directory: WebHomecourt
+
+      - name: Pull configuración de Vercel
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: Build
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          # Variables de la app para el build
+          # Path A (Next.js)
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.DEV_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.DEV_SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_ENV_NAME: development
+          # Path B (Vite) — descomentar si aplica
+          VITE_SUPABASE_URL: ${{ secrets.DEV_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.DEV_SUPABASE_ANON_KEY }}
+          VITE_ENV_NAME: development
+          # Path C (Vite + backend) — descomentar si aplica
+          # VITE_BACKEND_URL: ${{ secrets.DEV_BACKEND_URL }}
+          # VITE_ENV_NAME: development
+
+      - name: Deploy (preview)
+        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
