@@ -7,7 +7,7 @@ name: CI — Pull Request
 
 on:
   pull_request:
-    branches: [develop, staging, main]
+    branches: [dev, staging, main]
 
 # Cancelar runs anteriores si se pushea nuevamente al mismo PR
 concurrency:
@@ -32,10 +32,11 @@ jobs:
 
       - name: Instalar dependencias
         run: npm ci
-        # working-directory: frontend  ← descomentar si usas subcarpeta
+        working-directory: WebHomecourt
 
       - name: Ejecutar tests
         run: npm test
+        working-directory: WebHomecourt
         # working-directory: frontend
         # Si no tienes tests aún, reemplazar con:
         # run: echo "Sin tests por ahora — agregar antes del Sprint 5"
@@ -55,9 +56,11 @@ jobs:
 
       - name: Instalar dependencias
         run: npm ci
+        working-directory: WebHomecourt
 
       - name: Lint
         run: npm run lint
+        working-directory: WebHomecourt
         # Si no tienes lint configurado, reemplazar con:
         # run: echo "Sin lint configurado aún"
 
@@ -76,16 +79,18 @@ jobs:
 
       - name: Instalar dependencias
         run: npm ci
+        working-directory: WebHomecourt
 
       - name: Verificar build
         run: npm run build
+        working-directory: WebHomecourt
         env:
           # Variables mínimas para que el build no falle por variables faltantes
           # Path A (Next.js)
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.DEV_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.DEV_SUPABASE_ANON_KEY }}
           # Path B (Vite) — descomentar si aplica
-          # VITE_SUPABASE_URL: ${{ secrets.DEV_SUPABASE_URL }}
-          # VITE_SUPABASE_ANON_KEY: ${{ secrets.DEV_SUPABASE_ANON_KEY }}
+          VITE_SUPABASE_URL: ${{ secrets.DEV_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.DEV_SUPABASE_ANON_KEY }}
           # Path C (Vite con backend) — descomentar si aplica
           # VITE_BACKEND_URL: ${{ secrets.DEV_BACKEND_URL }}
