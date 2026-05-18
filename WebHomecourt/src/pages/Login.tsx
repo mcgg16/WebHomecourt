@@ -74,7 +74,7 @@ function Login() {
           className="h-16 object-contain mb-6"
         />
 
-        <h1 className="text-morado-lakers mb-1 text-center">Hi, Lakers fan!</h1>
+        <h1 className="text-morado-lakers mb-1 text-center">Hi, Testing Lakers fan!</h1>
         <p className="text-gray-600 mb-6">So glad you're back.</p>
 
         {/* Capture data, first email/username */}
