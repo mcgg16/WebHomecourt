@@ -125,8 +125,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.G_TOKEN }}
+        #with:
+        #  token: ${{ secrets.G_TOKEN }}
 
       - name: Tag con timestamp
         run: |
@@ -134,5 +134,5 @@ jobs:
           git tag "$TAG"
           git push origin "$TAG"
           echo "Release: $TAG"
-        #env:
-          #GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
