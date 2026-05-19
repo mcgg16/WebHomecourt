@@ -125,6 +125,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.G_TOKEN }}
 
       - name: Tag con timestamp
         run: |
