@@ -74,14 +74,18 @@ No pude encontrar el require branches to be up to date para protecciones de stag
 - [ ] Los 4 workflows están en .github/workflows/
 - [X] El pipeline de DEV pasó al menos una vez (link al run exitoso):
       https://github.com/mcgg16/WebHomecourt/actions/runs/26013883735 
-- [ ] El pipeline de STAGING pasó al menos una vez:
-      https://github.com/.../actions/runs/...
-- [ ] El pipeline de PROD pausó esperando aprobación y se aprobó:
-      https://github.com/.../actions/runs/...
+- [X] El pipeline de STAGING pasó al menos una vez:
+      https://github.com/mcgg16/WebHomecourt/actions/runs/26068022546 
+- [X] El pipeline hacia MAIN: 
+      https://github.com/mcgg16/WebHomecourt/actions/runs/26068642171 
+- [X] El pipeline de PROD pausó esperando aprobación y se aprobó:
+      https://github.com/mcgg16/WebHomecourt/actions/runs/26068664192 
 
 ## Migraciones automáticas
-- [ ] Se puede ver en el log del pipeline que `supabase db push` corrió
+- [-] Se puede ver en el log del pipeline que `supabase db push` corrió
 
 ## Aprobación manual
-- [ ] El environment "production" tiene required reviewers configurado
-- [ ] Se hizo al menos una aprobación manual de un deploy a prod
+- [X] El environment "production" tiene required reviewers configurado
+    Sí pero soy yo porque soy la única integrante. 
+- [X] Se hizo al menos una aprobación manual de un deploy a prod
+    Done
