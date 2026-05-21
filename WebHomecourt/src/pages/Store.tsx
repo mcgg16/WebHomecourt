@@ -76,7 +76,7 @@ function Store() {
     }
   }, [storeUser]);
 
-  // To show new creds once has more money 
+  // To show new creds once has more money, useless comment to run through phases
   function handleCreditsUpdated(newCredits: number) {
     setStoreUser((prev) => ({
       ...prev,
