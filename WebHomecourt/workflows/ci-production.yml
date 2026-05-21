@@ -135,4 +135,4 @@ jobs:
           git push origin "$TAG"
           echo "Release: $TAG"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
